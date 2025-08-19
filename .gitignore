@@ -1,0 +1,102 @@
+# RHCSA Study Repository .gitignore
+
+# =============================================================================
+# Copyrighted Study Materials - DO NOT COMMIT
+# =============================================================================
+
+# EPUB Books (copyrighted content)
+*.epub
+RHCSA*.epub
+Red\ Hat*.epub
+
+# Converted book files (derived from copyrighted content)
+*_rhcsa.md
+asghar_ghori_rhcsa.md
+sander_van_vugt_rhcsa.md
+
+# Book images and media extracted during conversion
+images/
+images2/
+**/image_rsrc*
+**/OEBPS/
+
+# ZIP archives containing study materials
+*.zip
+**/RHCSA*.zip
+**/Red\ Hat*.zip
+
+# =============================================================================
+# Temporary and Cache Files
+# =============================================================================
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor temporary files
+*~
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# =============================================================================
+# Lab Environment Files
+# =============================================================================
+
+# Virtual machine files (if any)
+*.vdi
+*.vmdk
+*.vbox
+*.ovf
+
+# SSH keys and sensitive data
+*.pem
+*.key
+id_rsa*
+*.ppk
+
+# Log files from practice
+*.log
+
+# =============================================================================
+# Study-specific Temporary Files
+# =============================================================================
+
+# Anki imports/exports (keep the CSV files we created)
+# But exclude any temporary Anki files
+*.anki2
+*.apkg
+
+# Practice test results
+test_results/
+exam_scores/
+
+# Personal notes that shouldn't be shared
+personal_notes.md
+private_*.md
+
+# =============================================================================
+# Keep These Study Files (commented for clarity)
+# =============================================================================
+# These files SHOULD be committed as they are original work:
+# - anki_deck.csv (original flashcards)
+# - anki_deck_advanced.csv (enhanced flashcards)
+# - lab_scenarios/ (practice labs)
+# - skills_assessment.md (study checklist)
+# - study_plan.md (study timeline)
+# - exam_quick_reference.md (command reference)
+# - ebook_summary.md (analysis summary)
+# - command_reference_by_topic.md (organized commands)
+# - CLAUDE.md (repository guidance)
+# - README.md (project documentation)

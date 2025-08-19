@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(unzip:*)",
+      "Bash(mkdir:*)",
+      "Bash(pandoc:*)",
+      "Bash(git check-ignore:*)",
+      "Bash(rm:*)",
+      "Bash(mv:*)",
+      "Bash(git add:*)"
+    ]
+  },
+  "outputStyle": "Explanatory"
+}
