@@ -121,6 +121,63 @@ sudo ausearch -m AVC -ts recent
 - No SELinux denials in audit log
 - Proper file contexts on web files
 
+## Advanced SELinux Troubleshooting Section
+
+### Comprehensive ausearch Command Reference
+```bash
+# Essential ausearch commands for SELinux troubleshooting
+ausearch -m AVC,USER_AVC,SELINUX_ERR,USER_SELINUX_ERR -ts today
+ausearch -m AVC,USER_AVC,SELINUX_ERR,USER_SELINUX_ERR -ts boot
+ausearch -m AVC -ts recent
+ausearch -c 'httpd' --raw | audit2allow -M my-httpd
+ausearch -m AVC -ts recent | audit2allow -R
+```
+
+### Step-by-Step Troubleshooting Workflow
+1. **Check for SELinux denials:**
+```bash
+# Look for recent Access Vector Cache (AVC) denials
+ausearch -m AVC,USER_AVC,SELINUX_ERR,USER_SELINUX_ERR -ts boot
+```
+
+2. **If no matches, verify audit daemon:**
+```bash
+# Check if auditd is running
+systemctl status auditd
+# If not running, restart and re-test
+systemctl restart auditd
+```
+
+3. **Analyze denials with setroubleshoot:**
+```bash
+# Get human-readable analysis
+sealert -a /var/log/audit/audit.log
+```
+
+4. **Generate policy suggestions:**
+```bash
+# Use audit2allow to suggest policy changes
+ausearch -m AVC -ts recent | audit2allow -R
+# Create custom policy module if needed
+ausearch -c 'mydaemon' --raw | audit2allow -M my-mydaemon
+semodule -X 300 -i my-mydaemon.pp
+```
+
+### Alternative Troubleshooting Methods
+```bash
+# If auditd is not running, check dmesg for SELinux messages
+dmesg | grep -i -e type=1300 -e type=1400
+
+# Check for setroubleshoot messages in system logs
+grep "SELinux is preventing" /var/log/messages
+```
+
+## TODO(human)
+Complete the troubleshooting section with:
+- Custom daemon policy creation example
+- Boolean troubleshooting for specific services
+- Port labeling examples for non-standard ports
+
 ## Troubleshooting Tips
 - If httpd fails to start: Check SELinux denials in `/var/log/audit/audit.log`
 - If web pages don't load: Verify file contexts and ownership

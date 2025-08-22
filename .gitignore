@@ -9,6 +9,11 @@
 RHCSA*.epub
 Red\ Hat*.epub
 
+# PDF Documentation (official Red Hat materials)
+*.pdf
+Red_Hat_Enterprise_Linux*.pdf
+RHEL*.pdf
+
 # Converted book files (derived from copyrighted content)
 *_rhcsa.md
 asghar_ghori_rhcsa.md

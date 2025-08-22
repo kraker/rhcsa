@@ -449,16 +449,21 @@ semanage port -l | grep http          # Show HTTP ports
 
 ### Troubleshooting SELinux
 ```bash
-# Check for denials
-ausearch -m AVC -ts recent            # Recent AVC denials
-ausearch -m AVC -ts today             # Today's denials
-sealert -a /var/log/audit/audit.log   # Analyze denials
-sealert -l UUID                       # Detailed denial analysis
+# Essential ausearch commands (RED HAT OFFICIAL SYNTAX)
+ausearch -m AVC -ts recent                                    # Recent AVC denials
+ausearch -m AVC -ts today                                     # Today's denials  
+ausearch -m AVC,USER_AVC,SELINUX_ERR,USER_SELINUX_ERR -ts boot # All denials since boot
+ausearch -c 'daemon_name' --raw | audit2allow -M my-daemon    # Generate policy for specific daemon
+ausearch -m AVC -ts recent | audit2allow -R                   # Readable policy suggestions
 
-# Generate and install policies
-audit2allow -a                        # Generate policy from all denials
-audit2allow -a -M mypolicy            # Generate policy module
-semodule -i mypolicy.pp               # Install policy module
+# Analysis and policy creation
+sealert -a /var/log/audit/audit.log   # Analyze denials with recommendations
+sealert -l UUID                       # Detailed denial analysis
+semodule -X 300 -i my-policy.pp       # Install custom policy module (new syntax)
+
+# If auditd not running, check dmesg
+dmesg | grep -i -e type=1300 -e type=1400  # SELinux messages in kernel log
+grep "SELinux is preventing" /var/log/messages  # setroubleshoot messages
 ```
 
 ### Common Tasks
