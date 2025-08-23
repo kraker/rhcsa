@@ -412,6 +412,13 @@ sestatus                              # Detailed status
 setenforce 0                          # Set permissive (temporary)
 setenforce 1                          # Set enforcing (temporary)
 
+# Persistent configuration (EXAM TIP: grubby commands are IN the config file!)
+vi /etc/selinux/config                # Contains helpful grubby examples in comments
+# SELINUX=enforcing|permissive|disabled
+# For RHEL 9: disabled only unloads policy, doesn't fully disable SELinux
+# To fully disable: grubby --update-kernel ALL --args selinux=0
+# To re-enable:     grubby --update-kernel ALL --remove-args selinux
+
 # Permanent mode changes
 # Method 1: Edit configuration file
 vim /etc/selinux/config               # Set SELINUX=enforcing|permissive|disabled

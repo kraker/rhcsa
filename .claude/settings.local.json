@@ -7,8 +7,16 @@
       "Bash(git check-ignore:*)",
       "Bash(rm:*)",
       "Bash(mv:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(pdfinfo:*)",
+      "Bash(pdftotext:*)",
+      "Bash(grep:*)",
+      "Bash(git commit:*)"
+    ],
+    "additionalDirectories": [
+      "/tmp/selinux_pdf_chunks"
     ]
   },
-  "outputStyle": "Explanatory"
+  "outputStyle": "default"
 }
