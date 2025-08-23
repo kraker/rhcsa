@@ -1,0 +1,44 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Lab environment for RHCSA on RHEL 9
+Vagrant.configure("2") do |config|
+  # vagrant-registration plugin settings
+  config.registration.username = ENV['SUB_USERNAME']
+  config.registration.password = ENV['SUB_PASSWORD']
+  config.ssh.key_type = "ecdsa256"
+  config.registration.unregister_on_halt = false
+
+  config.vm.define "rhel9a" do |vm|
+    vm.vm.box = "generic/rhel9"
+    vm.vm.hostname = "rhel9a"
+  end
+
+  config.vm.define "rhel9b" do |vm|
+    vm.vm.box = "generic/rhel9"
+    vm.vm.hostname = "rhel9b"
+    vm.vm.disk :disk, name: "d1", size: "250MB"
+    vm.vm.disk :disk, name: "d2", size: "250MB"
+    vm.vm.disk :disk, name: "d3", size: "250MB"
+    vm.vm.disk :disk, name: "d4", size: "250MB"
+    vm.vm.disk :disk, name: "d5", size: "5GB"
+  end
+
+  # Define machines to create
+  # machines = {
+  #   # "rhel7" => "generic/rhel7",
+  #   # "rhel8" => "generic/rhel8",
+  #   "rhel9-a" => "generic/rhel9",
+  #   "rhel9-b" => "generic/rhel9",
+  # }
+
+  # machines.each do |name, box|
+  #   config.vm.define name do |vm|
+  #     vm.vm.box = box
+  #     vm.vm.hostname = name
+  #     vm.vm.provision "ansible" do |ansible|
+  #       ansible.playbook = "playbook.yml"
+  #     end
+  #   end
+  # end
+end

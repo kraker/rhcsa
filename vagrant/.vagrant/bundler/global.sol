@@ -1,0 +1,1 @@
+{"dependencies":[["vagrant-registration",["= 1.3.4"]]],"checksum":"09c4d9dfd56f63aaaec18d071f969f01c9b1ef28bc321d06c6285f880852f161","vagrant_version":"2.4.8"}
