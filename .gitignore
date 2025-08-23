@@ -42,6 +42,10 @@ Thumbs.db
 *.vbox
 *.ovf
 
+# Vagrant directories and files
+.vagrant/
+**/.vagrant/
+
 # SSH keys and sensitive data
 *.pem
 *.key
