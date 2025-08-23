@@ -19,6 +19,14 @@ This is a Red Hat Certified System Administrator (RHCSA) certification study rep
 
 ## Lab Environment Requirements
 
+### Automated VM Setup
+**Vagrant Configuration**: The `../vagrant/` directory provides automated lab environment provisioning:
+- RHEL 9 VMs with proper resource allocation and networking
+- Automated subscription registration with Red Hat Developer accounts
+- Pre-configured storage setup for LVM and filesystem labs
+- Prerequisites: Vagrant, VirtualBox, Red Hat Developer subscription
+
+### Manual VM Requirements
 The lab scenarios are designed for specific RHEL 9 virtual machines:
 - **rhel9a**: Used for user management and SELinux scenarios
 - **rhel9b**: Used for storage management scenarios (requires multiple additional disks: /dev/sdb, /dev/sdc, /dev/sdd, /dev/sde, /dev/sdf)
@@ -106,6 +114,61 @@ firewall-cmd --reload
 - Lab scenarios should be executed in the specified VM environments
 - Pay attention to the TODO(human) section in lab_scenarios/03_selinux_security.md that may need completion
 - Commands in the Anki deck represent real RHCSA exam tasks and should be executed carefully in lab environments
+
+## Git Commit Style Guide
+
+### Atomic Commit Principles
+Following [Aleksandr Hovhannisyan's atomic git commits](https://www.aleksandrhovhannisyan.com/blog/atomic-git-commits/):
+
+**Core Rule**: Each commit should represent "a single, complete unit of work" that can be independently reviewed and reverted.
+
+### Commit Message Format
+
+**Simple Changes** (data fixes, small bug fixes):
+```bash
+git commit -m "Fix malformed times in SELinux troubleshooting examples"
+git commit -m "Update Anki flashcard for ausearch command syntax"
+git commit -m "Add missing firewall commands to quick reference"
+```
+
+**Feature Commits** (new capabilities, significant changes):
+```bash
+git commit -m "Add comprehensive ausearch troubleshooting section to SELinux lab"
+git commit -m "Implement enhanced SELinux flashcards with Red Hat official syntax"
+```
+
+**Milestone/Release Commits** (major completions):
+```bash
+# Use detailed heredoc format for comprehensive changelog
+git commit -m "$(cat <<'EOF'
+Complete SELinux enhancement with Red Hat official documentation
+
+- Add advanced troubleshooting section to Lab 03 with official ausearch syntax
+- Include step-by-step workflow for AVC denial analysis and policy generation
+- Add 5 new SELinux flashcards covering comprehensive ausearch message types
+- Update quick reference with Red Hat's official troubleshooting commands
+- Add PDF exclusion patterns to gitignore for official documentation
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+EOF
+)"
+```
+
+### Guidelines
+- **Present tense verbs**: "Fix", "Add", "Update", "Remove", "Implement"
+- **Component focus**: Mention what study material/system is changed
+- **Atomic scope**: One logical change per commit
+- **No fear of many commits**: Better to have 5 focused commits than 1 mixed commit
+- **Commit early and often**: Make commits as soon as a logical unit is complete
+
+### Examples by Type
+- **Content fixes**: `Fix duplicate commands in storage management flashcards`
+- **Study material updates**: `Add comprehensive ausearch examples to SELinux lab`
+- **Reference enhancements**: `Implement timezone-aware examples in quick reference`
+- **Documentation**: `Update README with current study workflow`
+- **Resource cleanup**: `Remove redundant lab scenarios in favor of Asghar Ghori labs`
 
 ## Study Workflow Recommendations
 
