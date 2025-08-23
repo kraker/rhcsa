@@ -14,7 +14,9 @@
       "Bash(grep:*)",
       "Bash(git commit:*)",
       "Read(//home/stovepipe/repos/**)",
-      "Read(//home/stovepipe/repos/**)"
+      "Read(//home/stovepipe/repos/**)",
+      "Bash(chmod:*)",
+      "WebSearch"
     ],
     "additionalDirectories": [
       "/tmp/selinux_pdf_chunks",

@@ -2,6 +2,8 @@
 
 Based on analysis of both "RHCSA Red Hat Enterprise Linux - Asghar Ghori" and "Red Hat RHCSA 9 Cert Guide - Sander van Vugt" study guides.
 
+> **📚 Enhanced Study Resource**: This summary has been expanded into the comprehensive [RHCSA Synthesis](rhcsa_synthesis/index.md) knowledge base, which provides detailed modules for each topic with hands-on labs, troubleshooting guides, and exam strategies. **Start with the synthesis modules for the most comprehensive exam preparation.**
+
 ## Book Structure Overview
 
 ### Asghar Ghori RHCSA Book Structure

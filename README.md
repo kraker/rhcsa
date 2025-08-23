@@ -5,6 +5,7 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 ## Repository Contents
 
 ### 📚 Study Materials (`reference/` directory)
+- **`rhcsa_synthesis/`** - Comprehensive knowledge base with 15 detailed modules covering all RHCSA topics
 - **`anki_rhcsa_flashcards.csv`** - 146 comprehensive flashcards covering all RHCSA exam objectives
 - **`exam_quick_reference.md`** - Quick reference guide for exam day
 - **`command_reference_by_topic.md`** - Commands organized by functional area
@@ -45,10 +46,11 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 2. Source credentials and start VMs: `cd vagrant && source .rhel-credentials && vagrant up`
 
 ### Study Workflow
-1. Use Anki flashcards for command memorization and spaced repetition
-2. Reference the quick guides in `reference/` for exam preparation
-3. Practice with Vagrant VMs using the Asghar Ghori book labs
-4. Focus on hands-on command execution and verification
+1. **Start with RHCSA Synthesis**: Begin with `reference/rhcsa_synthesis/` for comprehensive topic coverage
+2. **Use Anki flashcards** for command memorization and spaced repetition
+3. **Reference quick guides** in `reference/` for exam preparation
+4. **Practice with Vagrant VMs** using the Asghar Ghori book labs
+5. **Focus on hands-on** command execution and verification
 
 ## Key RHCSA Command Categories
 

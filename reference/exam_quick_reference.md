@@ -293,6 +293,7 @@ fuser -mv /mountpoint                 # Alternative to lsof
 /etc/NetworkManager/          # NetworkManager configuration
 /etc/resolv.conf              # DNS configuration
 /etc/hosts                    # Local hostname resolution
+/etc/services                 # Internet network services list
 /etc/hostname                 # System hostname
 /etc/sysconfig/network-scripts/  # Legacy network config (RHEL 8)
 ```

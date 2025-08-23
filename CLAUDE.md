@@ -19,11 +19,21 @@ This is a Red Hat Certified System Administrator (RHCSA) certification study rep
 ## Repository Structure
 
 - `reference/` - Core study materials (tracked in git)
+  - `rhcsa_synthesis/` - **Comprehensive knowledge base with 15 detailed modules** covering all RHCSA topics
+    - `00_exam_overview.md` - RHCSA exam strategy and format guide
+    - `01_system_installation.md` - System installation and initial configuration
+    - `02_file_management.md` through `15_troubleshooting.md` - Complete topic coverage
+    - `index.md` - Master navigation and progress tracking
+    - `_template.md` - Consistent module structure template
   - `anki_rhcsa_flashcards.csv` - 146 comprehensive flashcards covering all RHCSA exam objectives
   - `exam_quick_reference.md` - Quick reference guide for exam day with comprehensive command examples
   - `command_reference_by_topic.md` - Commands organized by functional area for systematic study
   - `rhcsa_acronyms_glossary.md` - Comprehensive glossary of RHCSA acronyms and terms
+  - `ebook_summary.md` - Analysis and topic organization from both major RHCSA study books
 - `vagrant/` - Automated lab environment provisioning with RHEL 9 VMs
+  - `Vagrantfile` - VM configuration for rhel9a and rhel9b instances
+  - `playbook.yml` - Ansible playbook for environment setup
+  - `.rhel-credentials` - Hidden credentials file for Red Hat Developer subscription (not tracked)
 - `resources/` - External resources (not tracked in git, contains copyrighted materials)
   - Official Red Hat documentation (PDFs), study books (EPUBs), book summaries, extracted images
 
@@ -42,10 +52,11 @@ This is a Red Hat Certified System Administrator (RHCSA) certification study rep
 ## Common Study Tasks
 
 ### Working with Study Materials
-- Use Anki flashcards for spaced repetition and command memorization
-- Reference guides in `reference/` directory for quick lookup during study
-- Practice with Vagrant VMs using Asghar Ghori book lab exercises
-- Focus on hands-on command execution and verification in lab environment
+- **Start with RHCSA Synthesis**: Begin with comprehensive modules in `reference/rhcsa_synthesis/` for complete topic coverage
+- **Use Anki flashcards** for spaced repetition and command memorization
+- **Reference guides** in `reference/` directory for quick lookup during study
+- **Practice with Vagrant VMs** using Asghar Ghori book lab exercises
+- **Focus on hands-on** command execution and verification in lab environment
 
 ### Anki Flashcard Usage
 The `reference/anki_rhcsa_flashcards.csv` file contains 146 essential commands organized by tags:
@@ -196,8 +207,8 @@ EOF
 
 ## Study Workflow Recommendations
 
-1. Complete skills assessment to identify weak areas
-2. Practice lab scenarios in order of increasing difficulty
-3. Use Anki deck for command memorization and quick reference
-4. Verify all tasks with provided verification commands
-5. Focus on practical application rather than theoretical knowledge
+1. **Begin with RHCSA Synthesis**: Start with `reference/rhcsa_synthesis/` for comprehensive topic coverage
+2. **Use Anki deck** for command memorization and quick reference
+3. **Practice with Vagrant VMs** using Asghar Ghori book lab exercises
+4. **Verify all tasks** with provided verification commands
+5. **Focus on practical application** rather than theoretical knowledge
