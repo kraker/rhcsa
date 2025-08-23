@@ -19,17 +19,15 @@ This is a Red Hat Certified System Administrator (RHCSA) certification study rep
 
 ## Lab Environment Requirements
 
-### Automated VM Setup
 **Vagrant Configuration**: The `../vagrant/` directory provides automated lab environment provisioning:
 - RHEL 9 VMs with proper resource allocation and networking
 - Automated subscription registration with Red Hat Developer accounts
 - Pre-configured storage setup for LVM and filesystem labs
 - Prerequisites: Vagrant, VirtualBox, Red Hat Developer subscription
 
-### Manual VM Requirements
-The lab scenarios are designed for specific RHEL 9 virtual machines:
+**VM Usage**:
 - **rhel9a**: Used for user management and SELinux scenarios
-- **rhel9b**: Used for storage management scenarios (requires multiple additional disks: /dev/sdb, /dev/sdc, /dev/sdd, /dev/sde, /dev/sdf)
+- **rhel9b**: Used for storage management scenarios (multiple disks pre-configured)
 
 ## Common Study Tasks
 

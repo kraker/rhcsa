@@ -33,14 +33,11 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 
 ### Lab Environment Setup
 
-**Automated VM Setup with Vagrant**:
-- See `../vagrant/` directory for automated lab environment provisioning
+**Vagrant VM Provisioning**:
+- See `../vagrant/` directory for automated lab environment setup
 - RHEL 9 VMs configured with proper resources and networking
+- Automated subscription registration and storage disk configuration
 - Prerequisites: Vagrant, VirtualBox, Red Hat Developer subscription
-
-**Manual VM Requirements**:
-- **rhel9a**: For user management and SELinux scenarios
-- **rhel9b**: For storage management (requires additional disks: /dev/sdb-sdf)
 
 ### Study Workflow
 1. Complete the skills assessment to identify knowledge gaps
