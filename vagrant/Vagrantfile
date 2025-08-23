@@ -12,11 +12,13 @@ Vagrant.configure("2") do |config|
   config.vm.define "rhel9a" do |vm|
     vm.vm.box = "generic/rhel9"
     vm.vm.hostname = "rhel9a"
+    vm.vm.network "private_network", type: "dhcp"
   end
 
   config.vm.define "rhel9b" do |vm|
     vm.vm.box = "generic/rhel9"
     vm.vm.hostname = "rhel9b"
+    vm.vm.network "private_network", type: "dhcp"
     vm.vm.disk :disk, name: "d1", size: "250MB"
     vm.vm.disk :disk, name: "d2", size: "250MB"
     vm.vm.disk :disk, name: "d3", size: "250MB"
