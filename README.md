@@ -4,27 +4,27 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 
 ## Repository Contents
 
-### 📚 Study Materials
+### 📚 Study Materials (`reference/` directory)
 - **`anki_rhcsa_flashcards.csv`** - 146 comprehensive flashcards covering all RHCSA exam objectives
-- **`skills_assessment.md`** - Self-assessment checklist with confidence ratings for all RHCSA topics
-- **`study_plan.md`** - Structured study plan for exam preparation
 - **`exam_quick_reference.md`** - Quick reference guide for exam day
 - **`command_reference_by_topic.md`** - Commands organized by functional area
-- **`ebook_summary.md`** - Summary of key concepts from study materials
+- **`rhcsa_acronyms_glossary.md`** - Comprehensive glossary of RHCSA acronyms and terms
 
-### 🧪 Hands-On Labs
-- **`lab_scenarios/01_user_management.md`** - User/group creation, sudo configuration, password policies
-- **`lab_scenarios/02_storage_management.md`** - LVM, partitioning, filesystem creation, and swap setup  
-- **`lab_scenarios/03_selinux_security.md`** - SELinux contexts, Apache configuration, security troubleshooting
+### 🏗️ Lab Environment
+- **`vagrant/`** - Automated RHEL 9 VM provisioning with Vagrant
+  - `Vagrantfile` - VM configuration for rhel9a and rhel9b instances
+  - `playbook.yml` - Ansible playbook for environment setup
 
-### 💾 Additional Resources
-- Study materials in various formats (EPUB, ZIP archives)
-- COPYRIGHT notices and documentation
+### 📖 External Resources (`resources/` directory, not tracked)
+- Official Red Hat documentation (PDFs)  
+- Study book materials (EPUBs)
+- Book summaries and extracted content
+- Reference images from study materials
 
 ## Quick Start
 
 ### Using the Anki Flashcards
-1. Import `anki_rhcsa_flashcards.csv` into Anki
+1. Import `reference/anki_rhcsa_flashcards.csv` into Anki
 2. The deck includes 146 cards organized by topic tags:
    - `user_management`, `permissions`, `systemd`
    - `storage`, `lvm`, `selinux`, `firewall`  
@@ -40,10 +40,10 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 - Prerequisites: Vagrant, VirtualBox, Red Hat Developer subscription
 
 ### Study Workflow
-1. Complete the skills assessment to identify knowledge gaps
-2. Practice lab scenarios in order of increasing difficulty
-3. Use Anki flashcards for command memorization
-4. Focus study time: 60% Learn topics, 30% Review topics, 10% Confident topics
+1. Use Anki flashcards for command memorization and spaced repetition
+2. Reference the quick guides in `reference/` for exam preparation
+3. Practice with Vagrant VMs using the Asghar Ghori book labs
+4. Focus on hands-on command execution and verification
 
 ## Key RHCSA Command Categories
 

@@ -4,31 +4,8 @@
 # Copyrighted Study Materials - DO NOT COMMIT
 # =============================================================================
 
-# EPUB Books (copyrighted content)
-*.epub
-RHCSA*.epub
-Red\ Hat*.epub
-
-# PDF Documentation (official Red Hat materials)
-*.pdf
-Red_Hat_Enterprise_Linux*.pdf
-RHEL*.pdf
-
-# Converted book files (derived from copyrighted content)
-*_rhcsa.md
-asghar_ghori_rhcsa.md
-sander_van_vugt_rhcsa.md
-
-# Book images and media extracted during conversion
-images/
-images2/
-**/image_rsrc*
-**/OEBPS/
-
-# ZIP archives containing study materials
-*.zip
-**/RHCSA*.zip
-**/Red\ Hat*.zip
+# External resources directory (contains all copyrighted materials)
+resources/
 
 # =============================================================================
 # Temporary and Cache Files

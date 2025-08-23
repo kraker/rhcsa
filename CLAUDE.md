@@ -8,14 +8,14 @@ This is a Red Hat Certified System Administrator (RHCSA) certification study rep
 
 ## Repository Structure
 
-- `/lab_scenarios/` - Hands-on practice scenarios with specific time limits and difficulty levels
-  - `01_user_management.md` - User/group creation, sudo configuration, password policies
-  - `02_storage_management.md` - LVM, partitioning, filesystem creation, and swap setup
-  - `03_selinux_security.md` - SELinux contexts, Apache httpd configuration, security troubleshooting
-- `skills_assessment.md` - Comprehensive checklist of RHCSA exam objectives with self-assessment
-- `anki_deck.csv` - 104 flashcards covering essential RHCSA commands organized by topic
-- `README.md` - Basic project description (minimal content)
-- Study materials: EPUB files and ZIP archives for reference
+- `reference/` - Core study materials (tracked in git)
+  - `anki_rhcsa_flashcards.csv` - 146 comprehensive flashcards covering all RHCSA exam objectives
+  - `exam_quick_reference.md` - Quick reference guide for exam day with comprehensive command examples
+  - `command_reference_by_topic.md` - Commands organized by functional area for systematic study
+  - `rhcsa_acronyms_glossary.md` - Comprehensive glossary of RHCSA acronyms and terms
+- `vagrant/` - Automated lab environment provisioning with RHEL 9 VMs
+- `resources/` - External resources (not tracked in git, contains copyrighted materials)
+  - Official Red Hat documentation (PDFs), study books (EPUBs), book summaries, extracted images
 
 ## Lab Environment Requirements
 
@@ -31,25 +31,20 @@ This is a Red Hat Certified System Administrator (RHCSA) certification study rep
 
 ## Common Study Tasks
 
-### Working with Lab Scenarios
-- Each scenario includes time limits, prerequisites, step-by-step tasks, and verification commands
-- Follow the exact command sequences provided for consistent results
-- Use verification commands to confirm successful completion
-- Lab 3 (SELinux) contains a `TODO(human)` section that needs completion
+### Working with Study Materials
+- Use Anki flashcards for spaced repetition and command memorization
+- Reference guides in `reference/` directory for quick lookup during study
+- Practice with Vagrant VMs using Asghar Ghori book lab exercises
+- Focus on hands-on command execution and verification in lab environment
 
-### Skills Assessment Usage
-- Use the confidence ratings: ✅ Confident, 📖 Review, 🎯 Learn
-- Focus study time: 60% on Learn topics, 30% on Review topics, 10% on Confident topics
-- Track progress through the comprehensive RHCSA objective checklist
-
-### Anki Deck Commands
-The CSV file contains essential commands organized by tags:
+### Anki Flashcard Usage
+The `reference/anki_rhcsa_flashcards.csv` file contains 146 essential commands organized by tags:
 - `user_management` - useradd, usermod, chage, groupadd
 - `permissions` - chmod, chown, file access controls
 - `systemd` - systemctl, journalctl, service management
 - `storage` - fdisk, mkfs, mount, fstab configuration
 - `lvm` - pvcreate, vgcreate, lvcreate, volume management
-- `selinux` - getenforce, setsebool, restorecon, context management
+- `selinux` - getenforce, setsebool, restorecon, ausearch troubleshooting
 - `firewall` - firewall-cmd, port and service management
 - `networking` - nmcli, static IP, DNS configuration
 - `containers` - podman operations, systemd integration
@@ -107,11 +102,11 @@ firewall-cmd --reload
 ## Notes for Claude Code
 
 - This repository focuses on RHCSA exam preparation, not software development
-- When helping with lab scenarios, emphasize practical command execution and verification
-- The study materials are for learning Linux system administration concepts
-- Lab scenarios should be executed in the specified VM environments
-- Pay attention to the TODO(human) section in lab_scenarios/03_selinux_security.md that may need completion
-- Commands in the Anki deck represent real RHCSA exam tasks and should be executed carefully in lab environments
+- When helping with study materials, emphasize practical command execution and verification
+- The study materials in `reference/` are original work and tracked in git
+- External resources in `resources/` contain copyrighted materials and are not tracked
+- Use Vagrant VMs for hands-on practice with Asghar Ghori book lab exercises
+- Commands in the Anki flashcards represent real RHCSA exam tasks and should be executed carefully in lab environments
 
 ## Git Commit Style Guide
 

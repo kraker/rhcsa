@@ -12,10 +12,13 @@
       "Bash(pdfinfo:*)",
       "Bash(pdftotext:*)",
       "Bash(grep:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Read(//home/stovepipe/repos/**)",
+      "Read(//home/stovepipe/repos/**)"
     ],
     "additionalDirectories": [
-      "/tmp/selinux_pdf_chunks"
+      "/tmp/selinux_pdf_chunks",
+      "/home/stovepipe/repos"
     ]
   },
   "outputStyle": "default"
