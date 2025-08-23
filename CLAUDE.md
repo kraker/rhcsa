@@ -2,6 +2,16 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project Context Loading
+
+**IMPORTANT**: When starting work on this project, Claude Code must read these files first to understand the current state and guidelines:
+
+1. **CLAUDE.md** (this file) - Project overview, repository structure, and coding guidelines
+2. **README.md** - Public project description, quick start guide, and study workflow
+3. **COPYRIGHT_NOTICE.md** - Detailed copyright information for all materials in the repository
+
+These files contain essential context for maintaining consistency with established patterns and avoiding copyright violations.
+
 ## Project Overview
 
 This is a Red Hat Certified System Administrator (RHCSA) certification study repository. It contains practical lab scenarios, skills assessments, study materials, and memorization aids for RHCSA exam preparation. This is NOT a software development project - it's a learning resource for Linux system administration.
@@ -99,6 +109,26 @@ firewall-cmd --add-port=8080/tcp --permanent
 firewall-cmd --reload
 ```
 
+## Copyright Management Guidelines
+
+**CRITICAL**: Claude Code must update `COPYRIGHT_NOTICE.md` whenever adding copyrighted content to the repository.
+
+### When Adding New Copyrighted Materials:
+1. **Read COPYRIGHT_NOTICE.md first** to understand current copyright inventory
+2. **Add new materials to `resources/` directory** (gitignored)
+3. **Update COPYRIGHT_NOTICE.md** with:
+   - Full title and author/publisher information
+   - File path within `resources/` directory
+   - License information (if known)
+   - Source of the material
+4. **Verify .gitignore excludes the new content**
+5. **Never commit copyrighted content to git repository**
+
+### Content Classification:
+- **Original Work**: Content created for this repository → `reference/` directory (tracked)
+- **Copyrighted Materials**: Books, PDFs, images from external sources → `resources/` directory (not tracked)
+- **Derived Content**: Analysis or summaries of copyrighted works → `resources/` directory (not tracked)
+
 ## Notes for Claude Code
 
 - This repository focuses on RHCSA exam preparation, not software development
@@ -107,6 +137,7 @@ firewall-cmd --reload
 - External resources in `resources/` contain copyrighted materials and are not tracked
 - Use Vagrant VMs for hands-on practice with Asghar Ghori book lab exercises
 - Commands in the Anki flashcards represent real RHCSA exam tasks and should be executed carefully in lab environments
+- **Always read CLAUDE.md, README.md, and COPYRIGHT_NOTICE.md before making changes**
 
 ## Git Commit Style Guide
 
