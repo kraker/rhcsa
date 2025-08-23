@@ -48,6 +48,11 @@ Thumbs.db
 id_rsa*
 *.ppk
 
+# Red Hat Developer credentials
+vagrant/.rhel-credentials
+**/rhel-credentials
+**/.rhel-credentials
+
 # Log files from practice
 *.log
 
