@@ -9,6 +9,7 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 - **`exam_quick_reference.md`** - Quick reference guide for exam day
 - **`command_reference_by_topic.md`** - Commands organized by functional area
 - **`rhcsa_acronyms_glossary.md`** - Comprehensive glossary of RHCSA acronyms and terms
+- **`ebook_summary.md`** - Comprehensive analysis and topic organization from both major RHCSA study books
 
 ### 🏗️ Lab Environment
 - **`vagrant/`** - Automated RHEL 9 VM provisioning with Vagrant

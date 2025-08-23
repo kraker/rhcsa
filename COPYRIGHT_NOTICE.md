@@ -30,12 +30,6 @@ This repository contains analysis and study materials derived from the following
    - License: Likely Creative Commons or similar open license (check document)
    - Status: Excluded from repository via .gitignore
 
-### Book Summaries
-5. **Combined Analysis Summary**
-   - File: `resources/ebook_summary.md`
-   - Content: Analysis and commentary on both study books
-   - Status: Excluded from repository (derived from copyrighted content)
-
 ## Original Work Included (Tracked in Git)
 
 The following files in `reference/` are original work and analysis based on the study materials:
@@ -44,6 +38,7 @@ The following files in `reference/` are original work and analysis based on the 
 - `reference/command_reference_by_topic.md` - Organized command reference with examples
 - `reference/exam_quick_reference.md` - Exam day reference with comprehensive examples
 - `reference/rhcsa_acronyms_glossary.md` - Comprehensive acronym and terminology guide
+- `reference/ebook_summary.md` - Original analysis and commentary on both study books (transformative educational content)
 
 ## Fair Use Statement
 
