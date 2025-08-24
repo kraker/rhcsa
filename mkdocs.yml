@@ -66,3 +66,7 @@ copyright: 'Study materials for RHCSA certification preparation'
 
 # Build directory
 site_dir: site
+
+# Exclude template files from build
+exclude_docs: |
+  rhcsa_synthesis/_template.md

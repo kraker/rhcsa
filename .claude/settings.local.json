@@ -18,7 +18,10 @@
       "Bash(chmod:*)",
       "WebSearch",
       "Bash(git rm:*)",
-      "Bash(git filter-branch:*)"
+      "Bash(git filter-branch:*)",
+      "Bash(pip install:*)",
+      "Bash(mkdocs build:*)",
+      "Bash(mkdocs serve:*)"
     ],
     "additionalDirectories": [
       "/tmp/selinux_pdf_chunks",

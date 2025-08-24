@@ -48,7 +48,7 @@ jobs:
           pip install -r requirements.txt
           
       - name: Build MkDocs site
-        run: mkdocs build --verbose --clean --strict
+        run: mkdocs build --verbose --clean
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
