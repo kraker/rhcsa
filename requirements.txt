@@ -1,0 +1,10 @@
+# MkDocs and dependencies for RHCSA documentation site
+mkdocs>=1.5.0
+mkdocs-material>=9.0.0
+
+# Alternative: Use readthedocs theme as specified
+# mkdocs-readthedocs>=0.1.0
+
+# Additional useful plugins
+mkdocs-awesome-pages-plugin>=2.8.0
+mkdocs-redirects>=1.2.0

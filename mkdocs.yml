@@ -1,0 +1,68 @@
+site_name: RHCSA Certification Study Guide
+site_description: Comprehensive study materials and resources for Red Hat Certified System Administrator (RHCSA) exam preparation
+site_author: RHCSA Study Repository
+site_url: https://stovepipe.github.io/rhcsa/
+
+# Repository information
+repo_name: stovepipe/rhcsa
+repo_url: https://github.com/stovepipe/rhcsa
+edit_uri: edit/main/docs/
+
+# Theme configuration
+theme:
+  name: readthedocs
+  highlightjs: true
+  hljs_languages:
+    - bash
+    - shell
+    - yaml
+    - ini
+
+# Navigation structure
+nav:
+  - Home: index.md
+  - Study Modules:
+    - Overview: rhcsa_synthesis/index.md
+    - 'Module 00: Exam Overview': rhcsa_synthesis/00_exam_overview.md
+    - 'Module 01: System Installation': rhcsa_synthesis/01_system_installation.md
+    - 'Module 02: File Management': rhcsa_synthesis/02_file_management.md
+    - 'Module 03: User & Group Management': rhcsa_synthesis/03_user_group_management.md
+    - 'Module 04: File Permissions': rhcsa_synthesis/04_file_permissions.md
+    - 'Module 05: Process & Service Management': rhcsa_synthesis/05_process_service_management.md
+    - 'Module 06: Package Management': rhcsa_synthesis/06_package_management.md
+    - 'Module 07: Storage & LVM': rhcsa_synthesis/07_storage_lvm.md
+    - 'Module 08: Networking': rhcsa_synthesis/08_networking.md
+    - 'Module 09: SELinux': rhcsa_synthesis/09_selinux.md
+    - 'Module 10: Firewall': rhcsa_synthesis/10_firewall.md
+    - 'Module 11: Boot & GRUB': rhcsa_synthesis/11_boot_grub.md
+    - 'Module 12: Logging & Monitoring': rhcsa_synthesis/12_logging_monitoring.md
+    - 'Module 13: Scheduled Tasks': rhcsa_synthesis/13_scheduled_tasks.md
+    - 'Module 14: Container Management': rhcsa_synthesis/14_container_management.md
+    - 'Module 15: Troubleshooting': rhcsa_synthesis/15_troubleshooting.md
+  - Quick References:
+    - 'Exam Quick Reference': exam_quick_reference.md
+    - 'Commands by Topic': command_reference_by_topic.md
+    - 'Acronyms & Glossary': rhcsa_acronyms_glossary.md
+    - 'Ebook Summary': ebook_summary.md
+
+# Markdown extensions
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - def_list
+  - footnotes
+  - meta
+  - tables
+
+# Extra configuration
+extra:
+  generator: false
+  
+# Copyright information  
+copyright: 'Study materials for RHCSA certification preparation'
+
+# Build directory
+site_dir: site

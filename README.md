@@ -4,20 +4,28 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 
 ## Repository Contents
 
-### 📚 Study Materials (`reference/` directory)
-- **`rhcsa_synthesis/`** - Comprehensive knowledge base with 15 detailed modules covering all RHCSA topics
-- **`anki_rhcsa_flashcards.csv`** - 146 comprehensive flashcards covering all RHCSA exam objectives
-- **`exam_quick_reference.md`** - Quick reference guide for exam day
-- **`command_reference_by_topic.md`** - Commands organized by functional area
-- **`rhcsa_acronyms_glossary.md`** - Comprehensive glossary of RHCSA acronyms and terms
-- **`ebook_summary.md`** - Comprehensive analysis and topic organization from both major RHCSA study books
+### 📚 Study Materials
+
+#### 🌐 Online Documentation Site
+- **GitHub Pages**: https://stovepipe.github.io/rhcsa/ (live documentation site)
+- Built with MkDocs using the readthedocs theme
+- Mobile-friendly and searchable interface
+
+#### 📁 Local Files
+- **`docs/`** - All study materials (MkDocs source)
+  - `rhcsa_synthesis/` - 15 comprehensive study modules
+  - `exam_quick_reference.md` - Essential commands for exam day
+  - `command_reference_by_topic.md` - Commands organized by functional area
+  - `rhcsa_acronyms_glossary.md` - Comprehensive glossary
+  - `ebook_summary.md` - Analysis from major RHCSA study books
+- **`anki/rhcsa_deck.csv`** - 146 comprehensive flashcards for Anki import
 
 ### 🏗️ Lab Environment
 - **`vagrant/`** - Automated RHEL 9 VM provisioning with Vagrant
   - `Vagrantfile` - VM configuration for rhel9a and rhel9b instances
   - `playbook.yml` - Ansible playbook for environment setup
 
-### 📖 External Resources (`resources/` directory, not tracked)
+### 📖 External Resources (`sources/` directory, not tracked)
 - Official Red Hat documentation (PDFs)  
 - Study book materials (EPUBs)
 - Book summaries and extracted content
@@ -26,7 +34,7 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 ## Quick Start
 
 ### Using the Anki Flashcards
-1. Import `reference/anki_rhcsa_flashcards.csv` into Anki
+1. Import `anki/rhcsa_deck.csv` into Anki
 2. The deck includes 146 cards organized by topic tags:
    - `user_management`, `permissions`, `systemd`
    - `storage`, `lvm`, `selinux`, `firewall`  
@@ -46,11 +54,26 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 2. Source credentials and start VMs: `cd vagrant && source .rhel-credentials && vagrant up`
 
 ### Study Workflow
-1. **Start with RHCSA Synthesis**: Begin with `reference/rhcsa_synthesis/` for comprehensive topic coverage
-2. **Use Anki flashcards** for command memorization and spaced repetition
-3. **Reference quick guides** in `reference/` for exam preparation
-4. **Practice with Vagrant VMs** using the Asghar Ghori book labs
-5. **Focus on hands-on** command execution and verification
+1. **Visit the Documentation Site**: Browse https://stovepipe.github.io/rhcsa/ for organized study materials
+2. **Start with RHCSA Synthesis**: Begin with the 15 comprehensive study modules
+3. **Use Anki flashcards** (`anki/rhcsa_deck.csv`) for command memorization and spaced repetition
+4. **Reference quick guides** for exam preparation
+5. **Practice with Vagrant VMs** using the Asghar Ghori book labs
+6. **Focus on hands-on** command execution and verification
+
+### Local Development
+To run the documentation site locally:
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Serve the site locally
+mkdocs serve
+
+# Build static site
+mkdocs build
+```
+The site will be available at `http://127.0.0.1:8000`
 
 ## Key RHCSA Command Categories
 

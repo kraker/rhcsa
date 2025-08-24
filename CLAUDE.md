@@ -18,23 +18,28 @@ This is a Red Hat Certified System Administrator (RHCSA) certification study rep
 
 ## Repository Structure
 
-- `reference/` - Core study materials (tracked in git)
+- `docs/` - Core study materials (MkDocs documentation source, tracked in git)
+  - `index.md` - Main site homepage with navigation and overview
   - `rhcsa_synthesis/` - **Comprehensive knowledge base with 15 detailed modules** covering all RHCSA topics
     - `00_exam_overview.md` - RHCSA exam strategy and format guide
     - `01_system_installation.md` - System installation and initial configuration
     - `02_file_management.md` through `15_troubleshooting.md` - Complete topic coverage
     - `index.md` - Master navigation and progress tracking
     - `_template.md` - Consistent module structure template
-  - `anki_rhcsa_flashcards.csv` - 146 comprehensive flashcards covering all RHCSA exam objectives
   - `exam_quick_reference.md` - Quick reference guide for exam day with comprehensive command examples
   - `command_reference_by_topic.md` - Commands organized by functional area for systematic study
   - `rhcsa_acronyms_glossary.md` - Comprehensive glossary of RHCSA acronyms and terms
   - `ebook_summary.md` - Analysis and topic organization from both major RHCSA study books
+- `anki/` - Anki flashcard deck (tracked in git)
+  - `rhcsa_deck.csv` - 146 comprehensive flashcards covering all RHCSA exam objectives
+- `mkdocs.yml` - MkDocs configuration file for documentation site
+- `requirements.txt` - Python dependencies for MkDocs
+- `.github/workflows/deploy.yml` - GitHub Actions workflow for automatic deployment to GitHub Pages
 - `vagrant/` - Automated lab environment provisioning with RHEL 9 VMs
   - `Vagrantfile` - VM configuration for rhel9a and rhel9b instances
   - `playbook.yml` - Ansible playbook for environment setup
   - `.rhel-credentials` - Hidden credentials file for Red Hat Developer subscription (not tracked)
-- `resources/` - External resources (not tracked in git, contains copyrighted materials)
+- `sources/` - External resources (not tracked in git, contains copyrighted materials)
   - Official Red Hat documentation (PDFs), study books (EPUBs), book summaries, extracted images
 
 ## Lab Environment Requirements
@@ -52,14 +57,15 @@ This is a Red Hat Certified System Administrator (RHCSA) certification study rep
 ## Common Study Tasks
 
 ### Working with Study Materials
-- **Start with RHCSA Synthesis**: Begin with comprehensive modules in `reference/rhcsa_synthesis/` for complete topic coverage
+- **Visit Documentation Site**: Browse https://stovepipe.github.io/rhcsa/ for organized study materials
+- **Start with RHCSA Synthesis**: Begin with comprehensive modules in `docs/rhcsa_synthesis/` for complete topic coverage
 - **Use Anki flashcards** for spaced repetition and command memorization
-- **Reference guides** in `reference/` directory for quick lookup during study
+- **Reference guides** in `docs/` directory for quick lookup during study
 - **Practice with Vagrant VMs** using Asghar Ghori book lab exercises
 - **Focus on hands-on** command execution and verification in lab environment
 
 ### Anki Flashcard Usage
-The `reference/anki_rhcsa_flashcards.csv` file contains 146 essential commands organized by tags:
+The `anki/rhcsa_deck.csv` file contains 146 essential commands organized by tags:
 - `user_management` - useradd, usermod, chage, groupadd
 - `permissions` - chmod, chown, file access controls
 - `systemd` - systemctl, journalctl, service management
@@ -126,28 +132,30 @@ firewall-cmd --reload
 
 ### When Adding New Copyrighted Materials:
 1. **Read COPYRIGHT_NOTICE.md first** to understand current copyright inventory
-2. **Add new materials to `resources/` directory** (gitignored)
+2. **Add new materials to `sources/` directory** (gitignored)
 3. **Update COPYRIGHT_NOTICE.md** with:
    - Full title and author/publisher information
-   - File path within `resources/` directory
+   - File path within `sources/` directory
    - License information (if known)
    - Source of the material
 4. **Verify .gitignore excludes the new content**
 5. **Never commit copyrighted content to git repository**
 
 ### Content Classification:
-- **Original Work**: Content created for this repository → `reference/` directory (tracked)
-- **Copyrighted Materials**: Books, PDFs, images from external sources → `resources/` directory (not tracked)
-- **Derived Content**: Analysis or summaries of copyrighted works → `resources/` directory (not tracked)
+- **Original Work**: Content created for this repository → `docs/` directory (tracked)
+- **Copyrighted Materials**: Books, PDFs, images from external sources → `sources/` directory (not tracked)
+- **Derived Content**: Analysis or summaries of copyrighted works → `sources/` directory (not tracked)
 
 ## Notes for Claude Code
 
 - This repository focuses on RHCSA exam preparation, not software development
+- **Documentation Site**: The repository is published as a MkDocs site at https://stovepipe.github.io/rhcsa/
 - When helping with study materials, emphasize practical command execution and verification
-- The study materials in `reference/` are original work and tracked in git
-- External resources in `resources/` contain copyrighted materials and are not tracked
+- The study materials in `docs/` are original work and tracked in git
+- External resources in `sources/` contain copyrighted materials and are not tracked
 - Use Vagrant VMs for hands-on practice with Asghar Ghori book lab exercises
 - Commands in the Anki flashcards represent real RHCSA exam tasks and should be executed carefully in lab environments
+- **MkDocs Development**: Use `mkdocs serve` for local development, `mkdocs build` for static generation
 - **Always read CLAUDE.md, README.md, and COPYRIGHT_NOTICE.md before making changes**
 
 ## Git Commit Style Guide
@@ -207,8 +215,9 @@ EOF
 
 ## Study Workflow Recommendations
 
-1. **Begin with RHCSA Synthesis**: Start with `reference/rhcsa_synthesis/` for comprehensive topic coverage
-2. **Use Anki deck** for command memorization and quick reference
-3. **Practice with Vagrant VMs** using Asghar Ghori book lab exercises
-4. **Verify all tasks** with provided verification commands
-5. **Focus on practical application** rather than theoretical knowledge
+1. **Visit Documentation Site**: Browse https://stovepipe.github.io/rhcsa/ for organized study materials
+2. **Begin with RHCSA Synthesis**: Start with `docs/rhcsa_synthesis/` for comprehensive topic coverage
+3. **Use Anki deck** (`anki/rhcsa_deck.csv`) for command memorization and quick reference
+4. **Practice with Vagrant VMs** using Asghar Ghori book lab exercises
+5. **Verify all tasks** with provided verification commands
+6. **Focus on practical application** rather than theoretical knowledge

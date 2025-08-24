@@ -4,8 +4,8 @@
 # Copyrighted Study Materials - DO NOT COMMIT
 # =============================================================================
 
-# External resources directory (contains all copyrighted materials)
-resources/
+# External sources directory (contains all copyrighted materials)
+sources/
 
 # =============================================================================
 # Temporary and Cache Files
@@ -78,16 +78,20 @@ personal_notes.md
 private_*.md
 
 # =============================================================================
+# MkDocs Build Artifacts
+# =============================================================================
+
+# MkDocs build directory
+site/
+.mkdocs_cache/
+
+# =============================================================================
 # Keep These Study Files (commented for clarity)
 # =============================================================================
 # These files SHOULD be committed as they are original work:
-# - anki_deck.csv (original flashcards)
-# - anki_deck_advanced.csv (enhanced flashcards)
-# - lab_scenarios/ (practice labs)
-# - skills_assessment.md (study checklist)
-# - study_plan.md (study timeline)
-# - exam_quick_reference.md (command reference)
-# - ebook_summary.md (analysis summary)
-# - command_reference_by_topic.md (organized commands)
+# - anki/rhcsa_deck.csv (original flashcards)
+# - docs/ directory (all study materials)
+# - mkdocs.yml (site configuration)
+# - requirements.txt (Python dependencies)
 # - CLAUDE.md (repository guidance)
 # - README.md (project documentation)
