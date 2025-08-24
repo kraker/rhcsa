@@ -533,6 +533,156 @@ lsof -i :80                 # Show what's using port 80
 lsof -i tcp:22              # Show SSH connections
 ```
 
+## Network File System (NFS) and AutoFS
+
+### NFS Client Operations
+```bash
+# NFS package installation
+dnf install -y nfs-utils       # Install NFS client utilities
+
+# Discovering NFS shares
+showmount -e server.example.com  # List exports from NFS server
+showmount -e 192.168.1.100      # List exports using IP address
+showmount -a server             # Show all client connections
+showmount -d server             # Show directories being accessed
+
+# Manual NFS mounting
+mkdir /mnt/nfs-share            # Create mount point
+mount -t nfs server:/export/share /mnt/nfs-share  # Mount NFS share
+mount -t nfs -o nfsvers=4.2 server:/share /mnt    # Specify NFS version
+mount -o rw,intr server:/data /mnt/data            # Mount with options
+
+# NFS mount options
+# rw/ro                - read-write/read-only
+# hard/soft           - retry behavior on failure
+# intr                - allow interrupts
+# rsize=8192          - read buffer size
+# wsize=8192          - write buffer size
+# timeo=14            - timeout (1/10 second)
+# retrans=3           - retry attempts
+# _netdev             - wait for network
+
+# NFS unmounting
+umount /mnt/nfs-share          # Unmount NFS share
+umount -l /mnt/nfs-share       # Lazy unmount (when busy)
+umount -f /mnt/nfs-share       # Force unmount
+
+# Testing NFS connectivity
+ping nfs-server                # Basic connectivity
+telnet nfs-server 2049         # Test NFS port
+rpcinfo -p nfs-server          # Show RPC services
+```
+
+### NFS Server Management
+```bash
+# NFS server package installation
+dnf install -y nfs-utils       # Install NFS server utilities
+
+# Export configuration (/etc/exports)
+/export/share *(rw,sync)       # Export to all hosts
+/data 192.168.1.0/24(rw,sync) # Export to specific network
+/home server1(rw) server2(ro)  # Different permissions per host
+
+# Export management commands
+exportfs -avr                  # Export all shares with verbose output
+exportfs -v                    # Show current exports
+exportfs -u /export/share      # Unexport specific share
+exportfs -ra                   # Re-export all shares
+
+# NFS service management
+systemctl enable --now nfs-server  # Start and enable NFS server
+systemctl enable --now rpcbind     # Start and enable RPC service
+systemctl status nfs-server        # Check NFS server status
+
+# Firewall configuration for NFS
+firewall-cmd --add-service=nfs --permanent      # Allow NFS traffic
+firewall-cmd --add-service=rpc-bind --permanent # Allow RPC bind
+firewall-cmd --add-service=mountd --permanent   # Allow mountd
+firewall-cmd --reload                          # Apply firewall changes
+```
+
+### AutoFS Configuration and Management
+```bash
+# AutoFS installation
+dnf install -y autofs          # Install AutoFS package
+
+# Master map configuration (/etc/auto.master)
+/mnt/auto /etc/auto.nfs --timeout=60    # Indirect map with timeout
+/- /etc/auto.direct                     # Direct map entry
+
+# Indirect map configuration
+# Format: key [options] server:/path
+shared -rw server.example.com:/export/shared
+data -ro,intr server:/export/data
+
+# Direct map configuration  
+# Format: mount-point [options] server:/path
+/mnt/shared-data -rw server:/export/data
+/opt/software -ro server:/export/software
+
+# Wildcard mapping for user directories
+# Format: * [options] server:/path/&
+* -rw server.example.com:/home/&        # Maps to server:/home/username
+
+# AutoFS service management
+systemctl enable --now autofs          # Start and enable AutoFS
+systemctl status autofs                # Check AutoFS status
+systemctl reload autofs                # Reload configuration
+systemctl restart autofs               # Restart AutoFS service
+
+# AutoFS monitoring and troubleshooting
+automount -f -v                        # Run in foreground with verbose
+tail -f /var/log/messages | grep automount  # Watch AutoFS logs
+ls -la /etc/auto.*                     # Check map file permissions
+mount | grep autofs                    # Show active automounts
+```
+
+### fstab Integration for NFS
+```bash
+# fstab entry format for NFS
+# device mount-point type options dump fsck
+server:/export/share /mnt/nfs nfs defaults,_netdev 0 0
+
+# Common fstab NFS options
+defaults,_netdev                # Standard options with network dependency
+rw,_netdev,soft,intr           # Read-write, soft mount, interruptible
+ro,_netdev,hard,retrans=3      # Read-only, hard mount, 3 retries
+
+# Testing fstab entries
+mount -a                       # Mount all fstab entries
+umount /mnt/nfs && mount /mnt/nfs  # Test specific entry
+findmnt /mnt/nfs              # Show mount details
+```
+
+### NFS and AutoFS Troubleshooting
+```bash
+# NFS client troubleshooting
+showmount -e server           # Test server connectivity
+rpcinfo -p server            # Check RPC services on server
+mount -v -t nfs server:/share /mnt  # Verbose mount output
+ping server && telnet server 2049  # Test basic and NFS connectivity
+
+# NFS server troubleshooting  
+exportfs -v                   # Show current exports
+rpcinfo -p localhost          # Check local RPC services
+systemctl status nfs-server rpcbind  # Check service status
+showmount -e localhost        # Test local NFS exports
+netstat -tuln | grep :2049   # Check NFS port listening
+
+# AutoFS troubleshooting
+systemctl status autofs       # Check AutoFS service
+automount -f -v              # Run AutoFS in foreground
+ls -la /etc/auto.*           # Check map file permissions
+cat /etc/auto.master         # Verify master map syntax
+tail -f /var/log/messages | grep automount  # Watch logs
+
+# General network filesystem troubleshooting
+mount | grep nfs             # Show NFS mounts
+df -t nfs                    # Show NFS filesystem usage
+fuser -mv /mnt/nfs-share     # Show processes using mount point
+lsof +D /mnt/nfs-share       # Show open files in NFS mount
+```
+
 ## Package Management
 
 ### DNF Package Manager

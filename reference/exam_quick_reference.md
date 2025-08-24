@@ -726,6 +726,213 @@ ss -tuln | grep :port                # Port availability
 
 ---
 
+## NFS and AutoFS
+
+### Key Terms & Acronyms
+- **NFS** - Network File System (remote file sharing protocol)
+- **AutoFS** - Automatic File System (on-demand mounting service)
+- **export** - Making shares available on NFS server
+- **mount** - Accessing shares on NFS client
+- **showmount** - Command to list NFS exports
+- **exportfs** - Command to export NFS shares
+- **automount** - AutoFS daemon process
+- **direct map** - AutoFS mount on specific paths
+- **indirect map** - AutoFS mount under common parent directory
+- **master map** - Main AutoFS configuration file
+- **wildcard** - Pattern matching in AutoFS maps (* and &)
+- **\_netdev** - Mount option indicating network dependency
+
+### Key File Paths
+```bash
+/etc/exports                  # NFS server export configuration
+/etc/fstab                    # Persistent mount configuration
+/etc/auto.master              # AutoFS master map
+/etc/auto.master.d/           # AutoFS user-defined maps directory
+/etc/autofs.conf              # AutoFS service configuration
+/etc/auto.misc                # Default indirect map for removable media
+```
+
+### NFS Server Setup
+```bash
+# Install NFS server software
+dnf install -y nfs-utils
+
+# Create and configure share directory
+mkdir -p /nfs-share
+chmod 755 /nfs-share
+chown nobody:nobody /nfs-share
+
+# Configure exports (/etc/exports)
+echo "/nfs-share *(rw,sync,no_root_squash)" >> /etc/exports
+# Common export options:
+# rw/ro                - read-write/read-only
+# sync/async           - synchronous/asynchronous writes  
+# no_root_squash       - don't map root to nobody
+# root_squash          - map root to nobody (default)
+# all_squash          - map all users to nobody
+
+# Export the shares
+exportfs -avr                 # Export all shares with verbose output
+exportfs -v                   # Show current exports
+
+# Start and enable NFS services
+systemctl enable --now nfs-server
+systemctl enable --now rpcbind
+
+# Configure firewall
+firewall-cmd --add-service=nfs --permanent
+firewall-cmd --add-service=rpc-bind --permanent  
+firewall-cmd --add-service=mountd --permanent
+firewall-cmd --reload
+```
+
+### NFS Client Operations
+```bash
+# Install NFS client software
+dnf install -y nfs-utils
+
+# List available exports from server
+showmount -e server.example.com
+showmount -e 192.168.1.100
+
+# Create mount point and mount manually
+mkdir /mnt/nfs-data
+mount -t nfs server.example.com:/nfs-share /mnt/nfs-data
+mount -t nfs -o nfsvers=4.2 server:/nfs-share /mnt/nfs-data
+
+# Test NFS mount
+df -h /mnt/nfs-data
+ls -la /mnt/nfs-data
+echo "test file" > /mnt/nfs-data/testfile
+
+# Unmount NFS share
+umount /mnt/nfs-data
+```
+
+### Persistent NFS Mounting via fstab
+```bash
+# Add entry to /etc/fstab for persistent mounting
+echo "server.example.com:/nfs-share /mnt/nfs-data nfs defaults,_netdev 0 0" >> /etc/fstab
+
+# Common NFS mount options:
+# _netdev              - wait for network before mounting
+# rw/ro               - read-write/read-only
+# hard/soft           - retry behavior on server failure
+# intr                - allow interruption of NFS calls
+# rsize/wsize         - read/write buffer sizes
+# timeo=n             - timeout value in deciseconds
+# retrans=n           - number of retries
+
+# Test fstab entry
+umount /mnt/nfs-data
+mount -a                      # Mount all fstab entries
+mount /mnt/nfs-data          # Mount specific entry
+```
+
+### AutoFS Configuration
+```bash
+# Install AutoFS
+dnf install -y autofs
+
+# Configure master map (/etc/auto.master)
+# Format: mount-point map-file [options]
+echo "/mnt/auto /etc/auto.nfs --timeout=60" >> /etc/auto.master
+
+# For direct maps (specific mount points)
+echo "/- /etc/auto.direct" >> /etc/auto.master
+
+# Create indirect map file (/etc/auto.nfs)
+# Format: key [options] location
+echo "shared -rw server.example.com:/nfs-share" > /etc/auto.nfs
+echo "data -ro,intr server.example.com:/data" >> /etc/auto.nfs
+
+# Create direct map file (/etc/auto.direct) 
+# Format: mount-point [options] location
+echo "/mnt/direct-share -rw server.example.com:/nfs-share" > /etc/auto.direct
+
+# Start and enable AutoFS service
+systemctl enable --now autofs
+
+# Verify AutoFS operation
+systemctl status autofs
+ls /mnt/auto                  # Triggers automount for indirect maps
+cd /mnt/auto/shared          # Access triggers mount
+mount | grep autofs          # Show active automounts
+```
+
+### AutoFS Wildcards for User Home Directories
+```bash
+# Wildcard mapping in indirect map
+# * matches subdirectory name, & substitutes server/path
+echo "* -rw server.example.com:/home/&" > /etc/auto.home
+
+# Master map entry for home directories
+echo "/home /etc/auto.home" >> /etc/auto.master
+
+# This automatically mounts server.example.com:/home/username 
+# when user accesses /home/username
+```
+
+### Common NFS and AutoFS Tasks
+```bash
+# Set up NFS client with AutoFS indirect map
+showmount -e nfs-server              # List available shares
+mkdir -p /mnt/auto                   # Create mount point
+echo "/mnt/auto /etc/auto.nfs" >> /etc/auto.master
+echo "share1 -rw nfs-server:/export/share1" > /etc/auto.nfs
+systemctl enable --now autofs
+ls /mnt/auto/share1                  # Triggers mount
+
+# Set up AutoFS direct map
+echo "/- /etc/auto.direct" >> /etc/auto.master  
+echo "/shared-data -rw nfs-server:/data" > /etc/auto.direct
+systemctl reload autofs
+ls /shared-data                      # Triggers mount
+
+# Monitor AutoFS activity
+tail -f /var/log/messages | grep automount
+systemctl status autofs
+mount | grep autofs
+```
+
+### Troubleshooting NFS and AutoFS
+```bash
+# NFS server troubleshooting
+exportfs -v                          # Show active exports
+rpcinfo -p                          # Show RPC services
+systemctl status nfs-server rpcbind
+showmount -e localhost               # Test local exports
+firewall-cmd --list-services         # Verify firewall rules
+
+# NFS client troubleshooting  
+showmount -e server                  # Test server connectivity
+rpcinfo -p server                   # Check server RPC services
+mount -v -t nfs server:/share /mnt   # Verbose mount
+ping server                         # Basic connectivity
+telnet server 2049                  # Test NFS port
+
+# AutoFS troubleshooting
+systemctl status autofs             # Check service status
+automount -f -v                     # Run in foreground with verbose
+tail -f /var/log/messages           # Watch AutoFS log messages
+ls -la /etc/auto.*                  # Verify map file permissions
+mount | grep autofs                 # Show active automounts
+
+# Restart AutoFS after configuration changes
+systemctl reload autofs             # Reload maps without restart
+systemctl restart autofs            # Full restart if needed
+```
+
+### Common Pitfalls
+- **WRONG**: Forgetting `_netdev` in fstab → **RIGHT**: Always use `_netdev` for network filesystems
+- **WRONG**: Using AutoFS and fstab together → **RIGHT**: Choose either AutoFS or fstab, not both
+- **WRONG**: Not starting rpcbind service → **RIGHT**: Ensure rpcbind runs before nfs-server
+- **WRONG**: Incorrect firewall rules → **RIGHT**: Allow nfs, rpc-bind, and mountd services
+- **WRONG**: Forgetting to export after editing /etc/exports → **RIGHT**: Run `exportfs -ra` after changes
+- **WRONG**: AutoFS maps with wrong permissions → **RIGHT**: Ensure map files are readable by autofs
+
+---
+
 ## Container Management (Podman)
 
 ### Key Terms & Acronyms
