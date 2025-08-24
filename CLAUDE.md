@@ -6,6 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **IMPORTANT**: When starting work on this project, Claude Code must read these files first to understand the current state and guidelines:
 
+## User Context
+
+**GitHub Username**: @kraker (not stovepipe)
+**Repository**: https://github.com/kraker/rhcsa
+**GitHub Pages Site**: https://kraker.github.io/rhcsa/
+
+CRITICAL: Always use @kraker as the GitHub username in all URLs, repository references, and documentation.
+
 1. **CLAUDE.md** (this file) - Project overview, repository structure, and coding guidelines
 2. **README.md** - Public project description, quick start guide, and study workflow
 3. **COPYRIGHT_NOTICE.md** - Detailed copyright information for all materials in the repository
@@ -57,7 +65,7 @@ This is a Red Hat Certified System Administrator (RHCSA) certification study rep
 ## Common Study Tasks
 
 ### Working with Study Materials
-- **Visit Documentation Site**: Browse https://stovepipe.github.io/rhcsa/ for organized study materials
+- **Visit Documentation Site**: Browse https://kraker.github.io/rhcsa/ for organized study materials
 - **Start with RHCSA Synthesis**: Begin with comprehensive modules in `docs/rhcsa_synthesis/` for complete topic coverage
 - **Use Anki flashcards** for spaced repetition and command memorization
 - **Reference guides** in `docs/` directory for quick lookup during study
@@ -149,7 +157,7 @@ firewall-cmd --reload
 ## Notes for Claude Code
 
 - This repository focuses on RHCSA exam preparation, not software development
-- **Documentation Site**: The repository is published as a MkDocs site at https://stovepipe.github.io/rhcsa/
+- **Documentation Site**: The repository is published as a MkDocs site at https://kraker.github.io/rhcsa/
 - When helping with study materials, emphasize practical command execution and verification
 - The study materials in `docs/` are original work and tracked in git
 - External resources in `sources/` contain copyrighted materials and are not tracked
@@ -215,7 +223,7 @@ EOF
 
 ## Study Workflow Recommendations
 
-1. **Visit Documentation Site**: Browse https://stovepipe.github.io/rhcsa/ for organized study materials
+1. **Visit Documentation Site**: Browse https://kraker.github.io/rhcsa/ for organized study materials
 2. **Begin with RHCSA Synthesis**: Start with `docs/rhcsa_synthesis/` for comprehensive topic coverage
 3. **Use Anki deck** (`anki/rhcsa_deck.csv`) for command memorization and quick reference
 4. **Practice with Vagrant VMs** using Asghar Ghori book lab exercises

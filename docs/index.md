@@ -35,7 +35,7 @@ Complete knowledge base with 15 detailed modules covering all RHCSA exam objecti
 
 Import the comprehensive flashcard deck for spaced repetition learning:
 
-- **Location**: [`anki/rhcsa_deck.csv`](../anki/rhcsa_deck.csv)
+- **Location**: [anki/rhcsa_deck.csv](https://github.com/kraker/rhcsa/blob/main/anki/rhcsa_deck.csv)
 - **Cards**: 146 essential commands and concepts
 - **Topics**: All RHCSA exam objectives with practical examples
 
@@ -53,7 +53,7 @@ Import the comprehensive flashcard deck for spaced repetition learning:
 
 Set up hands-on practice environment using Vagrant:
 
-- **Location**: [`vagrant/`](../vagrant/) directory
+- **Location**: [vagrant/](https://github.com/kraker/rhcsa/tree/main/vagrant) directory
 - **VMs**: RHEL 9 instances (rhel9a, rhel9b)
 - **Features**: Automated provisioning, storage configuration, networking
 - **Prerequisites**: Vagrant, VirtualBox, Red Hat Developer subscription
@@ -80,9 +80,11 @@ Set up hands-on practice environment using Vagrant:
 rhcsa/
 ├── docs/                    # Study materials (this site)
 ├── anki/                    # Flashcard deck
-├── vagrant/                 # Lab environment
+├── vagrant/                 # Lab environment  
 ├── sources/                 # External reference materials
 └── README.md               # Quick start guide
 ```
+
+For the complete repository structure, visit: [github.com/kraker/rhcsa](https://github.com/kraker/rhcsa)
 
 Ready to start your RHCSA journey? Begin with [Module 00: Exam Overview](rhcsa_synthesis/00_exam_overview.md) to understand the exam format and strategy!

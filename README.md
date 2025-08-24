@@ -7,7 +7,7 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 ### 📚 Study Materials
 
 #### 🌐 Online Documentation Site
-- **GitHub Pages**: https://stovepipe.github.io/rhcsa/ (live documentation site)
+- **GitHub Pages**: https://kraker.github.io/rhcsa/ (live documentation site)
 - Built with MkDocs using the readthedocs theme
 - Mobile-friendly and searchable interface
 
@@ -54,7 +54,7 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 2. Source credentials and start VMs: `cd vagrant && source .rhel-credentials && vagrant up`
 
 ### Study Workflow
-1. **Visit the Documentation Site**: Browse https://stovepipe.github.io/rhcsa/ for organized study materials
+1. **Visit the Documentation Site**: Browse https://kraker.github.io/rhcsa/ for organized study materials
 2. **Start with RHCSA Synthesis**: Begin with the 15 comprehensive study modules
 3. **Use Anki flashcards** (`anki/rhcsa_deck.csv`) for command memorization and spaced repetition
 4. **Reference quick guides** for exam preparation

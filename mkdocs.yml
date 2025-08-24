@@ -1,11 +1,11 @@
 site_name: RHCSA Certification Study Guide
 site_description: Comprehensive study materials and resources for Red Hat Certified System Administrator (RHCSA) exam preparation
 site_author: RHCSA Study Repository
-site_url: https://stovepipe.github.io/rhcsa/
+site_url: https://kraker.github.io/rhcsa/
 
 # Repository information
-repo_name: stovepipe/rhcsa
-repo_url: https://github.com/stovepipe/rhcsa
+repo_name: kraker/rhcsa
+repo_url: https://github.com/kraker/rhcsa
 edit_uri: edit/main/docs/
 
 # Theme configuration
