@@ -4,8 +4,8 @@
 # Lab environment for RHCSA on RHEL 9
 Vagrant.configure("2") do |config|
   # vagrant-registration plugin settings
-  config.registration.username = ENV['SUB_USERNAME']
-  config.registration.password = ENV['SUB_PASSWORD']
+  config.registration.username = ENV['RHS_USERNAME']
+  config.registration.password = ENV['RHS_PASSWORD']
   config.ssh.key_type = "ecdsa256"
   config.registration.unregister_on_halt = false
 

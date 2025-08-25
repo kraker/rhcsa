@@ -23,7 +23,7 @@ echo "🔑 Loading Red Hat Developer credentials..."
 source .rhel-credentials
 
 # Verify credentials were loaded
-if [ -z "$SUB_USERNAME" ] || [ -z "$SUB_PASSWORD" ]; then
+if [ -z "$RHS_USERNAME" ] || [ -z "$RHS_PASSWORD" ]; then
     echo "❌ Error: Credentials not properly loaded"
     echo "   Please check your .rhel-credentials file"
     exit 1
