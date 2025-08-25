@@ -9,38 +9,25 @@ Vagrant.configure("2") do |config|
   config.ssh.key_type = "ecdsa256"
   config.registration.unregister_on_halt = false
 
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "2048"  # 2GB RAM
+    vb.cpus = 2         # 2 CPU cores
+  end
+
   config.vm.define "rhel9a" do |vm|
     vm.vm.box = "generic/rhel9"
     vm.vm.hostname = "rhel9a"
-    vm.vm.network "private_network", type: "dhcp"
+    vm.vm.network "private_network", ip: "192.168.56.10"
   end
 
   config.vm.define "rhel9b" do |vm|
     vm.vm.box = "generic/rhel9"
     vm.vm.hostname = "rhel9b"
-    vm.vm.network "private_network", type: "dhcp"
-    vm.vm.disk :disk, name: "d1", size: "250MB"
-    vm.vm.disk :disk, name: "d2", size: "250MB"
-    vm.vm.disk :disk, name: "d3", size: "250MB"
-    vm.vm.disk :disk, name: "d4", size: "250MB"
-    vm.vm.disk :disk, name: "d5", size: "5GB"
+    vm.vm.network "private_network", ip: "192.168.56.11"
+    # vm.vm.disk :disk, name: "d1", size: "250MB"
+    # vm.vm.disk :disk, name: "d2", size: "250MB"
+    # vm.vm.disk :disk, name: "d3", size: "250MB"
+    # vm.vm.disk :disk, name: "d4", size: "250MB"
+    # vm.vm.disk :disk, name: "d5", size: "5GB"
   end
-
-  # Define machines to create
-  # machines = {
-  #   # "rhel7" => "generic/rhel7",
-  #   # "rhel8" => "generic/rhel8",
-  #   "rhel9-a" => "generic/rhel9",
-  #   "rhel9-b" => "generic/rhel9",
-  # }
-
-  # machines.each do |name, box|
-  #   config.vm.define name do |vm|
-  #     vm.vm.box = box
-  #     vm.vm.hostname = name
-  #     vm.vm.provision "ansible" do |ansible|
-  #       ansible.playbook = "playbook.yml"
-  #     end
-  #   end
-  # end
 end
