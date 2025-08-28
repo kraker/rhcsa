@@ -1,97 +1,26 @@
-# RHCSA Study Repository .gitignore
-
-# =============================================================================
-# Copyrighted Study Materials - DO NOT COMMIT
-# =============================================================================
-
-# External sources directory (contains all copyrighted materials)
+# Copyrighted study materials
 sources/
 
-# =============================================================================
-# Temporary and Cache Files
-# =============================================================================
-
-# OS generated files
+# OS and editor files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
-
-# Editor temporary files
 *~
 *.swp
-*.swo
 .vscode/
 .idea/
 
-# Backup files
-*.bak
-*.backup
-*.orig
-
-# =============================================================================
-# Lab Environment Files
-# =============================================================================
-
-# Virtual machine files (if any)
-*.vdi
-*.vmdk
-*.vbox
-*.ovf
-
-# Vagrant directories and files
+# Lab environment
 .vagrant/
-**/.vagrant/
-
-# SSH keys and sensitive data
 *.pem
 *.key
-id_rsa*
-*.ppk
-
-# Red Hat Developer credentials
 vagrant/.rhel-credentials
-**/rhel-credentials
-**/.rhel-credentials
 
-# Log files from practice
-*.log
+# MkDocs build
+site/
 
-# =============================================================================
-# Study-specific Temporary Files
-# =============================================================================
+# Python
+env/
 
-# Anki imports/exports (keep the CSV files we created)
-# But exclude any temporary Anki files
-*.anki2
-*.apkg
-
-# Practice test results
-test_results/
-exam_scores/
-
-# Personal notes that shouldn't be shared
+# Personal notes
 personal_notes.md
 private_*.md
-
-# =============================================================================
-# MkDocs Build Artifacts
-# =============================================================================
-
-# MkDocs build directory
-site/
-.mkdocs_cache/
-
-# =============================================================================
-# Keep These Study Files (commented for clarity)
-# =============================================================================
-# These files SHOULD be committed as they are original work:
-# - anki/rhcsa_deck.csv (original flashcards)
-# - docs/ directory (all study materials)
-# - mkdocs.yml (site configuration)
-# - requirements.txt (Python dependencies)
-# - CLAUDE.md (repository guidance)
-# - README.md (project documentation)
