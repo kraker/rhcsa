@@ -1711,33 +1711,55 @@ mount /mnt/nfs-data          # Mount specific entry
 ```
 
 ### AutoFS Configuration
+
+**Direct vs Indirect Maps Overview:**
+- **Indirect Maps**: Mount point is a directory that contains subdirectories for each share
+  - Master map: `/mnt/auto /etc/auto.nfs` → Access `/mnt/auto/sharename` 
+  - Map file defines keys (subdirectory names) and their NFS locations
+- **Direct Maps**: Each share has its own specific mount point anywhere in filesystem
+  - Master map: `/- /etc/auto.direct` → Access exact paths like `/shared-data`
+  - Map file defines full mount paths and their NFS locations
+
 ```bash
 # Install AutoFS
 dnf install -y autofs
 
-# Configure master map (/etc/auto.master)
-# Format: mount-point map-file [options]
+# INDIRECT MAP CONFIGURATION
+# Configure master map for indirect mapping
 echo "/mnt/auto /etc/auto.nfs --timeout=60" >> /etc/auto.master
-
-# For direct maps (specific mount points)
-echo "/- /etc/auto.direct" >> /etc/auto.master
 
 # Create indirect map file (/etc/auto.nfs)
 # Format: key [options] location
+# Key becomes subdirectory under /mnt/auto/
 echo "shared -rw server.example.com:/nfs-share" > /etc/auto.nfs
 echo "data -ro,intr server.example.com:/data" >> /etc/auto.nfs
+# Results: /mnt/auto/shared and /mnt/auto/data will be available
 
-# Create direct map file (/etc/auto.direct) 
-# Format: mount-point [options] location
-echo "/mnt/direct-share -rw server.example.com:/nfs-share" > /etc/auto.direct
+# DIRECT MAP CONFIGURATION  
+# Configure master map for direct mapping
+echo "/- /etc/auto.direct" >> /etc/auto.master
+
+# Create direct map file (/etc/auto.direct)
+# Format: full-mount-point [options] location
+echo "/shared-data -rw server.example.com:/nfs-share" > /etc/auto.direct
+echo "/company-files -ro server.example.com:/company" >> /etc/auto.direct
+# Results: /shared-data and /company-files will be available directly
 
 # Start and enable AutoFS service
 systemctl enable --now autofs
 
 # Verify AutoFS operation
 systemctl status autofs
-ls /mnt/auto                  # Triggers automount for indirect maps
-cd /mnt/auto/shared          # Access triggers mount
+
+# Test indirect maps (subdirectories under mount point)
+ls /mnt/auto                  # Shows available keys: shared, data
+cd /mnt/auto/shared          # Triggers mount of server.example.com:/nfs-share
+ls /mnt/auto/data            # Triggers mount of server.example.com:/data
+
+# Test direct maps (specific filesystem paths)
+ls /shared-data              # Triggers mount at exact path
+ls /company-files            # Triggers mount at exact path
+
 mount | grep autofs          # Show active automounts
 ```
 

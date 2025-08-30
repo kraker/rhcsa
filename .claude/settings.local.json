@@ -24,7 +24,8 @@
       "Bash(mkdocs serve:*)",
       "Bash(vagrant destroy:*)",
       "Bash(./lab-up.sh:*)",
-      "Bash(vagrant ssh:*)"
+      "Bash(vagrant ssh:*)",
+      "Bash(awk:*)"
     ],
     "additionalDirectories": [
       "/tmp/selinux_pdf_chunks",
