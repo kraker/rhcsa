@@ -65,13 +65,13 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 To run the documentation site locally:
 ```bash
 # Install dependencies
-pip install -r requirements.txt
+uv sync
 
 # Serve the site locally
-mkdocs serve
+uv run mkdocs serve
 
 # Build static site
-mkdocs build
+uv run mkdocs build
 ```
 The site will be available at `http://127.0.0.1:8000`
 
