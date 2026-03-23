@@ -1072,7 +1072,7 @@ ssh -p 2222 user@hostname   # Connect to custom port
 ssh -i keyfile user@hostname  # Use specific key
 ssh -L 8080:localhost:80 user@host  # Local port forwarding
 ssh -R 8080:localhost:80 user@host  # Remote port forwarding
-ssh -X user@hostname        # X11 forwarding
+ssh -X user@hostname        # X11/Wayland forwarding
 
 # Key management
 ssh-keygen -t rsa           # Generate RSA key pair

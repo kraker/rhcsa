@@ -639,7 +639,7 @@ dnf install --nogpgcheck package    # Skip GPG verification (not recommended)
 - **swap** - Virtual memory on disk
 - **mount point** - Directory where filesystem is attached
 - **PE** - Physical Extent (LVM allocation unit)
-- **VDO** - Virtual Data Optimizer (deduplication/compression)
+
 
 ### Key File Paths
 ```bash
@@ -2315,7 +2315,7 @@ systemctl status timer_name          # Detailed timer status
 - **known_hosts** - File storing server public keys
 - **authorized_keys** - File storing allowed client public keys
 - **port forwarding** - Tunnel network connections through SSH
-- **X11 forwarding** - Remote GUI application display
+- **Wayland forwarding** - Remote GUI application display (RHEL 10 uses Wayland, not X11)
 
 ### Key File Paths
 ```bash
@@ -2362,7 +2362,7 @@ scp -P 2222 file.txt user@hostname:/path  # Custom port
 ssh -L 8080:localhost:80 user@hostname     # Local port forwarding
 ssh -R 8080:localhost:80 user@hostname     # Remote port forwarding
 ssh -D 1080 user@hostname                  # SOCKS proxy
-ssh -X user@hostname                       # X11 forwarding (GUI apps)
+ssh -X user@hostname                       # X11/Wayland forwarding (GUI apps)
 ssh -N -f -L 8080:localhost:80 user@hostname  # Background tunnel
 ```
 

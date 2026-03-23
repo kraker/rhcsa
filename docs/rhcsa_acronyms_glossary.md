@@ -223,7 +223,6 @@
 
 ### V
 
-- **VDO** - Virtual Data Optimizer - Deduplication and compression
 - **VG** - Volume Group - LVM storage pool
 - **VI/VIM** - Visual/Vi Improved - Text editor
 - **VLAN** - Virtual Local Area Network - Network segmentation
@@ -238,7 +237,7 @@
 
 ### X
 
-- **X11** - X Window System Version 11 - Graphical display system
+- **Wayland** - Modern display protocol replacing X11 in RHEL 10
 - **XFS** - X File System - High-performance filesystem (RHEL default)
 - **XML** - Extensible Markup Language - Data format
 
@@ -304,7 +303,6 @@
 - **VG** - Volume Group
 - **LV** - Logical Volume
 - **PE** - Physical Extent
-- **VDO** - Virtual Data Optimizer
 - **LUKS** - Linux Unified Key Setup
 - **RAID** - Redundant Array of Independent Disks
 - **NFS** - Network File System
@@ -421,7 +419,7 @@
 - **GID** - Group Identifier
 - **UID** - User Identifier
 - **VI/VIM** - Visual/Vi Improved
-- **X11** - X Window System Version 11
+- **Wayland** - Modern Display Protocol
 - **PING** - Packet Internet Groper
 
 ---

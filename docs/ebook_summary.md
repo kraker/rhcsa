@@ -28,7 +28,7 @@ Based on analysis of both "RHCSA Red Hat Enterprise Linux - Asghar Ghori" and "R
 - Chapter 12: System Logging and Monitoring
 
 **Chapters 13-16: Storage and Networking**
-- Chapter 13: Storage Management (LVM, VDO)
+- Chapter 13: Storage Management (LVM)
 - Chapter 14: File Systems and Swap
 - Chapter 15: Networking, Network Devices, and Network Connections
 - Chapter 16: Network File System
@@ -351,7 +351,7 @@ rpm -Uvh package.rpm      # upgrade package
 #### **Sander van Vugt Labs:**
 - Advanced LVM scenarios
 - Storage troubleshooting
-- VDO configuration
+
 
 #### **Key Commands:**
 ```bash
