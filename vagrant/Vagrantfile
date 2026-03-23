@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Lab environment for RHCSA on RHEL 9
+# Lab environment for RHCSA on RHEL 10
 Vagrant.configure("2") do |config|
   # vagrant-registration plugin settings
   config.registration.username = ENV['RHS_USERNAME']
@@ -14,17 +14,21 @@ Vagrant.configure("2") do |config|
     vb.cpus = 2         # 2 CPU cores
   end
 
-  config.vm.define "rhel9a" do |vm|
-    vm.vm.box = "generic/rhel9"
-    vm.vm.hostname = "rhel9a"
+  # NOTE: generic/rhel10 box may not yet be available on Vagrant Cloud.
+  # Check https://app.vagrantup.com/generic/boxes/rhel10 for availability.
+  # As an alternative, you can build a local box from the RHEL 10 ISO.
+
+  config.vm.define "rhel10a" do |vm|
+    vm.vm.box = "generic/rhel10"
+    vm.vm.hostname = "rhel10a"
     vm.vm.network "private_network", ip: "192.168.56.10"
     vm.vm.disk :disk, name: "sdb", size: "300MB"
     vm.vm.disk :disk, name: "sdc", size: "300MB"
   end
 
-  config.vm.define "rhel9b" do |vm|
-    vm.vm.box = "generic/rhel9"
-    vm.vm.hostname = "rhel9b"
+  config.vm.define "rhel10b" do |vm|
+    vm.vm.box = "generic/rhel10"
+    vm.vm.hostname = "rhel10b"
     vm.vm.network "private_network", ip: "192.168.56.11"
     vm.vm.disk :disk, name: "sdb", size: "300MB"
     vm.vm.disk :disk, name: "sdc", size: "300MB"

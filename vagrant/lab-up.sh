@@ -31,7 +31,7 @@ fi
 
 # Start the VMs
 echo ""
-echo "🚀 Starting RHEL 9 VMs..."
+echo "🚀 Starting RHEL 10 VMs..."
 echo "   This may take several minutes on first run..."
 vagrant up
 
@@ -39,7 +39,7 @@ echo ""
 echo "✅ Lab environment ready!"
 echo ""
 echo "💡 Useful commands:"
-echo "   vagrant ssh rhel9a    # SSH to rhel9a VM"
-echo "   vagrant ssh rhel9b    # SSH to rhel9b VM"
+echo "   vagrant ssh rhel10a    # SSH to rhel10a VM"
+echo "   vagrant ssh rhel10b    # SSH to rhel10b VM"
 echo "   vagrant halt          # Stop all VMs"
 echo "   vagrant destroy       # Remove all VMs"
