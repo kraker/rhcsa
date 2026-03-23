@@ -133,7 +133,7 @@
 ### N
 
 - **NAT** - Network Address Translation - IP address remapping
-- **NFS** - Network File System - Distributed filesystem protocol
+- **NFS** - Network File System - Distributed filesystem protocol (NFS 4.2 default in RHEL 10)
 - **NIC** - Network Interface Card - Network adapter hardware
 - **NIS** - Network Information Service - Directory service
 - **NMCLI** - NetworkManager Command Line Interface

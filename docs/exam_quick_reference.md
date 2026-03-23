@@ -1610,7 +1610,7 @@ multitail /var/log/messages /var/log/secure  # Multiple files simultaneously
 ## NFS and AutoFS
 
 ### Key Terms & Acronyms
-- **NFS** - Network File System (remote file sharing protocol)
+- **NFS** - Network File System (remote file sharing protocol, NFS 4.2 is the RHEL 10 default)
 - **AutoFS** - Automatic File System (on-demand mounting service)
 - **export** - Making shares available on NFS server
 - **mount** - Accessing shares on NFS client
@@ -2660,6 +2660,18 @@ case $variable in
     *)
         default commands;;
 esac
+```
+
+### Positional Parameters and Special Variables
+```bash
+$0                              # Script name
+$1, $2, $3...                   # Positional parameters (arguments)
+$#                              # Number of arguments
+$@                              # All arguments (individually quoted)
+$*                              # All arguments (as single string)
+$?                              # Exit status of last command
+$$                              # Current process ID
+shift                           # Shift positional parameters left ($2→$1)
 ```
 
 ### Common Scripting Patterns
