@@ -468,7 +468,7 @@ setfacl -d -m u:alice:rwx /directory  # New files inherit ACL
 ## Package Management
 
 ### Key Terms & Acronyms
-- **DNF** - Dandified YUM (RHEL 9 package manager)
+- **DNF** - Dandified YUM (RHEL 10 package manager)
 - **YUM** - Yellowdog Updater Modified (legacy package manager)
 - **RPM** - Red Hat Package Manager (low-level package format)
 - **repository** - Package source location
@@ -615,7 +615,7 @@ dnf install --nogpgcheck package    # Skip GPG verification (not recommended)
 ```
 
 ### Common Pitfalls
-- **WRONG**: Using `yum` commands → **RIGHT**: Use `dnf` in RHEL 9
+- **WRONG**: Using `yum` commands → **RIGHT**: Use `dnf` in RHEL 10
 - **WRONG**: Not updating before installing → **RIGHT**: Run `dnf update` regularly
 - **WRONG**: Installing from untrusted sources → **RIGHT**: Verify GPG signatures
 - **WRONG**: Mixing RPM and DNF operations → **RIGHT**: Use DNF for dependency management
@@ -630,7 +630,7 @@ dnf install --nogpgcheck package    # Skip GPG verification (not recommended)
 - **VG** - Volume Group (pool of PVs)
 - **LV** - Logical Volume (usable storage from VG)
 - **UUID** - Universally Unique Identifier (persistent device ID)
-- **XFS** - X File System (RHEL 9 default)
+- **XFS** - X File System (RHEL 10 default)
 - **ext4** - Fourth Extended Filesystem
 - **GPT** - GUID Partition Table (modern partitioning)
 - **MBR** - Master Boot Record (legacy, 2TB limit)
@@ -901,7 +901,7 @@ setenforce 1                          # Set enforcing (temporary)
 # Persistent configuration (EXAM TIP: grubby commands are IN the config file!)
 vi /etc/selinux/config                # Contains helpful grubby examples in comments
 # SELINUX=enforcing|permissive|disabled
-# For RHEL 9: disabled only unloads policy, doesn't fully disable SELinux
+# For RHEL 10: disabled only unloads policy, doesn't fully disable SELinux
 # To fully disable: grubby --update-kernel ALL --args selinux=0
 # To re-enable:     grubby --update-kernel ALL --remove-args selinux
 
@@ -1311,7 +1311,7 @@ systemctl get-default                  # Check current default
 
 ### Password Recovery Procedure
 ```bash
-# RHEL 9 Password Reset Steps:
+# RHEL 10 Password Reset Steps:
 # 1. Boot system and interrupt GRUB menu (press 'e')
 # 2. Find linux line, add: rd.break
 # 3. Press Ctrl+X to boot
@@ -1337,7 +1337,7 @@ grubby --info=DEFAULT | grep args       # Verify parameter added
 
 # Create custom GRUB menu entry
 cat >> /etc/grub.d/40_custom << 'EOF'
-menuentry "RHEL 9 Debug Mode" {
+menuentry "RHEL 10 Debug Mode" {
     linux /boot/vmlinuz-$(uname -r) root=/dev/sda1 debug
     initrd /boot/initramfs-$(uname -r).img
 }
@@ -1380,7 +1380,7 @@ grubby --remove-kernel=/boot/vmlinuz-old # Remove problematic kernel
 - **WRONG**: Editing `/boot/grub2/grub.cfg` directly → **RIGHT**: Use `grub2-mkconfig` or `grubby`
 - **WRONG**: Forgetting `/.autorelabel` after password reset → **RIGHT**: Always touch when SELinux enabled
 - **WRONG**: Not regenerating GRUB config after changes → **RIGHT**: Run `grub2-mkconfig` after editing defaults
-- **WRONG**: Using legacy GRUB commands → **RIGHT**: Use `grub2-*` commands in RHEL 9
+- **WRONG**: Using legacy GRUB commands → **RIGHT**: Use `grub2-*` commands in RHEL 10
 
 ---
 

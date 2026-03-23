@@ -323,7 +323,7 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 **Objective**: Diagnose and resolve common service configuration issues
 
 **Prerequisites**:
-- RHEL 9 system with intentionally misconfigured services
+- RHEL 10 system with intentionally misconfigured services
 - Apache httpd and SSH services installed
 
 **Setup** (Instructor creates these issues):
@@ -353,7 +353,7 @@ crontab -l && grep CRON /var/log/cron             # Cron verification
 **Objective**: Analyze and resolve system performance issues using advanced diagnostic techniques
 
 **Prerequisites**:
-- RHEL 9 system with performance monitoring tools installed
+- RHEL 10 system with performance monitoring tools installed
 - Simulated high load conditions
 
 **Setup** (Instructor creates these conditions):
@@ -382,7 +382,7 @@ top -b -n1 | head -15                             # Process overview
 **Objective**: Perform comprehensive system recovery using integrated troubleshooting methodologies
 
 **Prerequisites**:
-- RHEL 9 system with multiple simulated failures
+- RHEL 10 system with multiple simulated failures
 - Access to rescue media and documentation
 
 **Setup** (Multiple interconnected issues):

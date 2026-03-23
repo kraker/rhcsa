@@ -6,7 +6,7 @@
 
 ## 1. Executive Summary
 
-**Topic Scope**: SELinux configuration, contexts, booleans, troubleshooting, and security policy management in RHEL 9
+**Topic Scope**: SELinux configuration, contexts, booleans, troubleshooting, and security policy management in RHEL 10
 
 **RHCSA Relevance**: Critical security topic - SELinux is a major component of RHEL security and frequently tested
 

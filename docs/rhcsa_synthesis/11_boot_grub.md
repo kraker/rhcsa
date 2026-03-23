@@ -1,7 +1,7 @@
 # Module 11: Boot Process & GRUB Configuration
 
 ## 1. Learning Objectives
-- Understand the RHEL 9 boot process from UEFI/BIOS to systemd
+- Understand the RHEL 10 boot process from UEFI/BIOS to systemd
 - Configure and customize GRUB2 bootloader settings
 - Manage kernel parameters and boot options
 - Recover from boot failures using rescue modes
@@ -11,7 +11,7 @@
 ## 2. Key Concepts
 
 ### Boot Process Overview
-The RHEL 9 boot sequence follows these stages:
+The RHEL 10 boot sequence follows these stages:
 1. **UEFI/BIOS**: Hardware initialization and bootloader location
 2. **GRUB2**: Boot menu, kernel selection, and parameter passing
 3. **Kernel**: Hardware detection, driver loading, initramfs mounting
@@ -227,7 +227,7 @@ systemd.unit=runlevel3.target                        # Equivalent to multi-user
 **Objective**: Configure GRUB bootloader and manage kernel parameters
 
 **Prerequisites**:
-- RHEL 9 system with multiple kernel versions
+- RHEL 10 system with multiple kernel versions
 - Root access for bootloader modifications
 
 **Tasks**:
@@ -250,7 +250,7 @@ cat /proc/cmdline                                     # Verify current parameter
 **Objective**: Practice boot failure recovery procedures
 
 **Prerequisites**:
-- RHEL 9 system with intentionally broken boot configuration
+- RHEL 10 system with intentionally broken boot configuration
 - Installation media or rescue disk available
 
 **Tasks**:
@@ -273,7 +273,7 @@ journalctl -b | grep -i error                        # Check for boot errors
 **Objective**: Integrate both methodologies for comprehensive boot management
 
 **Prerequisites**:
-- Fresh RHEL 9 installation
+- Fresh RHEL 10 installation
 - Multiple kernel versions installed
 - Access to rescue media
 

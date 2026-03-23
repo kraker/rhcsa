@@ -6,7 +6,7 @@
 
 ## 1. Executive Summary
 
-**Topic Scope**: Firewall configuration using firewalld, zones, services, ports, and rich rules in RHEL 9
+**Topic Scope**: Firewall configuration using firewalld, zones, services, ports, and rich rules in RHEL 10
 
 **RHCSA Relevance**: Essential security skill - firewall management is fundamental for server security
 
@@ -21,7 +21,7 @@
 ## 2. Conceptual Foundation
 
 ### Core Theory
-RHEL 9 uses firewalld as the default firewall management service, which provides:
+RHEL 10 uses firewalld as the default firewall management service, which provides:
 
 - **Zone-based management**: Different security levels for different network contexts
 - **Dynamic configuration**: Changes without service restart or connection drops
@@ -37,7 +37,7 @@ RHEL 9 uses firewalld as the default firewall management service, which provides
 - **Compliance requirements**: Meeting security standards for regulated environments
 
 ### Common Misconceptions
-- **iptables vs firewalld**: RHEL 9 uses firewalld by default, not direct iptables
+- **iptables vs firewalld**: RHEL 10 uses firewalld by default, not direct iptables
 - **Zone complexity**: Zones are logical groupings, not physical network segments
 - **Runtime changes**: Runtime changes are temporary unless made permanent
 - **Service vs port rules**: Services are collections of ports with meaningful names

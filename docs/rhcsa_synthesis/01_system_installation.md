@@ -6,7 +6,7 @@
 
 ## 1. Executive Summary
 
-**Topic Scope**: RHEL 9 installation process, initial system configuration, and post-installation setup
+**Topic Scope**: RHEL 10 installation process, initial system configuration, and post-installation setup
 
 **RHCSA Relevance**: Foundation knowledge - while not directly tested, understanding installation helps with system administration tasks
 
@@ -219,10 +219,10 @@ dnf history info 1
 ## 6. Hands-On Labs
 
 ### Lab 6.1: Basic RHEL Installation (Asghar Ghori Method)
-**Objective**: Install RHEL 9 with standard configuration for RHCSA practice
+**Objective**: Install RHEL 10 with standard configuration for RHCSA practice
 
 **Prerequisites**:
-- RHEL 9 ISO image
+- RHEL 10 ISO image
 - Virtual machine with 20GB disk, 2GB RAM
 - Network connectivity
 
@@ -237,7 +237,7 @@ dnf history info 1
    ```
 
 2. **Boot Installation Media**
-   - Attach RHEL 9 ISO to VM
+   - Attach RHEL 10 ISO to VM
    - Boot from ISO
    - Select "Install Red Hat Enterprise Linux 9.x"
 
@@ -270,7 +270,7 @@ systemctl status              # Check system status
 ```
 
 ### Lab 6.2: Custom Partitioning Installation (Sander van Vugt Method)
-**Objective**: Install RHEL 9 with custom partitioning scheme
+**Objective**: Install RHEL 10 with custom partitioning scheme
 
 **Steps**:
 1. **Follow initial steps from Lab 6.1** through software selection

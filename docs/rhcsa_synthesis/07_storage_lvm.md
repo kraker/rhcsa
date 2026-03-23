@@ -6,7 +6,7 @@
 
 ## 1. Executive Summary
 
-**Topic Scope**: Disk partitioning, LVM (Logical Volume Management), filesystem creation, mounting, and swap management in RHEL 9
+**Topic Scope**: Disk partitioning, LVM (Logical Volume Management), filesystem creation, mounting, and swap management in RHEL 10
 
 **RHCSA Relevance**: Critical exam topic - storage management is a major component of RHCSA certification
 
@@ -21,7 +21,7 @@
 ## 2. Conceptual Foundation
 
 ### Core Theory
-Storage management in RHEL 9 involves multiple layers:
+Storage management in RHEL 10 involves multiple layers:
 
 - **Physical storage**: Hard drives, SSDs, network storage
 - **Partitions**: Logical divisions of physical storage

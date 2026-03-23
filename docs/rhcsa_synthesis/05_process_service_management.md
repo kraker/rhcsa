@@ -6,7 +6,7 @@
 
 ## 1. Executive Summary
 
-**Topic Scope**: Process monitoring, control, systemd service management, and system targets in RHEL 9
+**Topic Scope**: Process monitoring, control, systemd service management, and system targets in RHEL 10
 
 **RHCSA Relevance**: Critical operational skill - process and service management is essential for system administration
 
@@ -21,7 +21,7 @@
 ## 2. Conceptual Foundation
 
 ### Core Theory
-RHEL 9 uses systemd as the init system and service manager, which fundamentally changed how processes and services are managed:
+RHEL 10 uses systemd as the init system and service manager, which fundamentally changed how processes and services are managed:
 
 - **Process hierarchy**: All processes descend from PID 1 (systemd)
 - **Service units**: Standardized configuration for system services
