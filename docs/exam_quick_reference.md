@@ -443,7 +443,7 @@ find /path -type f -exec chmod 644 {} \;     # Files to 644
 find /path -type d -exec chmod 755 {} \;     # Directories to 755
 ```
 
-### ACL vs Traditional Permissions
+### ACL vs Traditional Permissions (Supplementary — not on RHEL 10 exam)
 ```bash
 # Traditional permissions (3 entities: user, group, other)
 chmod 750 file        # rwxr-x--- (user: rwx, group: r-x, other: ---)
@@ -1836,151 +1836,84 @@ systemctl restart autofs            # Full restart if needed
 
 ---
 
-## Container Management (Podman)
+## Flatpak Software Management
 
 ### Key Terms & Acronyms
-- **podman** - Pod Manager (daemonless container engine)
-- **container** - Isolated application instance
-- **image** - Read-only container template
-- **registry** - Container image repository
-- **Containerfile** - Build instructions (aka Dockerfile)
-- **OCI** - Open Container Initiative
-- **runtime** - Container execution environment
-- **rootless** - Containers without root privileges
-- **namespace** - Linux isolation mechanism
-- **cgroup** - Control group (resource limits)
-- **layer** - Image filesystem layer
-- **tag** - Image version identifier
-- **buildah** - Container image builder
-- **skopeo** - Container image inspector
+- **Flatpak** - Application distribution framework with sandboxing
+- **Flathub** - Largest public Flatpak repository (flathub.org)
+- **remote** - Flatpak repository (similar to DNF repo)
+- **runtime** - Shared base libraries used by multiple Flatpak apps
+- **application** - Sandboxed software package
+- **OSTree** - Content-addressable storage system used by Flatpak
+- **sandbox** - Isolated execution environment for Flatpak apps
+- **portal** - D-Bus interface for controlled host access from sandbox
+- **app ID** - Reverse-DNS application identifier (e.g., org.gimp.GIMP)
 
 ### Key File Paths
 ```bash
-~/.config/systemd/user/       # User systemd service files
-/etc/systemd/system/          # System-wide container services
-~/.config/containers/         # User container configuration
-/etc/containers/              # System container configuration
+/var/lib/flatpak/                     # System-wide Flatpak installations
+~/.local/share/flatpak/               # User Flatpak installations
+/etc/flatpak/remotes.d/               # System-wide remote configuration
+/var/lib/flatpak/overrides/           # System permission overrides
+~/.local/share/flatpak/overrides/     # User permission overrides
 ```
 
 ### Essential Commands
 ```bash
-# Container lifecycle
-podman pull registry.redhat.io/ubi8/ubi:latest  # Pull image
-podman run -d --name webserver -p 8080:80 httpd # Run detached with port mapping
-podman ps                             # List running containers
-podman ps -a                          # List all containers
-podman logs webserver                 # View container logs
-podman logs -f webserver              # Follow logs
+# Remote (repository) management
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --user flathub https://flathub.org/repo/flathub.flatpakrepo  # User only
+flatpak remote-delete flathub                     # Remove remote
+flatpak remotes                                   # List configured remotes
+flatpak remotes --show-details                    # Detailed remote info
+flatpak remote-ls flathub                         # List apps in remote
 
-# Container management
-podman stop webserver                 # Stop container
-podman start webserver                # Start container
-podman restart webserver              # Restart container
-podman exec -it webserver /bin/bash   # Execute command in container
-podman rm webserver                   # Remove container
-podman rmi httpd                      # Remove image
+# Search and information
+flatpak search keyword                            # Search for applications
+flatpak info org.example.App                      # Show app details
 
-# Volume and data management
-podman run -d --name db -v /host/data:/container/data postgres
-podman run -d --name web -v webdata:/var/www/html httpd
+# Install and uninstall
+flatpak install flathub org.example.App           # Install from remote
+flatpak install --user flathub org.example.App    # Install for user only
+flatpak uninstall org.example.App                 # Uninstall application
+flatpak uninstall --unused                        # Remove unused runtimes
 
-# Image management
-podman images                         # List local images
-podman search httpd                   # Search for images
-podman inspect httpd                  # Inspect image details
-
-# Building images from Containerfile
-podman build -t myimage:latest .      # Build image from current directory
-podman build -t myimage:v1.0 /path/to/containerfile/  # Build from specific directory
-podman build -f CustomContainerfile -t myimage .      # Use custom filename
-```
-
-### Containerfile Instructions
-
-| Instruction | Description |
-|-------------|-------------|
-| `FROM` | Identifies the base container image to use |
-| `RUN` | Executes specified commands during build |
-| `CMD` | Runs a command when container starts (default command) |
-| `COPY` | Copies files from host to container |
-| `ADD` | Similar to COPY but can handle URLs and archives |
-| `ENV` | Defines environment variables for build and runtime |
-| `EXPOSE` | Documents which ports the container will listen on |
-| `USER` | Defines a non-root user to run commands as |
-| `WORKDIR` | Sets the working directory (created if doesn't exist) |
-| `VOLUME` | Creates a mount point for external volumes |
-| `LABEL` | Adds metadata to the image |
-| `ENTRYPOINT` | Configures the main command (cannot be overridden) |
-
-### Sample Containerfile
-```dockerfile
-# Example Containerfile for web server
-FROM registry.redhat.io/ubi8/ubi:latest
-RUN dnf install -y httpd
-COPY index.html /var/www/html/
-EXPOSE 80
-USER apache
-CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
-```
-
-### Systemd Integration
-```bash
-# Rootless containers (as regular user)
-loginctl enable-linger username       # Enable user services
-podman generate systemd --new --files --name webserver
-mkdir -p ~/.config/systemd/user
-mv container-webserver.service ~/.config/systemd/user/
-systemctl --user daemon-reload
-systemctl --user enable container-webserver.service
-systemctl --user start container-webserver.service
-
-# System-wide containers (as root)
-sudo podman generate systemd --new --files --name webserver
-sudo cp container-webserver.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable container-webserver.service
-sudo systemctl start container-webserver.service
+# List, run, and update
+flatpak list --app                                # List installed apps
+flatpak list --runtime                            # List installed runtimes
+flatpak run org.example.App                       # Run application
+flatpak update                                    # Update all Flatpaks
 ```
 
 ### Common Tasks
 ```bash
-# Deploy containerized web server with persistent service
-podman pull httpd
-podman run -d --name mywebserver -p 8080:80 httpd
-podman generate systemd --new --files --name mywebserver
-sudo cp container-mywebserver.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable --now container-mywebserver.service
-firewall-cmd --add-port=8080/tcp --permanent
-firewall-cmd --reload
-curl http://localhost:8080            # Test
+# Set up Flathub and install application
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub org.gnome.Calculator -y
+flatpak list --app                                # Verify
+flatpak run org.gnome.Calculator                  # Test
 
-# Deploy with persistent storage
-podman run -d --name webapp -p 8080:80 -v /opt/webapp:/usr/local/apache2/htdocs httpd
+# User-level install (no root needed)
+flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install --user flathub org.mozilla.firefox -y
+flatpak list --user --app                         # Verify
 
-# Build custom image from Containerfile
-mkdir /tmp/myapp
-cd /tmp/myapp
-# Create Containerfile (see sample above)
-echo "<h1>My Custom App</h1>" > index.html
-podman build -t myapp:v1.0 .
-podman run -d --name customapp -p 8080:80 myapp:v1.0
+# Clean up after uninstalls
+flatpak uninstall --unused -y                     # Remove orphaned runtimes
 ```
 
-### Troubleshooting
+### Permission Overrides
 ```bash
-# Container issues
-podman ps -a                          # Check container status
-podman logs container_name            # Check container logs
-podman inspect container_name         # Check container configuration
-ss -tuln | grep :8080                # Check port binding
-systemctl --user status container-name.service  # Check systemd service
+# Grant filesystem access to sandboxed app
+flatpak override --user --filesystem=home org.example.App
+flatpak override --user --show org.example.App    # View overrides
+flatpak override --user --reset org.example.App   # Reset to defaults
 ```
 
 ### Common Pitfalls
-- **WRONG**: Forgetting `loginctl enable-linger` for user services → **RIGHT**: Enable lingering for persistent user services
-- **WRONG**: Not opening firewall ports → **RIGHT**: Always configure firewall for exposed ports
-- **WRONG**: Using wrong systemd directory → **RIGHT**: Use `~/.config/systemd/user/` for user services
+- **WRONG**: Trying to install without adding remote first → **RIGHT**: Add remote with `flatpak remote-add` before installing
+- **WRONG**: Forgetting `--if-not-exists` → **RIGHT**: Use it to make commands idempotent
+- **WRONG**: Not cleaning up runtimes → **RIGHT**: Run `flatpak uninstall --unused` after removing apps
 
 ---
 

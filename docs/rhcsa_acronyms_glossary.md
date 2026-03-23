@@ -13,7 +13,7 @@
   - [Networking](#networking)
   - [Security](#security)
   - [Services & Process Management](#services--process-management)
-  - [Containers & Virtualization](#containers--virtualization)
+  - [Flatpak & Software Distribution](#flatpak--software-distribution)
   - [Package Management](#package-management)
 
 ---
@@ -142,7 +142,7 @@
 
 ### O
 
-- **OCI** - Open Container Initiative - Container standards organization
+- **OSTree** - Content-addressable filesystem used by Flatpak for efficient storage
 - **OS** - Operating System - System software managing hardware/software
 - **OSS** - Open Source Software - Publicly accessible source code
 
@@ -371,8 +371,10 @@
 - **FIFO** - First In, First Out
 - **LIFO** - Last In, First Out
 
-### Containers & Virtualization
-- **OCI** - Open Container Initiative
+### Flatpak & Software Distribution
+- **Flatpak** - Application distribution framework with sandboxing
+- **Flathub** - Public Flatpak application repository
+- **OSTree** - Content-addressable storage system
 - **VM** - Virtual Machine
 - **KVM** - Kernel-based Virtual Machine
 - **QEMU** - Quick Emulator
@@ -475,12 +477,12 @@
 - **timer** - Systemd scheduled task
 - **socket** - Systemd activation unit
 
-### Container Terms
-- **image** - Container template
-- **container** - Running instance
-- **registry** - Image repository
-- **namespace** - Process isolation
-- **cgroup** - Resource control
+### Flatpak Terms
+- **remote** - Flatpak repository source
+- **runtime** - Shared base libraries for Flatpak apps
+- **app ID** - Reverse-DNS application identifier
+- **sandbox** - Isolated app execution environment
+- **portal** - D-Bus interface for controlled host access
 
 ---
 
