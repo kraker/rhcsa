@@ -11,7 +11,7 @@
 
 ## 2. Key Concepts
 
-### Logging Architecture in RHEL 9
+### Logging Architecture in RHEL 10
 - **systemd-journald**: Primary logging daemon for systemd services
 - **rsyslog**: Traditional syslog daemon for compatibility and advanced features
 - **Log Storage**: Binary journal files and text-based syslog files
@@ -312,7 +312,7 @@ aureport --auth --summary                           # SELinux auth summary
 **Objective**: Configure comprehensive logging system with journal persistence and rsyslog customization
 
 **Prerequisites**:
-- RHEL 9 system with systemd and rsyslog installed
+- RHEL 10 system with systemd and rsyslog installed
 - Root access for configuration modifications
 
 **Tasks**:
@@ -335,7 +335,7 @@ cat /etc/logrotate.d/ssh                            # Check rotation config
 **Objective**: Implement comprehensive system monitoring using built-in tools
 
 **Prerequisites**:
-- RHEL 9 system with full monitoring tools installed
+- RHEL 10 system with full monitoring tools installed
 - Network connectivity for remote logging tests
 
 **Tasks**:
@@ -358,7 +358,7 @@ ls -la /var/log/sa/                                  # Check SAR data files
 **Objective**: Build enterprise-grade logging and monitoring system
 
 **Prerequisites**:
-- Multiple RHEL 9 systems (or containers) for centralized logging
+- Multiple RHEL 10 systems (or containers) for centralized logging
 - Administrative access to all systems
 
 **Tasks**:
@@ -533,4 +533,4 @@ Storage=volatile                                    # Use memory storage tempora
 
 ---
 
-**Module 12 Summary**: Effective logging and monitoring are essential for maintaining system health and security. This module combines traditional syslog management with modern systemd journal capabilities, providing comprehensive coverage of RHEL 9 logging infrastructure. Understanding both reactive troubleshooting through log analysis and proactive monitoring for performance optimization is crucial for RHCSA certification and production system management.
+**Module 12 Summary**: Effective logging and monitoring are essential for maintaining system health and security. This module combines traditional syslog management with modern systemd journal capabilities, providing comprehensive coverage of RHEL 10 logging infrastructure. Understanding both reactive troubleshooting through log analysis and proactive monitoring for performance optimization is crucial for RHCSA certification and production system management.

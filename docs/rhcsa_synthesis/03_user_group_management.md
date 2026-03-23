@@ -6,7 +6,7 @@
 
 ## 1. Executive Summary
 
-**Topic Scope**: User account creation, modification, deletion, group management, and password policies in RHEL 9
+**Topic Scope**: User account creation, modification, deletion, group management, and password policies in RHEL 10
 
 **RHCSA Relevance**: Critical exam topic - user management appears in multiple exam tasks
 
@@ -21,7 +21,7 @@
 ## 2. Conceptual Foundation
 
 ### Core Theory
-User and group management in RHEL 9 is based on the traditional Unix model with modern enhancements:
+User and group management in RHEL 10 is based on the traditional Unix model with modern enhancements:
 
 - **User accounts**: Unique identities with UID, home directory, and shell
 - **Groups**: Collections of users for permission management (primary and supplementary)

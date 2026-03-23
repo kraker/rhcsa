@@ -37,7 +37,7 @@ nav:
     - 'Module 11: Boot & GRUB': rhcsa_synthesis/11_boot_grub.md
     - 'Module 12: Logging & Monitoring': rhcsa_synthesis/12_logging_monitoring.md
     - 'Module 13: Scheduled Tasks': rhcsa_synthesis/13_scheduled_tasks.md
-    - 'Module 14: Container Management': rhcsa_synthesis/14_container_management.md
+    - 'Module 14: Flatpak Management': rhcsa_synthesis/14_flatpak_management.md
     - 'Module 15: Troubleshooting': rhcsa_synthesis/15_troubleshooting.md
   - Quick References:
     - 'Exam Quick Reference': exam_quick_reference.md

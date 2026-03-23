@@ -5,8 +5,8 @@
 ## Overview
 
 This knowledge base synthesizes content from two authoritative RHCSA study resources:
-- **Asghar Ghori**: "RHCSA Red Hat Enterprise Linux 9" (34,346+ lines of content)
-- **Sander van Vugt**: "Red Hat RHCSA 9 Cert Guide" (53,622+ lines of content)
+- **Asghar Ghori**: "RHCSA Red Hat Enterprise Linux 10" (Dec 2025 edition)
+- **Sander van Vugt**: "Red Hat RHCSA 9 Cert Guide" (concepts still applicable)
 
 Each topic module combines the best approaches from both authors, providing comprehensive coverage with practical labs, detailed explanations, and exam-focused strategies.
 
@@ -37,13 +37,13 @@ Each topic module combines the best approaches from both authors, providing comp
 | [00](00_exam_overview.md) | **Exam Overview** | Format, strategy, environment setup | Essential |
 | [01](01_system_installation.md) | **System Installation** | RHEL installation, initial configuration | High |
 | [02](02_file_management.md) | **File Management** | Basic operations, text processing | High |
-| [03](03_permissions_security.md) | **Permissions & Security** | File permissions, access controls | Critical |
+| [03](03_user_group_management.md) | **User & Group Management** | Account creation, policies, sudo | Critical |
 
 ### System Administration
 | Module | Topic | Focus Areas | Exam Weight |
 |--------|-------|-------------|-------------|
-| [04](04_user_group_mgmt.md) | **User & Group Management** | Account creation, policies, sudo | Critical |
-| [05](05_process_services.md) | **Process & Service Management** | Systemd, process control | Critical |
+| [04](04_file_permissions.md) | **File Permissions** | File permissions, access controls | Critical |
+| [05](05_process_service_management.md) | **Process & Service Management** | Systemd, process control | Critical |
 | [06](06_package_management.md) | **Package Management** | RPM, YUM, DNF, repositories | High |
 | [07](07_storage_lvm.md) | **Storage & LVM** | Partitions, filesystems, LVM | Critical |
 | [08](08_networking.md) | **Network Configuration** | IP configuration, DNS, routing | High |
@@ -51,8 +51,8 @@ Each topic module combines the best approaches from both authors, providing comp
 ### Security and Advanced Topics
 | Module | Topic | Focus Areas | Exam Weight |
 |--------|-------|-------------|-------------|
-| [09](09_firewall.md) | **Firewall Configuration** | firewall-cmd, zones, services | High |
-| [10](10_selinux.md) | **SELinux Management** | Contexts, booleans, troubleshooting | Critical |
+| [09](09_selinux.md) | **SELinux Management** | Contexts, booleans, troubleshooting | Critical |
+| [10](10_firewall.md) | **Firewall Configuration** | firewall-cmd, zones, services | High |
 | [11](11_boot_grub.md) | **Boot Process & GRUB** | Boot sequence, GRUB configuration | Medium |
 | [12](12_logging_monitoring.md) | **Logging & Monitoring** | rsyslog, journald, log analysis | Medium |
 | [13](13_scheduled_tasks.md) | **Scheduled Tasks** | cron, at, systemd timers | Medium |
@@ -60,8 +60,8 @@ Each topic module combines the best approaches from both authors, providing comp
 ### Modern RHEL Features
 | Module | Topic | Focus Areas | Exam Weight |
 |--------|-------|-------------|-------------|
-| [14](14_containers.md) | **Container Management** | Podman, container services | High |
-| [15](15_network_services.md) | **Network Services** | SSH, NFS, time services | Medium |
+| [14](14_flatpak_management.md) | **Flatpak Management** | Flatpak repos, application management | High |
+| [15](15_troubleshooting.md) | **Troubleshooting** | System recovery, boot issues | Medium |
 
 ## Quick Navigation
 
@@ -70,16 +70,16 @@ Each topic module combines the best approaches from both authors, providing comp
 - **Create simple shell scripts** → Module 02, 13
 - **Operate running systems** → Modules 05, 06, 12, 13
 - **Configure local storage** → Module 07
-- **Create and configure file systems** → Modules 03, 07
+- **Create and configure file systems** → Modules 04, 07
 - **Deploy, configure, and maintain systems** → Modules 01, 08, 09, 14, 15
 - **Manage basic networking** → Module 08
-- **Manage users and groups** → Module 04
-- **Manage security** → Modules 03, 09, 10
+- **Manage users and groups** → Module 03
+- **Manage security** → Modules 04, 09, 10
 
 ### By Common Tasks
-- **System Setup**: Modules 01, 04, 08
-- **Storage Configuration**: Modules 03, 07
-- **Security Hardening**: Modules 03, 04, 09, 10
+- **System Setup**: Modules 01, 03, 08
+- **Storage Configuration**: Modules 07
+- **Security Hardening**: Modules 04, 09, 10
 - **Service Management**: Modules 05, 13, 14, 15
 - **Troubleshooting**: All modules (dedicated sections)
 
@@ -90,25 +90,25 @@ Track your progress through the synthesis modules:
 - [ ] 00 - Exam Overview
 - [ ] 01 - System Installation
 - [ ] 02 - File Management
-- [ ] 03 - Permissions & Security
-- [ ] 04 - User & Group Management
+- [ ] 03 - User & Group Management
+- [ ] 04 - File Permissions
 - [ ] 05 - Process & Service Management
 - [ ] 06 - Package Management
 - [ ] 07 - Storage & LVM
 - [ ] 08 - Network Configuration
-- [ ] 09 - Firewall Configuration
-- [ ] 10 - SELinux Management
+- [ ] 09 - SELinux Management
+- [ ] 10 - Firewall Configuration
 - [ ] 11 - Boot Process & GRUB
 - [ ] 12 - Logging & Monitoring
 - [ ] 13 - Scheduled Tasks
-- [ ] 14 - Container Management
-- [ ] 15 - Network Services
+- [ ] 14 - Flatpak Management
+- [ ] 15 - Troubleshooting
 
 ## Additional Resources
 
 ### Original Sources
 - Current ebook analysis: [ebook_summary.md](../ebook_summary.md)
-- Comprehensive flashcards: [anki_rhcsa_flashcards.csv](../anki_rhcsa_flashcards.csv)
+- Comprehensive flashcards: [rhcsa_deck.csv](../../anki/rhcsa_deck.csv)
 - Quick exam reference: [exam_quick_reference.md](../exam_quick_reference.md)
 
 ### Command References

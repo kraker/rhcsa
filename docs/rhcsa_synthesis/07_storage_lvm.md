@@ -6,7 +6,7 @@
 
 ## 1. Executive Summary
 
-**Topic Scope**: Disk partitioning, LVM (Logical Volume Management), filesystem creation, mounting, and swap management in RHEL 9
+**Topic Scope**: Disk partitioning, LVM (Logical Volume Management), filesystem creation, mounting, and swap management in RHEL 10
 
 **RHCSA Relevance**: Critical exam topic - storage management is a major component of RHCSA certification
 
@@ -21,7 +21,7 @@
 ## 2. Conceptual Foundation
 
 ### Core Theory
-Storage management in RHEL 9 involves multiple layers:
+Storage management in RHEL 10 involves multiple layers:
 
 - **Physical storage**: Hard drives, SSDs, network storage
 - **Partitions**: Logical divisions of physical storage
@@ -50,6 +50,8 @@ Storage management in RHEL 9 involves multiple layers:
 - **Physical Extent (PE)**: Smallest unit of space allocation in LVM
 - **Logical Extent (LE)**: Mapping unit from logical volume to physical extents
 - **Mount point**: Directory where filesystem is attached to directory tree
+- **Thin pool**: LVM storage pool for thin provisioning with on-demand allocation
+- **Thin volume**: Logical volume that draws space from a thin pool as data is written
 - **fstab**: Configuration file for automatic filesystem mounting
 - **UUID**: Universally Unique Identifier for devices and filesystems
 
@@ -114,6 +116,27 @@ lvextend -L +1G /dev/vgname/lvname     # Extend LV by 1GB
 lvextend -L 5G /dev/vgname/lvname      # Extend LV to 5GB total
 lvreduce -L -1G /dev/vgname/lvname     # Reduce LV by 1GB
 lvremove /dev/vgname/lvname            # Remove LV
+```
+
+### LVM Thin Provisioning
+```bash
+# Create a thin pool (allocates actual storage)
+lvcreate --type thin-pool -L 5G -n mythinpool vgname
+
+# Create thin volumes (virtual size, allocated from pool on demand)
+lvcreate --virtualsize 10G --thin -n thinlv1 vgname/mythinpool
+lvcreate --virtualsize 10G --thin -n thinlv2 vgname/mythinpool
+
+# Monitor thin pool usage
+lvs -o+lv_size,pool_lv,data_percent vgname
+lvs -a vgname                        # Show all LVs including pool metadata
+
+# Extend thin pool when running low
+lvextend -L +5G vgname/mythinpool
+
+# Create filesystem and mount thin volume (same as regular LV)
+mkfs.xfs /dev/vgname/thinlv1
+mount /dev/vgname/thinlv1 /mnt/thin1
 ```
 
 ### Filesystem Management
@@ -266,6 +289,48 @@ swapon /swapfile                       # Enable swap file
    df -h /data
    ```
 
+### Standard Procedure: LVM Thin Provisioning Setup
+
+Thin provisioning allows over-committing storage — thin volumes can have a combined virtual size larger than the physical pool. Space is allocated only as data is written.
+
+1. **Create thin pool from volume group**
+   ```bash
+   # Create a thin pool (actual physical storage)
+   lvcreate --type thin-pool -L 5G -n thinpool datavg
+   ```
+
+2. **Create thin volumes**
+   ```bash
+   # Virtual size can exceed pool size (overprovisioning)
+   lvcreate --virtualsize 10G --thin -n app1 datavg/thinpool
+   lvcreate --virtualsize 10G --thin -n app2 datavg/thinpool
+   ```
+
+3. **Create filesystems and mount**
+   ```bash
+   mkfs.xfs /dev/datavg/app1
+   mkfs.xfs /dev/datavg/app2
+   mkdir -p /srv/{app1,app2}
+   mount /dev/datavg/app1 /srv/app1
+   mount /dev/datavg/app2 /srv/app2
+   ```
+
+4. **Monitor pool usage and extend when needed**
+   ```bash
+   # Check how much of the pool is actually used
+   lvs -o+data_percent datavg/thinpool
+
+   # Extend pool before it fills up
+   lvextend -L +5G datavg/thinpool
+   ```
+
+5. **Make mounts persistent**
+   ```bash
+   echo "/dev/datavg/app1 /srv/app1 xfs defaults 0 2" >> /etc/fstab
+   echo "/dev/datavg/app2 /srv/app2 xfs defaults 0 2" >> /etc/fstab
+   mount -a
+   ```
+
 ### Decision Tree: Storage Strategy Selection
 ```
 Storage Requirements
@@ -276,6 +341,8 @@ Storage Requirements
 │   ├── Need flexibility? → LVM with multiple PVs
 │   ├── Performance priority? → RAID + LVM
 │   └── Simple aggregation? → LVM spanning
+├── Overprovisioned / on-demand storage?
+│   └── LVM thin provisioning → thin pool + thin volumes
 └── Specific use case?
     ├── Database storage → XFS on LVM for large files
     ├── Boot partition → ext4 on regular partition
@@ -855,6 +922,11 @@ mount /dev/vgname/lvname /mnt # Mount filesystem
 vgextend vgname /dev/sdc1    # Add space to VG
 lvextend -L +1G /dev/vgname/lvname  # Extend LV
 xfs_growfs /mnt              # Grow XFS filesystem
+
+# Thin provisioning workflow
+lvcreate --type thin-pool -L 5G -n pool vgname  # Create thin pool
+lvcreate --virtualsize 10G --thin -n lv1 vgname/pool  # Create thin LV
+lvs -o+data_percent vgname/pool  # Monitor pool usage
 ```
 
 ### fstab Entry Examples
@@ -919,6 +991,7 @@ UUID=abc123-def456  /data  xfs  defaults,noatime  0  2
 - Use `lsblk` to visualize storage hierarchy before making changes
 - Remember that XFS can only grow, not shrink
 - Practice the complete workflow: PV → VG → LV → filesystem → mount → fstab
+- For thin provisioning: monitor pool usage (`lvs -o+data_percent`) and extend before full
 
 ### Common Exam Scenarios
 1. **Scenario**: Add storage to existing system

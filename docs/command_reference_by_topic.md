@@ -240,7 +240,7 @@ find / -perm -2000 2>/dev/null  # Find setgid files
 find / -perm -1000 2>/dev/null  # Find sticky bit files
 ```
 
-### Access Control Lists (ACLs)
+### Access Control Lists (ACLs) — Supplementary (not on RHEL 10 exam)
 ```bash
 # Manage ACLs
 setfacl -m u:username:rwx file      # Set user ACL
@@ -1018,48 +1018,28 @@ systemctl start timer.timer   # Start timer
 systemctl status timer.timer  # Check timer status
 ```
 
-## Container Management with Podman
+## Flatpak Software Management
 
-### Container Operations
+### Remote and Application Management
 ```bash
-# Image management
-podman pull image:tag       # Pull image from registry
-podman images               # List local images
-podman rmi image            # Remove image
-podman search keyword       # Search for images
-podman inspect image        # Inspect image details
+# Remote (repository) management
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --user flathub URL  # User-level remote
+flatpak remote-delete flathub          # Remove remote
+flatpak remotes                        # List configured remotes
+flatpak remote-ls flathub              # List available apps
 
-# Container lifecycle
-podman run -d --name container image  # Run container in background
-podman run -it image /bin/bash  # Run interactive container
-podman run -p 8080:80 image   # Port mapping
-podman run -v /host:/container image  # Volume mount
-podman ps                   # List running containers
-podman ps -a                # List all containers
-podman stop container       # Stop container
-podman start container      # Start container
-podman restart container    # Restart container
-podman rm container         # Remove container
-
-# Container management
-podman exec -it container /bin/bash  # Execute command in container
-podman logs container       # View container logs
-podman logs -f container    # Follow container logs
-podman cp file container:/path  # Copy file to container
-podman stats                # Show container statistics
-```
-
-### Systemd Integration
-```bash
-# Generate systemd units
-podman generate systemd --new --files --name container
-sudo cp container-name.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable container-name.service
-
-# User services (rootless)
-loginctl enable-linger username  # Enable user services
-systemctl --user enable container.service
+# Application management
+flatpak search keyword                 # Search for apps
+flatpak install flathub org.example.App  # Install app
+flatpak install --user flathub org.example.App  # User-level install
+flatpak uninstall org.example.App      # Remove app
+flatpak uninstall --unused             # Remove unused runtimes
+flatpak list --app                     # List installed apps
+flatpak list --runtime                 # List installed runtimes
+flatpak run org.example.App            # Run app
+flatpak update                         # Update all
+flatpak info org.example.App           # Show app details
 ```
 
 ## SSH and Remote Access
@@ -1072,7 +1052,7 @@ ssh -p 2222 user@hostname   # Connect to custom port
 ssh -i keyfile user@hostname  # Use specific key
 ssh -L 8080:localhost:80 user@host  # Local port forwarding
 ssh -R 8080:localhost:80 user@host  # Remote port forwarding
-ssh -X user@hostname        # X11 forwarding
+ssh -X user@hostname        # X11/Wayland forwarding
 
 # Key management
 ssh-keygen -t rsa           # Generate RSA key pair

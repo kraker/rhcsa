@@ -18,11 +18,11 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
   - `command_reference_by_topic.md` - Commands organized by functional area
   - `rhcsa_acronyms_glossary.md` - Comprehensive glossary
   - `ebook_summary.md` - Analysis from major RHCSA study books
-- **`anki/rhcsa_deck.csv`** - 146 comprehensive flashcards for Anki import
+- **`anki/rhcsa_deck.csv`** - 169 comprehensive flashcards for Anki import
 
 ### 🏗️ Lab Environment
-- **`vagrant/`** - Automated RHEL 9 VM provisioning with Vagrant
-  - `Vagrantfile` - VM configuration for rhel9a and rhel9b instances
+- **`vagrant/`** - Automated RHEL 10 VM provisioning with Vagrant
+  - `Vagrantfile` - VM configuration for rhel10a and rhel10b instances
   - `playbook.yml` - Ansible playbook for environment setup
 
 ### 📖 External Resources (`sources/` directory, not tracked)
@@ -35,17 +35,17 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 
 ### Using the Anki Flashcards
 1. Import `anki/rhcsa_deck.csv` into Anki
-2. The deck includes 146 cards organized by topic tags:
+2. The deck includes 169 cards organized by topic tags:
    - `user_management`, `permissions`, `systemd`
-   - `storage`, `lvm`, `selinux`, `firewall`  
-   - `networking`, `containers`, `monitoring`
-   - `rhel9_specific`, `exam_pressure`, `syntax_heavy`
+   - `storage`, `lvm`, `selinux`, `firewall`
+   - `networking`, `flatpak`, `monitoring`
+   - `rhel10_specific`, `exam_pressure`, `syntax_heavy`
 
 ### Lab Environment Setup
 
 **Vagrant VM Provisioning**:
 - See `vagrant/` directory for automated lab environment setup
-- RHEL 9 VMs configured with proper resources and networking
+- RHEL 10 VMs configured with proper resources and networking
 - Automated subscription registration and storage disk configuration
 - Prerequisites: Vagrant, VirtualBox, Red Hat Developer subscription
 
@@ -83,7 +83,7 @@ The flashcards and lab scenarios cover all essential areas:
 - **Storage & LVM**: fdisk, pvcreate, vgcreate, lvcreate, filesystem management
 - **Security & SELinux**: getenforce, setsebool, restorecon, firewall-cmd
 - **Networking**: nmcli, static IP configuration, SSH setup
-- **Containers**: podman operations with systemd integration
+- **Flatpak**: Flatpak repository and application management
 
 ## Lab Scenarios
 
@@ -95,5 +95,5 @@ Each lab includes:
 
 ## Notes
 - Lab 3 (SELinux) contains a TODO section requiring completion
-- All scenarios designed for RHEL 9 environments
+- All scenarios designed for RHEL 10 environments
 - Commands in flashcards represent real exam tasks

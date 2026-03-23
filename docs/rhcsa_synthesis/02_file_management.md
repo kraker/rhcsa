@@ -6,7 +6,7 @@
 
 ## 1. Executive Summary
 
-**Topic Scope**: Essential file operations, text processing, archiving, and linking in RHEL 9
+**Topic Scope**: Essential file operations, text processing, archiving, and linking in RHEL 10
 
 **RHCSA Relevance**: Critical foundation skill - file management appears in virtually every exam task
 

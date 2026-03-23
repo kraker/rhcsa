@@ -13,7 +13,7 @@
   - [Networking](#networking)
   - [Security](#security)
   - [Services & Process Management](#services--process-management)
-  - [Containers & Virtualization](#containers--virtualization)
+  - [Flatpak & Software Distribution](#flatpak--software-distribution)
   - [Package Management](#package-management)
 
 ---
@@ -133,7 +133,7 @@
 ### N
 
 - **NAT** - Network Address Translation - IP address remapping
-- **NFS** - Network File System - Distributed filesystem protocol
+- **NFS** - Network File System - Distributed filesystem protocol (NFS 4.2 default in RHEL 10)
 - **NIC** - Network Interface Card - Network adapter hardware
 - **NIS** - Network Information Service - Directory service
 - **NMCLI** - NetworkManager Command Line Interface
@@ -142,7 +142,7 @@
 
 ### O
 
-- **OCI** - Open Container Initiative - Container standards organization
+- **OSTree** - Content-addressable filesystem used by Flatpak for efficient storage
 - **OS** - Operating System - System software managing hardware/software
 - **OSS** - Open Source Software - Publicly accessible source code
 
@@ -223,7 +223,6 @@
 
 ### V
 
-- **VDO** - Virtual Data Optimizer - Deduplication and compression
 - **VG** - Volume Group - LVM storage pool
 - **VI/VIM** - Visual/Vi Improved - Text editor
 - **VLAN** - Virtual Local Area Network - Network segmentation
@@ -238,7 +237,7 @@
 
 ### X
 
-- **X11** - X Window System Version 11 - Graphical display system
+- **Wayland** - Modern display protocol replacing X11 in RHEL 10
 - **XFS** - X File System - High-performance filesystem (RHEL default)
 - **XML** - Extensible Markup Language - Data format
 
@@ -304,7 +303,6 @@
 - **VG** - Volume Group
 - **LV** - Logical Volume
 - **PE** - Physical Extent
-- **VDO** - Virtual Data Optimizer
 - **LUKS** - Linux Unified Key Setup
 - **RAID** - Redundant Array of Independent Disks
 - **NFS** - Network File System
@@ -373,8 +371,10 @@
 - **FIFO** - First In, First Out
 - **LIFO** - Last In, First Out
 
-### Containers & Virtualization
-- **OCI** - Open Container Initiative
+### Flatpak & Software Distribution
+- **Flatpak** - Application distribution framework with sandboxing
+- **Flathub** - Public Flatpak application repository
+- **OSTree** - Content-addressable storage system
 - **VM** - Virtual Machine
 - **KVM** - Kernel-based Virtual Machine
 - **QEMU** - Quick Emulator
@@ -421,7 +421,7 @@
 - **GID** - Group Identifier
 - **UID** - User Identifier
 - **VI/VIM** - Visual/Vi Improved
-- **X11** - X Window System Version 11
+- **Wayland** - Modern Display Protocol
 - **PING** - Packet Internet Groper
 
 ---
@@ -477,12 +477,12 @@
 - **timer** - Systemd scheduled task
 - **socket** - Systemd activation unit
 
-### Container Terms
-- **image** - Container template
-- **container** - Running instance
-- **registry** - Image repository
-- **namespace** - Process isolation
-- **cgroup** - Resource control
+### Flatpak Terms
+- **remote** - Flatpak repository source
+- **runtime** - Shared base libraries for Flatpak apps
+- **app ID** - Reverse-DNS application identifier
+- **sandbox** - Isolated app execution environment
+- **portal** - D-Bus interface for controlled host access
 
 ---
 

@@ -11,7 +11,7 @@
 
 ## 2. Key Concepts
 
-### Task Scheduling Systems in RHEL 9
+### Task Scheduling Systems in RHEL 10
 - **cron**: Traditional time-based job scheduler
 - **anacron**: Enhanced scheduler for systems not always running
 - **systemd timers**: Modern systemd-based scheduling
@@ -325,7 +325,7 @@ echo "/usr/local/bin/video-processing.sh" | batch
 **Objective**: Implement comprehensive cron-based task scheduling with proper security and logging
 
 **Prerequisites**:
-- RHEL 9 system with crond and anacron installed
+- RHEL 10 system with crond and anacron installed
 - Multiple user accounts for testing access control
 
 **Tasks**:
@@ -348,7 +348,7 @@ grep CRON /var/log/cron                            # Check cron execution logs
 **Objective**: Build modern systemd-based scheduling system with advanced timer features
 
 **Prerequisites**:
-- RHEL 9 system with systemd
+- RHEL 10 system with systemd
 - Understanding of systemd unit files
 
 **Tasks**:
@@ -371,7 +371,7 @@ systemd-analyze calendar "Mon..Fri *-*-* 09..17:00:00"  # Validate calendar
 **Objective**: Design comprehensive enterprise scheduling system combining all methodologies
 
 **Prerequisites**:
-- Multiple RHEL 9 systems for distributed scheduling
+- Multiple RHEL 10 systems for distributed scheduling
 - Network connectivity for centralized monitoring
 
 **Tasks**:

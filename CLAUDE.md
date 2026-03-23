@@ -39,12 +39,12 @@ This is a Red Hat Certified System Administrator (RHCSA) certification study rep
   - `rhcsa_acronyms_glossary.md` - Comprehensive glossary of RHCSA acronyms and terms
   - `ebook_summary.md` - Analysis and topic organization from both major RHCSA study books
 - `anki/` - Anki flashcard deck (tracked in git)
-  - `rhcsa_deck.csv` - 146 comprehensive flashcards covering all RHCSA exam objectives
+  - `rhcsa_deck.csv` - 169 comprehensive flashcards covering all RHCSA exam objectives
 - `mkdocs.yml` - MkDocs configuration file for documentation site
 - `requirements.txt` - Python dependencies for MkDocs
 - `.github/workflows/deploy.yml` - GitHub Actions workflow for automatic deployment to GitHub Pages
-- `vagrant/` - Automated lab environment provisioning with RHEL 9 VMs
-  - `Vagrantfile` - VM configuration for rhel9a and rhel9b instances
+- `vagrant/` - Automated lab environment provisioning with RHEL 10 VMs
+  - `Vagrantfile` - VM configuration for rhel10a and rhel10b instances
   - `playbook.yml` - Ansible playbook for environment setup
   - `.rhel-credentials` - Hidden credentials file for Red Hat Developer subscription (not tracked)
 - `sources/` - External resources (not tracked in git, contains copyrighted materials)
@@ -53,14 +53,14 @@ This is a Red Hat Certified System Administrator (RHCSA) certification study rep
 ## Lab Environment Requirements
 
 **Vagrant Configuration**: The `../vagrant/` directory provides automated lab environment provisioning:
-- RHEL 9 VMs with proper resource allocation and networking
+- RHEL 10 VMs with proper resource allocation and networking
 - Automated subscription registration with Red Hat Developer accounts
 - Pre-configured storage setup for LVM and filesystem labs
 - Prerequisites: Vagrant, VirtualBox, Red Hat Developer subscription
 
 **VM Usage**:
-- **rhel9a**: Used for user management and SELinux scenarios
-- **rhel9b**: Used for storage management scenarios (multiple disks pre-configured)
+- **rhel10a**: Used for user management and SELinux scenarios
+- **rhel10b**: Used for storage management scenarios (multiple disks pre-configured)
 
 ## Common Study Tasks
 
@@ -73,7 +73,7 @@ This is a Red Hat Certified System Administrator (RHCSA) certification study rep
 - **Focus on hands-on** command execution and verification in lab environment
 
 ### Anki Flashcard Usage
-The `anki/rhcsa_deck.csv` file contains 146 essential commands organized by tags:
+The `anki/rhcsa_deck.csv` file contains 169 essential commands organized by tags:
 - `user_management` - useradd, usermod, chage, groupadd
 - `permissions` - chmod, chown, file access controls
 - `systemd` - systemctl, journalctl, service management
@@ -82,7 +82,7 @@ The `anki/rhcsa_deck.csv` file contains 146 essential commands organized by tags
 - `selinux` - getenforce, setsebool, restorecon, ausearch troubleshooting
 - `firewall` - firewall-cmd, port and service management
 - `networking` - nmcli, static IP, DNS configuration
-- `containers` - podman operations, systemd integration
+- `flatpak` - Flatpak repository and application management
 
 ## Key RHCSA Command Categories
 

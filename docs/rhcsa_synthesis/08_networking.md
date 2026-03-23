@@ -6,7 +6,7 @@
 
 ## 1. Executive Summary
 
-**Topic Scope**: Network interface configuration, static IP assignment, hostname management, and network troubleshooting in RHEL 9
+**Topic Scope**: Network interface configuration, static IP assignment, hostname management, and network troubleshooting in RHEL 10
 
 **RHCSA Relevance**: Essential system administration skill - network configuration is fundamental for server management
 
@@ -21,7 +21,7 @@
 ## 2. Conceptual Foundation
 
 ### Core Theory
-RHEL 9 uses NetworkManager as the primary network management service:
+RHEL 10 uses NetworkManager as the primary network management service:
 
 - **NetworkManager**: Modern network configuration service replacing traditional networking scripts
 - **Connection profiles**: Persistent network configurations stored by NetworkManager
@@ -37,7 +37,7 @@ RHEL 9 uses NetworkManager as the primary network management service:
 - **Network isolation**: Separating different types of traffic for security
 
 ### Common Misconceptions
-- **NetworkManager vs network scripts**: RHEL 9 uses NetworkManager, not legacy scripts
+- **NetworkManager vs network scripts**: RHEL 10 uses NetworkManager, not legacy scripts
 - **Interface naming**: Modern systems use predictable names (ens3, enp0s3) not eth0
 - **Connection vs device state**: A device can be up but connection down
 - **DNS configuration**: Managed by NetworkManager, not directly in /etc/resolv.conf
@@ -362,7 +362,7 @@ nmcli connection modify "connection-name" \
 ### Network Interface Naming
 #### Predictable Network Interface Names
 ```bash
-# Modern naming scheme (RHEL 9):
+# Modern naming scheme (RHEL 10):
 # ens3    - Ethernet slot 3
 # enp0s3  - Ethernet PCI bus 0, slot 3  
 # enp1s0f0 - Ethernet PCI bus 1, slot 0, function 0
@@ -879,7 +879,7 @@ ipv4.dns                       # DNS servers
 ## 10. Exam Strategy
 
 ### Topic-Specific Tips
-- Always use `nmcli` for configuration - it's the modern RHEL 9 way
+- Always use `nmcli` for configuration - it's the modern RHEL 10 way
 - Verify configuration with both `nmcli` and `ip` commands
 - Remember that connections must be activated after creation
 - Test connectivity at multiple levels (gateway, external, DNS)
@@ -912,7 +912,7 @@ ipv4.dns                       # DNS servers
 ## Summary
 
 ### Key Takeaways
-- **NetworkManager is the standard** in RHEL 9 - master `nmcli` commands
+- **NetworkManager is the standard** in RHEL 10 - master `nmcli` commands
 - **Connections are profiles** applied to devices - understand this relationship
 - **Systematic troubleshooting** saves time - test connectivity at each network layer
 - **Always verify configuration** with multiple commands and connectivity tests

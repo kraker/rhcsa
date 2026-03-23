@@ -6,11 +6,13 @@
 
 ## 1. Executive Summary
 
-**Topic Scope**: File permissions, special permissions, Access Control Lists (ACLs), and umask configuration in RHEL 9
+**Topic Scope**: File permissions, ownership, and umask configuration in RHEL 10
 
 **RHCSA Relevance**: Critical security topic - file permissions are fundamental to Linux security model
 
 **Exam Weight**: High - Permission management appears in multiple exam scenarios
+
+**RHEL 10 Exam Note**: ACLs (setfacl/getfacl) and special permissions (setuid/setgid/sticky bit) are **no longer RHCSA exam objectives** as of RHEL 10. They are retained below as supplementary reference material.
 
 **Prerequisites**: Understanding of users, groups, and basic file operations
 
@@ -27,7 +29,6 @@ Linux file permissions operate on a three-tier model:
 - **Group**: Permissions for the file's group members
 - **Other**: Permissions for all other users
 - **Permission types**: Read (r), Write (w), Execute (x)
-- **Special permissions**: setuid, setgid, sticky bit for enhanced security control
 
 ### Real-World Applications
 - **System security**: Protecting sensitive configuration files
@@ -39,18 +40,12 @@ Linux file permissions operate on a three-tier model:
 ### Common Misconceptions
 - **Directory permissions**: Execute permission on directories means "traverse" not "run"
 - **Group permissions**: Group permission applies to primary group, not all user's groups
-- **Special permissions**: setuid on directories has no effect (only setgid works)
 - **Root override**: Root can read/write most files regardless of permissions (but not execute)
-- **ACL inheritance**: Default ACLs only apply to newly created files, not existing ones
 
 ### Key Terminology
 - **Octal notation**: Numeric representation of permissions (755, 644, etc.)
 - **Symbolic notation**: Letter-based permission representation (rwxr-xr-x)
-- **setuid bit**: Execute file with owner's privileges
-- **setgid bit**: Execute file with group's privileges, or inherit group ownership
-- **Sticky bit**: Prevents deletion by non-owners in shared directories
 - **umask**: Default permission mask for new files and directories
-- **ACL**: Access Control List for fine-grained permission control
 
 ---
 
@@ -90,48 +85,6 @@ chown -R user:group directory # Change ownership recursively
 chmod -R 755 directory        # Change permissions recursively
 ```
 
-### Special Permissions
-```bash
-# setuid (4000)
-chmod u+s file                # Add setuid bit
-chmod 4755 file               # Set permissions with setuid
-
-# setgid (2000)
-chmod g+s file                # Add setgid bit
-chmod g+s directory           # Set group inheritance on directory
-chmod 2755 directory          # Set permissions with setgid
-
-# Sticky bit (1000)
-chmod +t directory            # Add sticky bit to directory
-chmod 1755 directory          # Set permissions with sticky bit
-
-# Combined special permissions
-chmod 6755 file               # setuid + setgid
-chmod 7755 directory          # setuid + setgid + sticky
-```
-
-### Access Control Lists (ACLs)
-```bash
-# View ACLs
-getfacl file                  # Show ACL information
-getfacl -R directory          # Recursive ACL display
-
-# Set ACLs
-setfacl -m u:username:rwx file        # Set user ACL
-setfacl -m g:groupname:rx file        # Set group ACL
-setfacl -m o::r file                  # Set other ACL
-setfacl -m d:u:username:rwx directory # Set default user ACL
-
-# Remove ACLs
-setfacl -x u:username file            # Remove user ACL
-setfacl -x g:groupname file           # Remove group ACL
-setfacl -b file                       # Remove all ACLs
-setfacl -k directory                  # Remove default ACLs
-
-# Copy ACLs
-getfacl file1 | setfacl --set-file=- file2  # Copy ACLs between files
-```
-
 ### umask Configuration
 ```bash
 # View current umask
@@ -147,9 +100,6 @@ umask u=rwx,g=rx,o=          # Symbolic umask setting
 ### Finding Files by Permissions
 ```bash
 # Find by permission patterns
-find / -perm -4000            # Find setuid files
-find / -perm -2000            # Find setgid files
-find / -perm -1000            # Find sticky bit files
 find / -perm 777              # Find world-writable files
 find / -perm -o+w             # Find other-writable files
 
@@ -166,8 +116,6 @@ find / -nogroup               # Find files with no valid group
 | `chmod` | Change file permissions | `u+x`, `g-w`, `755`, `-R` | `chmod 644 file.txt` |
 | `chown` | Change file ownership | `user:group`, `-R` | `chown alice:staff file` |
 | `chgrp` | Change group ownership | `-R` | `chgrp developers file` |
-| `setfacl` | Set Access Control Lists | `-m`, `-x`, `-b`, `-R` | `setfacl -m u:john:rwx file` |
-| `getfacl` | View Access Control Lists | `-R` | `getfacl file` |
 | `umask` | Set default permissions | `-S` | `umask 022` |
 
 ---
@@ -205,18 +153,11 @@ find / -nogroup               # Find files with no valid group
 1. **Create directory with appropriate permissions**
    ```bash
    mkdir /shared/project
-   chmod 2775 /shared/project      # setgid + group write
+   chmod 775 /shared/project
    chown :projectteam /shared/project
    ```
 
-2. **Set default ACLs for new files**
-   ```bash
-   setfacl -d -m u::rwx /shared/project
-   setfacl -d -m g::rwx /shared/project
-   setfacl -d -m o::r-x /shared/project
-   ```
-
-3. **Test directory functionality**
+2. **Test directory functionality**
    ```bash
    # Test as different users
    touch /shared/project/testfile
@@ -227,9 +168,7 @@ find / -nogroup               # Find files with no valid group
 ```
 Permission Requirements
 ├── Simple user/group/other? → Use chmod with octal notation
-├── Fine-grained user access? → Use ACLs with setfacl
-├── Shared directory? → Use setgid bit + appropriate permissions
-├── Temporary shared space? → Add sticky bit for protection
+├── Shared directory? → Use group permissions + chmod
 └── System service? → Restrict to specific user/group only
 ```
 
@@ -238,10 +177,7 @@ Permission Requirements
    ```bash
    # World-writable files
    find / -type f -perm -002 2>/dev/null
-   
-   # Setuid/setgid files
-   find / -type f \( -perm -4000 -o -perm -2000 \) 2>/dev/null
-   
+
    # Files with no owner/group
    find / \( -nouser -o -nogroup \) 2>/dev/null
    ```
@@ -306,37 +242,6 @@ umask 027          # More restrictive for root
 umask 077          # Very restrictive (user-only access)
 ```
 
-### ACL Configuration Examples
-#### Basic ACL Setup
-```bash
-# Grant specific user access
-setfacl -m u:alice:rw- /path/to/file
-
-# Grant group access
-setfacl -m g:developers:rwx /path/to/directory
-
-# Set default ACLs for directory
-setfacl -d -m u:alice:rwx /path/to/directory
-setfacl -d -m g:developers:rwx /path/to/directory
-```
-
-#### Complex ACL Scenario
-```bash
-# Multi-user project directory
-mkdir /project
-chmod 2775 /project
-chown :project /project
-
-# Set default ACLs
-setfacl -d -m u::rwx /project
-setfacl -d -m g::rwx /project
-setfacl -d -m o::r-x /project
-
-# Add specific user permissions
-setfacl -d -m u:manager:rwx /project
-setfacl -d -m u:readonly:r-x /project
-```
-
 ---
 
 ## 6. Hands-On Labs
@@ -366,204 +271,93 @@ setfacl -d -m u:readonly:r-x /project
    chmod u+x dir3           # Add execute for owner
    ```
 
-3. **Test special permissions**
-   ```bash
-   # Create files for special permission testing
-   cp /bin/cat testcat
-   chmod u+s testcat        # Add setuid
-   
-   mkdir shared_dir
-   chmod g+s shared_dir     # Add setgid
-   
-   mkdir temp_shared
-   chmod +t temp_shared     # Add sticky bit
-   ```
-
-4. **Test permission effects**
-   ```bash
-   # Test file access as different user (if available)
-   # Create a test file in setgid directory
-   touch shared_dir/testfile
-   ls -l shared_dir/testfile  # Should inherit group
-   ```
-
 **Verification**:
 ```bash
 ls -la                       # Check all permissions
 stat file1 file2 file3       # Detailed permission info
-find . -perm -4000           # Find setuid files
-find . -perm -2000           # Find setgid files
-find . -perm -1000           # Find sticky bit files
 ```
 
-### Lab 6.2: Access Control Lists (Sander van Vugt Style)
-**Objective**: Implement fine-grained access control using ACLs
+### Lab 6.2: Ownership and umask Configuration
+**Objective**: Practice ownership changes and understand umask
 
 **Steps**:
-1. **Create ACL test environment**
+1. **Practice ownership changes**
    ```bash
-   mkdir ~/acl_lab
-   cd ~/acl_lab
-   touch sensitive_file
-   mkdir project_dir
-   
-   # Create some test users (if you have sudo access)
-   # sudo useradd alice
-   # sudo useradd bob
-   # sudo useradd charlie
+   mkdir ~/ownership_lab
+   cd ~/ownership_lab
+   touch file1 file2
+   mkdir dir1
+
+   # Change ownership (requires root or owning the files)
+   chown :users file1
+   chgrp users dir1
    ```
 
-2. **Set basic ACLs**
+2. **Understand umask effects**
    ```bash
-   # Grant specific user access to file
-   setfacl -m u:alice:rw- sensitive_file
-   setfacl -m u:bob:r-- sensitive_file
-   setfacl -m u:charlie:--- sensitive_file
-   
-   # Verify ACLs
-   getfacl sensitive_file
-   ls -l sensitive_file      # Notice the '+' indicating ACLs
+   # Check current umask
+   umask
+   umask -S
+
+   # Set restrictive umask and test
+   umask 077
+   touch private_file
+   mkdir private_dir
+   ls -l private_file         # Should be rw-------
+   ls -ld private_dir         # Should be rwx------
+
+   # Set collaborative umask
+   umask 002
+   touch shared_file
+   ls -l shared_file          # Should be rw-rw-r--
    ```
 
-3. **Configure directory ACLs**
+3. **Configure persistent umask**
    ```bash
-   # Set directory ACLs
-   setfacl -m u:alice:rwx project_dir
-   setfacl -m g:developers:r-x project_dir
-   
-   # Set default ACLs for new files
-   setfacl -d -m u:alice:rwx project_dir
-   setfacl -d -m g:developers:r-x project_dir
-   setfacl -d -m o::r-x project_dir
-   ```
-
-4. **Test ACL inheritance**
-   ```bash
-   # Create files in directory with default ACLs
-   touch project_dir/new_file
-   mkdir project_dir/new_dir
-   
-   # Check inherited permissions
-   getfacl project_dir/new_file
-   getfacl project_dir/new_dir
+   # Add umask to ~/.bashrc for persistence
+   echo "umask 027" >> ~/.bashrc
    ```
 
 **Verification**:
 ```bash
-# Review all ACL configurations
-getfacl -R ~/acl_lab
-# Test access as different users (if possible)
-# su - alice -c "cat ~/acl_lab/sensitive_file"
+ls -la ~/ownership_lab/
+stat ~/ownership_lab/private_file
+umask
 ```
 
-### Lab 6.3: Shared Directory with Complex Permissions (Synthesis Challenge)
-**Objective**: Create a collaborative workspace with multiple access levels
+### Lab 6.3: Shared Directory Setup (Synthesis Challenge)
+**Objective**: Create a collaborative workspace using standard permissions
 
-**Scenario**: Set up a development project directory with different access levels for team members, managers, and external reviewers.
+**Scenario**: Set up a project directory where a team can collaborate.
 
 **Requirements**:
-- Project managers: full access
-- Developers: read/write access to project files
-- Reviewers: read-only access
-- Temporary files should be deletable only by creators
-- New files should inherit appropriate group ownership
+- Project team members: read/write access
+- Others: no access
 
 **Solution Steps**:
 1. **Create directory structure**
    ```bash
-   sudo mkdir -p /projects/webapp/{src,docs,temp}
+   sudo mkdir -p /projects/webapp
    sudo groupadd developers
-   sudo groupadd managers
-   sudo groupadd reviewers
-   
-   # Add users to groups (assuming users exist)
-   # sudo usermod -aG managers alice
-   # sudo usermod -aG developers bob,charlie
-   # sudo usermod -aG reviewers david
+
+   # Add users to group (assuming users exist)
+   # sudo usermod -aG developers alice
+   # sudo usermod -aG developers bob
    ```
 
-2. **Set base permissions and ownership**
+2. **Set permissions and ownership**
    ```bash
-   # Set group ownership and setgid
    sudo chown :developers /projects/webapp
-   sudo chmod 2775 /projects/webapp
-   
-   # Configure subdirectories
-   sudo chown :developers /projects/webapp/src
-   sudo chmod 2775 /projects/webapp/src
-   
-   sudo chown :developers /projects/webapp/docs
-   sudo chmod 2775 /projects/webapp/docs
-   
-   # Temp directory with sticky bit
-   sudo chown :developers /projects/webapp/temp
-   sudo chmod 3775 /projects/webapp/temp  # setgid + sticky
+   sudo chmod 770 /projects/webapp
    ```
 
-3. **Configure ACLs for fine-grained access**
+3. **Verify**
    ```bash
-   # Main project directory ACLs
-   sudo setfacl -m g:managers:rwx /projects/webapp
-   sudo setfacl -m g:developers:rwx /projects/webapp
-   sudo setfacl -m g:reviewers:r-x /projects/webapp
-   
-   # Default ACLs for new files
-   sudo setfacl -d -m g:managers:rwx /projects/webapp
-   sudo setfacl -d -m g:developers:rwx /projects/webapp
-   sudo setfacl -d -m g:reviewers:r-x /projects/webapp
-   
-   # Source directory - developers need write, reviewers read-only
-   sudo setfacl -R -m g:developers:rwx /projects/webapp/src
-   sudo setfacl -R -m g:reviewers:r-x /projects/webapp/src
-   sudo setfacl -d -m g:developers:rwx /projects/webapp/src
-   sudo setfacl -d -m g:reviewers:r-x /projects/webapp/src
-   
-   # Docs directory - all can read, developers can write
-   sudo setfacl -R -m g:reviewers:r-x /projects/webapp/docs
-   sudo setfacl -d -m g:reviewers:r-x /projects/webapp/docs
+   ls -ld /projects/webapp/
+   # Test as a member of the developers group
+   touch /projects/webapp/testfile
+   ls -l /projects/webapp/testfile
    ```
-
-4. **Test and document configuration**
-   ```bash
-   # Create test files
-   sudo touch /projects/webapp/src/main.py
-   sudo touch /projects/webapp/docs/README.md
-   sudo touch /projects/webapp/temp/build.log
-   
-   # Verify permissions and ACLs
-   ls -la /projects/webapp/
-   getfacl /projects/webapp/
-   getfacl /projects/webapp/src/
-   
-   # Document the setup
-   cat > /projects/webapp/PERMISSIONS.md << 'EOF'
-   # Project Permissions Documentation
-   
-   ## Directory Structure
-   - `/projects/webapp/`: Main project directory
-   - `/projects/webapp/src/`: Source code (developers: rw, reviewers: r)
-   - `/projects/webapp/docs/`: Documentation (all: read, developers: write)
-   - `/projects/webapp/temp/`: Temporary files (sticky bit for creator-only deletion)
-   
-   ## Access Levels
-   - **Managers**: Full access to all areas
-   - **Developers**: Read/write to src and docs
-   - **Reviewers**: Read-only access to src and docs
-   
-   ## Special Features
-   - setgid bit ensures new files inherit group ownership
-   - Sticky bit in temp/ prevents accidental deletion
-   - ACLs provide fine-grained access control
-   EOF
-   ```
-
-**Verification**:
-```bash
-# Complete access audit
-sudo find /projects/webapp -type d -exec getfacl {} \;
-sudo ls -laR /projects/webapp/
-# Test with different users if available
-```
 
 ---
 
@@ -613,81 +407,11 @@ setfacl -m u:username:r-- filename
 
 **Prevention**: Always verify permissions after creating files and directories
 
-#### Issue 2: ACL Configuration Problems
-**Symptoms**:
-- ACLs not working as expected
-- Default ACLs not being inherited
-- Performance issues with ACL-enabled filesystems
-
-**Diagnosis**:
-```bash
-# Check if filesystem supports ACLs
-mount | grep acl
-tune2fs -l /dev/device | grep acl
-
-# Verify ACL configuration
-getfacl filename
-getfacl -d directoryname  # Check default ACLs
-
-# Check effective permissions
-getfacl filename | grep effective
-```
-
-**Resolution**:
-```bash
-# Enable ACL support on filesystem
-mount -o remount,acl /mountpoint
-# Or add to /etc/fstab: defaults,acl
-
-# Fix ACL configuration
-setfacl -b filename         # Remove all ACLs and start over
-setfacl -k directoryname    # Remove default ACLs
-
-# Set correct ACLs
-setfacl -m u:username:rwx filename
-setfacl -d -m u:username:rwx directoryname
-```
-
-#### Issue 3: Special Permission Confusion
-**Symptoms**:
-- setuid/setgid not working as expected
-- Sticky bit not preventing file deletion
-- Programs not running with expected privileges
-
-**Diagnosis**:
-```bash
-# Check special permissions
-ls -l filename
-stat filename
-
-# Find all special permission files
-find /path -perm -4000    # setuid
-find /path -perm -2000    # setgid  
-find /path -perm -1000    # sticky
-
-# Test execution context
-ps aux | grep processname
-```
-
-**Resolution**:
-```bash
-# Set special permissions correctly
-chmod u+s executable      # setuid
-chmod g+s directory       # setgid for directory
-chmod +t directory        # sticky bit
-
-# Remove special permissions if problematic
-chmod u-s filename
-chmod g-s filename
-chmod -t filename
-```
-
 ### Diagnostic Command Sequence
 ```bash
 # Permission troubleshooting workflow
 ls -la filename             # Check basic permissions
 stat filename               # Detailed permission info
-getfacl filename            # Check ACLs
 id username                 # Check user context
 groups username             # Check group memberships
 lsattr filename             # Check extended attributes
@@ -705,20 +429,12 @@ lsattr filename             # Check extended attributes
 
 ### Essential Commands At-a-Glance
 ```bash
-# Basic permissions
+# Permissions
 chmod 755 file              # Standard executable/directory
 chmod 644 file              # Standard file
 chown user:group file       # Change ownership
-
-# Special permissions  
-chmod u+s file              # Add setuid
-chmod g+s directory         # Add setgid
-chmod +t directory          # Add sticky bit
-
-# ACLs
-setfacl -m u:user:rwx file  # Set user ACL
-getfacl file                # View ACLs
-setfacl -b file             # Remove all ACLs
+chgrp group file            # Change group
+umask 022                   # Set default permission mask
 ```
 
 ### Octal Permission Reference
@@ -727,13 +443,6 @@ setfacl -b file             # Remove all ACLs
 - **600**: rw------- (private files)
 - **777**: rwxrwxrwx (dangerous, avoid)
 - **000**: --------- (no permissions)
-
-### Special Permission Values
-- **4000**: setuid bit
-- **2000**: setgid bit  
-- **1000**: sticky bit
-- **6000**: setuid + setgid
-- **7000**: setuid + setgid + sticky
 
 ### Common umask Values
 - **022**: Default (644 for files, 755 for directories)
@@ -745,101 +454,151 @@ setfacl -b file             # Remove all ACLs
 ## 9. Knowledge Check
 
 ### Conceptual Questions
-1. **Question**: What's the difference between setuid on files versus setgid on directories?
-   **Answer**: setuid on files makes the executable run with the owner's privileges instead of the executor's. setgid on directories makes new files created in that directory inherit the directory's group ownership instead of the creator's primary group.
+1. **Question**: What is the difference between octal and symbolic permission notation?
+   **Answer**: Octal notation uses numbers (e.g., `755` = rwxr-xr-x) where each digit represents user/group/other permissions (r=4, w=2, x=1). Symbolic notation uses letters (e.g., `u+x`, `g=rw`, `o-w`) to add, set, or remove specific permissions.
 
-2. **Question**: Why might ACLs show "effective" permissions that differ from granted permissions?
-   **Answer**: The effective permission is the intersection of the ACL permission and the group permission (mask). If the mask is more restrictive than the ACL entry, the effective permission will be limited by the mask.
+2. **Question**: What does the execute permission mean on a directory?
+   **Answer**: On a directory, execute (x) means "traverse" — the ability to cd into the directory and access files within it. Without execute on a directory, you cannot access its contents even if you have read permission (which only lets you list filenames).
 
-3. **Question**: When would you use the sticky bit and why?
-   **Answer**: The sticky bit is used on directories (like /tmp) to prevent users from deleting files owned by others, even if they have write permission on the directory. Only the file owner, directory owner, or root can delete the file.
+3. **Question**: How does umask affect new file and directory permissions?
+   **Answer**: umask subtracts from the default permissions. New files start at 666 (no execute) and directories at 777. With umask 022, files become 644 (rw-r--r--) and directories become 755 (rwxr-xr-x).
 
 ### Practical Scenarios
-1. **Scenario**: Create a shared directory where users can create files but only delete their own files.
+1. **Scenario**: Create a directory where only members of the "project" group can access files.
    **Solution**:
    ```bash
-   mkdir /shared
-   chmod 1777 /shared    # world-writable with sticky bit
-   # or
-   chmod o+t /shared && chmod 777 /shared
+   mkdir /project
+   chown :project /project
+   chmod 770 /project
    ```
 
-2. **Scenario**: A web application needs read access to user files, but users shouldn't access each other's files.
-   **Solution**: Use ACLs to grant the web server user specific access while maintaining user privacy:
+2. **Scenario**: A user creates files that are world-readable by default. Make them private.
+   **Solution**: Set a restrictive umask:
    ```bash
-   setfacl -m u:www-data:r-- /home/user1/public_file
+   umask 077
+   # Or add to ~/.bashrc for persistence
+   echo "umask 077" >> ~/.bashrc
    ```
 
 ### Command Challenges
-1. **Challenge**: Find all world-writable files in /tmp that don't have the sticky bit.
-   **Answer**: `find /tmp -type f -perm -002 ! -perm -1000`
-   **Explanation**: `-perm -002` finds world-writable, `! -perm -1000` excludes sticky bit files
+1. **Challenge**: Change ownership of all files in /data to user "admin" and group "staff" recursively.
+   **Answer**: `chown -R admin:staff /data`
+   **Explanation**: `-R` applies the change recursively to all files and subdirectories.
 
-2. **Challenge**: Create a directory where the group can read/write/execute, but new files are readable by everyone.
-   **Answer**: 
-   ```bash
-   mkdir shared_dir
-   chmod 2775 shared_dir
-   setfacl -d -m o::r-- shared_dir
-   ```
+2. **Challenge**: Find all files owned by a user who no longer exists on the system.
+   **Answer**: `find / -nouser 2>/dev/null`
+   **Explanation**: `-nouser` finds files whose numeric UID doesn't match any user in /etc/passwd.
 
 ---
 
 ## 10. Exam Strategy
 
 ### Topic-Specific Tips
-- Master octal notation - it's faster than symbolic for complex permissions
+- Master octal notation — it's faster than symbolic for complex permissions
 - Always verify permissions after setting them with `ls -l`
-- Remember that ACLs require filesystem support (most modern filesystems support them)
-- Practice special permissions until you understand their real-world applications
+- Know how umask affects default permissions for new files and directories
+- Practice chmod, chown, chgrp until they are second nature
 
 ### Common Exam Scenarios
-1. **Scenario**: Set up collaborative directory with group inheritance
-   **Approach**: Use setgid bit (`chmod g+s`) on directory, set appropriate group ownership
+1. **Scenario**: Set up a shared directory for a group
+   **Approach**: Create group, set group ownership with `chown :group dir`, set `chmod 770` or `chmod 775`
 
-2. **Scenario**: Restrict file access to specific users beyond standard permissions
-   **Approach**: Use ACLs with `setfacl -m u:username:permissions`
-
-3. **Scenario**: Create secure temporary space where users can't delete others' files
-   **Approach**: Use sticky bit (`chmod +t`) on directory
+2. **Scenario**: Set appropriate permissions on configuration files
+   **Approach**: Restrictive permissions like `chmod 600` for sensitive files, `chmod 644` for readable configs
 
 ### Time Management
 - **Basic permission tasks**: 2-3 minutes including verification
-- **ACL configuration**: 4-5 minutes for complex scenarios
-- **Special permissions**: 3-4 minutes including testing
-- **Always verify**: Use `ls -l` and `getfacl` to confirm settings
+- **Ownership changes**: 1-2 minutes
+- **Always verify**: Use `ls -l` and `stat` to confirm settings
 
 ### Pitfalls to Avoid
 - Don't forget that directory execute permission is needed for traversal
 - Remember that changing group membership requires logout/login to take effect
-- ACLs require `+` to show in `ls -l` output - if missing, ACLs aren't set
-- Special permissions only work in specific contexts (setuid on scripts often doesn't work)
 - Don't use 777 permissions unless absolutely necessary (security risk)
+- Remember umask subtracts from defaults: files start at 666, directories at 777
 
 ---
 
 ## Summary
 
 ### Key Takeaways
-- **File permissions are the foundation of Linux security** - master both basic and special permissions
-- **ACLs provide fine-grained control** - use when standard permissions aren't sufficient
-- **Special permissions solve specific problems** - setuid, setgid, and sticky bit have distinct use cases
-- **umask affects default permissions** - understand its impact on file creation
+- **File permissions are the foundation of Linux security** — master chmod, chown, chgrp
+- **umask controls default permissions** — understand its impact on file creation
+- **Ownership determines access** — proper user:group assignment is critical
 
 ### Critical Commands to Remember
 ```bash
 chmod 755 directory                      # Standard directory permissions
-chmod 644 file                          # Standard file permissions  
+chmod 644 file                          # Standard file permissions
 chown user:group file                   # Change ownership
-setfacl -m u:username:rwx file          # Set user ACL
-chmod g+s directory                     # setgid for group inheritance
-chmod +t directory                      # Sticky bit for shared directories
+chgrp group file                       # Change group
+umask 022                              # Set default permissions
+find / -nouser                         # Find orphaned files
 ```
 
 ### Next Steps
 - Continue to [Module 05: Process & Service Management](05_process_service_management.md)
 - Practice permission scenarios in the Vagrant environment
 - Review related topics: [User Management](03_user_group_management.md), [SELinux](09_selinux.md)
+
+---
+
+## Supplementary Reference: ACLs (Not on RHEL 10 Exam)
+
+> **Note**: Access Control Lists (ACLs) are no longer an RHCSA exam objective as of RHEL 10. This section is retained for reference only.
+
+### ACL Commands
+```bash
+# View ACLs
+getfacl file                  # Show ACL information
+getfacl -R directory          # Recursive ACL display
+
+# Set ACLs
+setfacl -m u:username:rwx file        # Set user ACL
+setfacl -m g:groupname:rx file        # Set group ACL
+setfacl -m d:u:username:rwx directory # Set default user ACL
+
+# Remove ACLs
+setfacl -x u:username file            # Remove user ACL
+setfacl -b file                       # Remove all ACLs
+setfacl -k directory                  # Remove default ACLs
+
+# Copy ACLs
+getfacl file1 | setfacl --set-file=- file2  # Copy ACLs between files
+```
+
+---
+
+## Supplementary Reference: Special Permissions (Not on RHEL 10 Exam)
+
+> **Note**: setuid, setgid, and sticky bit are no longer RHCSA exam objectives as of RHEL 10. This section is retained for reference only.
+
+### Special Permission Commands
+```bash
+# setuid (4000) — execute file with owner's privileges
+chmod u+s file                # Add setuid bit
+chmod 4755 file               # Set permissions with setuid
+
+# setgid (2000) — execute with group's privileges / inherit group on directories
+chmod g+s directory           # Set group inheritance on directory
+chmod 2755 directory          # Set permissions with setgid
+
+# Sticky bit (1000) — prevent deletion by non-owners
+chmod +t directory            # Add sticky bit to directory
+chmod 1755 directory          # Set permissions with sticky bit
+```
+
+### Special Permission Values
+- **4000**: setuid bit
+- **2000**: setgid bit
+- **1000**: sticky bit
+
+### Finding Special Permission Files
+```bash
+find / -perm -4000 2>/dev/null   # Find setuid files
+find / -perm -2000 2>/dev/null   # Find setgid files
+find / -perm -1000 2>/dev/null   # Find sticky bit directories
+```
 
 ---
 

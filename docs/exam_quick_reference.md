@@ -443,7 +443,7 @@ find /path -type f -exec chmod 644 {} \;     # Files to 644
 find /path -type d -exec chmod 755 {} \;     # Directories to 755
 ```
 
-### ACL vs Traditional Permissions
+### ACL vs Traditional Permissions (Supplementary — not on RHEL 10 exam)
 ```bash
 # Traditional permissions (3 entities: user, group, other)
 chmod 750 file        # rwxr-x--- (user: rwx, group: r-x, other: ---)
@@ -468,7 +468,7 @@ setfacl -d -m u:alice:rwx /directory  # New files inherit ACL
 ## Package Management
 
 ### Key Terms & Acronyms
-- **DNF** - Dandified YUM (RHEL 9 package manager)
+- **DNF** - Dandified YUM (RHEL 10 package manager)
 - **YUM** - Yellowdog Updater Modified (legacy package manager)
 - **RPM** - Red Hat Package Manager (low-level package format)
 - **repository** - Package source location
@@ -615,7 +615,7 @@ dnf install --nogpgcheck package    # Skip GPG verification (not recommended)
 ```
 
 ### Common Pitfalls
-- **WRONG**: Using `yum` commands → **RIGHT**: Use `dnf` in RHEL 9
+- **WRONG**: Using `yum` commands → **RIGHT**: Use `dnf` in RHEL 10
 - **WRONG**: Not updating before installing → **RIGHT**: Run `dnf update` regularly
 - **WRONG**: Installing from untrusted sources → **RIGHT**: Verify GPG signatures
 - **WRONG**: Mixing RPM and DNF operations → **RIGHT**: Use DNF for dependency management
@@ -630,7 +630,7 @@ dnf install --nogpgcheck package    # Skip GPG verification (not recommended)
 - **VG** - Volume Group (pool of PVs)
 - **LV** - Logical Volume (usable storage from VG)
 - **UUID** - Universally Unique Identifier (persistent device ID)
-- **XFS** - X File System (RHEL 9 default)
+- **XFS** - X File System (RHEL 10 default)
 - **ext4** - Fourth Extended Filesystem
 - **GPT** - GUID Partition Table (modern partitioning)
 - **MBR** - Master Boot Record (legacy, 2TB limit)
@@ -639,7 +639,7 @@ dnf install --nogpgcheck package    # Skip GPG verification (not recommended)
 - **swap** - Virtual memory on disk
 - **mount point** - Directory where filesystem is attached
 - **PE** - Physical Extent (LVM allocation unit)
-- **VDO** - Virtual Data Optimizer (deduplication/compression)
+
 
 ### Key File Paths
 ```bash
@@ -901,7 +901,7 @@ setenforce 1                          # Set enforcing (temporary)
 # Persistent configuration (EXAM TIP: grubby commands are IN the config file!)
 vi /etc/selinux/config                # Contains helpful grubby examples in comments
 # SELINUX=enforcing|permissive|disabled
-# For RHEL 9: disabled only unloads policy, doesn't fully disable SELinux
+# For RHEL 10: disabled only unloads policy, doesn't fully disable SELinux
 # To fully disable: grubby --update-kernel ALL --args selinux=0
 # To re-enable:     grubby --update-kernel ALL --remove-args selinux
 
@@ -1311,7 +1311,7 @@ systemctl get-default                  # Check current default
 
 ### Password Recovery Procedure
 ```bash
-# RHEL 9 Password Reset Steps:
+# RHEL 10 Password Reset Steps:
 # 1. Boot system and interrupt GRUB menu (press 'e')
 # 2. Find linux line, add: rd.break
 # 3. Press Ctrl+X to boot
@@ -1337,7 +1337,7 @@ grubby --info=DEFAULT | grep args       # Verify parameter added
 
 # Create custom GRUB menu entry
 cat >> /etc/grub.d/40_custom << 'EOF'
-menuentry "RHEL 9 Debug Mode" {
+menuentry "RHEL 10 Debug Mode" {
     linux /boot/vmlinuz-$(uname -r) root=/dev/sda1 debug
     initrd /boot/initramfs-$(uname -r).img
 }
@@ -1380,7 +1380,7 @@ grubby --remove-kernel=/boot/vmlinuz-old # Remove problematic kernel
 - **WRONG**: Editing `/boot/grub2/grub.cfg` directly → **RIGHT**: Use `grub2-mkconfig` or `grubby`
 - **WRONG**: Forgetting `/.autorelabel` after password reset → **RIGHT**: Always touch when SELinux enabled
 - **WRONG**: Not regenerating GRUB config after changes → **RIGHT**: Run `grub2-mkconfig` after editing defaults
-- **WRONG**: Using legacy GRUB commands → **RIGHT**: Use `grub2-*` commands in RHEL 9
+- **WRONG**: Using legacy GRUB commands → **RIGHT**: Use `grub2-*` commands in RHEL 10
 
 ---
 
@@ -1610,7 +1610,7 @@ multitail /var/log/messages /var/log/secure  # Multiple files simultaneously
 ## NFS and AutoFS
 
 ### Key Terms & Acronyms
-- **NFS** - Network File System (remote file sharing protocol)
+- **NFS** - Network File System (remote file sharing protocol, NFS 4.2 is the RHEL 10 default)
 - **AutoFS** - Automatic File System (on-demand mounting service)
 - **export** - Making shares available on NFS server
 - **mount** - Accessing shares on NFS client
@@ -1836,151 +1836,84 @@ systemctl restart autofs            # Full restart if needed
 
 ---
 
-## Container Management (Podman)
+## Flatpak Software Management
 
 ### Key Terms & Acronyms
-- **podman** - Pod Manager (daemonless container engine)
-- **container** - Isolated application instance
-- **image** - Read-only container template
-- **registry** - Container image repository
-- **Containerfile** - Build instructions (aka Dockerfile)
-- **OCI** - Open Container Initiative
-- **runtime** - Container execution environment
-- **rootless** - Containers without root privileges
-- **namespace** - Linux isolation mechanism
-- **cgroup** - Control group (resource limits)
-- **layer** - Image filesystem layer
-- **tag** - Image version identifier
-- **buildah** - Container image builder
-- **skopeo** - Container image inspector
+- **Flatpak** - Application distribution framework with sandboxing
+- **Flathub** - Largest public Flatpak repository (flathub.org)
+- **remote** - Flatpak repository (similar to DNF repo)
+- **runtime** - Shared base libraries used by multiple Flatpak apps
+- **application** - Sandboxed software package
+- **OSTree** - Content-addressable storage system used by Flatpak
+- **sandbox** - Isolated execution environment for Flatpak apps
+- **portal** - D-Bus interface for controlled host access from sandbox
+- **app ID** - Reverse-DNS application identifier (e.g., org.gimp.GIMP)
 
 ### Key File Paths
 ```bash
-~/.config/systemd/user/       # User systemd service files
-/etc/systemd/system/          # System-wide container services
-~/.config/containers/         # User container configuration
-/etc/containers/              # System container configuration
+/var/lib/flatpak/                     # System-wide Flatpak installations
+~/.local/share/flatpak/               # User Flatpak installations
+/etc/flatpak/remotes.d/               # System-wide remote configuration
+/var/lib/flatpak/overrides/           # System permission overrides
+~/.local/share/flatpak/overrides/     # User permission overrides
 ```
 
 ### Essential Commands
 ```bash
-# Container lifecycle
-podman pull registry.redhat.io/ubi8/ubi:latest  # Pull image
-podman run -d --name webserver -p 8080:80 httpd # Run detached with port mapping
-podman ps                             # List running containers
-podman ps -a                          # List all containers
-podman logs webserver                 # View container logs
-podman logs -f webserver              # Follow logs
+# Remote (repository) management
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --user flathub https://flathub.org/repo/flathub.flatpakrepo  # User only
+flatpak remote-delete flathub                     # Remove remote
+flatpak remotes                                   # List configured remotes
+flatpak remotes --show-details                    # Detailed remote info
+flatpak remote-ls flathub                         # List apps in remote
 
-# Container management
-podman stop webserver                 # Stop container
-podman start webserver                # Start container
-podman restart webserver              # Restart container
-podman exec -it webserver /bin/bash   # Execute command in container
-podman rm webserver                   # Remove container
-podman rmi httpd                      # Remove image
+# Search and information
+flatpak search keyword                            # Search for applications
+flatpak info org.example.App                      # Show app details
 
-# Volume and data management
-podman run -d --name db -v /host/data:/container/data postgres
-podman run -d --name web -v webdata:/var/www/html httpd
+# Install and uninstall
+flatpak install flathub org.example.App           # Install from remote
+flatpak install --user flathub org.example.App    # Install for user only
+flatpak uninstall org.example.App                 # Uninstall application
+flatpak uninstall --unused                        # Remove unused runtimes
 
-# Image management
-podman images                         # List local images
-podman search httpd                   # Search for images
-podman inspect httpd                  # Inspect image details
-
-# Building images from Containerfile
-podman build -t myimage:latest .      # Build image from current directory
-podman build -t myimage:v1.0 /path/to/containerfile/  # Build from specific directory
-podman build -f CustomContainerfile -t myimage .      # Use custom filename
-```
-
-### Containerfile Instructions
-
-| Instruction | Description |
-|-------------|-------------|
-| `FROM` | Identifies the base container image to use |
-| `RUN` | Executes specified commands during build |
-| `CMD` | Runs a command when container starts (default command) |
-| `COPY` | Copies files from host to container |
-| `ADD` | Similar to COPY but can handle URLs and archives |
-| `ENV` | Defines environment variables for build and runtime |
-| `EXPOSE` | Documents which ports the container will listen on |
-| `USER` | Defines a non-root user to run commands as |
-| `WORKDIR` | Sets the working directory (created if doesn't exist) |
-| `VOLUME` | Creates a mount point for external volumes |
-| `LABEL` | Adds metadata to the image |
-| `ENTRYPOINT` | Configures the main command (cannot be overridden) |
-
-### Sample Containerfile
-```dockerfile
-# Example Containerfile for web server
-FROM registry.redhat.io/ubi8/ubi:latest
-RUN dnf install -y httpd
-COPY index.html /var/www/html/
-EXPOSE 80
-USER apache
-CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
-```
-
-### Systemd Integration
-```bash
-# Rootless containers (as regular user)
-loginctl enable-linger username       # Enable user services
-podman generate systemd --new --files --name webserver
-mkdir -p ~/.config/systemd/user
-mv container-webserver.service ~/.config/systemd/user/
-systemctl --user daemon-reload
-systemctl --user enable container-webserver.service
-systemctl --user start container-webserver.service
-
-# System-wide containers (as root)
-sudo podman generate systemd --new --files --name webserver
-sudo cp container-webserver.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable container-webserver.service
-sudo systemctl start container-webserver.service
+# List, run, and update
+flatpak list --app                                # List installed apps
+flatpak list --runtime                            # List installed runtimes
+flatpak run org.example.App                       # Run application
+flatpak update                                    # Update all Flatpaks
 ```
 
 ### Common Tasks
 ```bash
-# Deploy containerized web server with persistent service
-podman pull httpd
-podman run -d --name mywebserver -p 8080:80 httpd
-podman generate systemd --new --files --name mywebserver
-sudo cp container-mywebserver.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable --now container-mywebserver.service
-firewall-cmd --add-port=8080/tcp --permanent
-firewall-cmd --reload
-curl http://localhost:8080            # Test
+# Set up Flathub and install application
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub org.gnome.Calculator -y
+flatpak list --app                                # Verify
+flatpak run org.gnome.Calculator                  # Test
 
-# Deploy with persistent storage
-podman run -d --name webapp -p 8080:80 -v /opt/webapp:/usr/local/apache2/htdocs httpd
+# User-level install (no root needed)
+flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install --user flathub org.mozilla.firefox -y
+flatpak list --user --app                         # Verify
 
-# Build custom image from Containerfile
-mkdir /tmp/myapp
-cd /tmp/myapp
-# Create Containerfile (see sample above)
-echo "<h1>My Custom App</h1>" > index.html
-podman build -t myapp:v1.0 .
-podman run -d --name customapp -p 8080:80 myapp:v1.0
+# Clean up after uninstalls
+flatpak uninstall --unused -y                     # Remove orphaned runtimes
 ```
 
-### Troubleshooting
+### Permission Overrides
 ```bash
-# Container issues
-podman ps -a                          # Check container status
-podman logs container_name            # Check container logs
-podman inspect container_name         # Check container configuration
-ss -tuln | grep :8080                # Check port binding
-systemctl --user status container-name.service  # Check systemd service
+# Grant filesystem access to sandboxed app
+flatpak override --user --filesystem=home org.example.App
+flatpak override --user --show org.example.App    # View overrides
+flatpak override --user --reset org.example.App   # Reset to defaults
 ```
 
 ### Common Pitfalls
-- **WRONG**: Forgetting `loginctl enable-linger` for user services → **RIGHT**: Enable lingering for persistent user services
-- **WRONG**: Not opening firewall ports → **RIGHT**: Always configure firewall for exposed ports
-- **WRONG**: Using wrong systemd directory → **RIGHT**: Use `~/.config/systemd/user/` for user services
+- **WRONG**: Trying to install without adding remote first → **RIGHT**: Add remote with `flatpak remote-add` before installing
+- **WRONG**: Forgetting `--if-not-exists` → **RIGHT**: Use it to make commands idempotent
+- **WRONG**: Not cleaning up runtimes → **RIGHT**: Run `flatpak uninstall --unused` after removing apps
 
 ---
 
@@ -2315,7 +2248,7 @@ systemctl status timer_name          # Detailed timer status
 - **known_hosts** - File storing server public keys
 - **authorized_keys** - File storing allowed client public keys
 - **port forwarding** - Tunnel network connections through SSH
-- **X11 forwarding** - Remote GUI application display
+- **Wayland forwarding** - Remote GUI application display (RHEL 10 uses Wayland, not X11)
 
 ### Key File Paths
 ```bash
@@ -2362,7 +2295,7 @@ scp -P 2222 file.txt user@hostname:/path  # Custom port
 ssh -L 8080:localhost:80 user@hostname     # Local port forwarding
 ssh -R 8080:localhost:80 user@hostname     # Remote port forwarding
 ssh -D 1080 user@hostname                  # SOCKS proxy
-ssh -X user@hostname                       # X11 forwarding (GUI apps)
+ssh -X user@hostname                       # X11/Wayland forwarding (GUI apps)
 ssh -N -f -L 8080:localhost:80 user@hostname  # Background tunnel
 ```
 
@@ -2660,6 +2593,18 @@ case $variable in
     *)
         default commands;;
 esac
+```
+
+### Positional Parameters and Special Variables
+```bash
+$0                              # Script name
+$1, $2, $3...                   # Positional parameters (arguments)
+$#                              # Number of arguments
+$@                              # All arguments (individually quoted)
+$*                              # All arguments (as single string)
+$?                              # Exit status of last command
+$$                              # Current process ID
+shift                           # Shift positional parameters left ($2→$1)
 ```
 
 ### Common Scripting Patterns

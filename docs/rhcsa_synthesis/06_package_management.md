@@ -6,7 +6,7 @@
 
 ## 1. Executive Summary
 
-**Topic Scope**: DNF package manager, RPM operations, repository management, and software installation in RHEL 9
+**Topic Scope**: DNF package manager, RPM operations, repository management, and software installation in RHEL 10
 
 **RHCSA Relevance**: Essential system administration skill - package management is fundamental for maintaining RHEL systems
 
@@ -21,7 +21,7 @@
 ## 2. Conceptual Foundation
 
 ### Core Theory
-RHEL 9 uses DNF (Dandified YUM) as the primary package manager, which provides:
+RHEL 10 uses DNF (Dandified YUM) as the primary package manager, which provides:
 
 - **Dependency resolution**: Automatic handling of package dependencies
 - **Repository management**: Centralized software distribution points
