@@ -275,8 +275,8 @@ cd /path/to/rhcsa/vagrant
 source .rhel-credentials && vagrant up
 
 # This provides:
-# - rhel9a: Primary practice system
-# - rhel9b: Secondary system with extra storage
+# - rhel10a: Primary practice system
+# - rhel10b: Secondary system with extra storage
 # - Automatic Red Hat registration
 # - Network connectivity configured
 ```

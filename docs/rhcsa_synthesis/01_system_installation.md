@@ -230,7 +230,7 @@ dnf history info 1
 1. **Create Virtual Machine**
    ```bash
    # In VirtualBox/VMware:
-   # - Name: rhel9-server1
+   # - Name: rhel10-server1
    # - RAM: 2048MB
    # - Disk: 20GB dynamically allocated
    # - Network: NAT or Bridged
