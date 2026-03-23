@@ -1,45 +1,47 @@
 # RHCSA Study Guide Summary: Topics and Commands from Both EPUBs
 
-Based on analysis of both "RHCSA Red Hat Enterprise Linux - Asghar Ghori" and "Red Hat RHCSA 9 Cert Guide - Sander van Vugt" study guides.
+Based on analysis of "RHCSA Red Hat Enterprise Linux 10" by Asghar Ghori (Dec 2025 edition) and "Red Hat RHCSA 9 Cert Guide" by Sander van Vugt.
 
 > **📚 Enhanced Study Resource**: This summary has been expanded into the comprehensive [RHCSA Synthesis](rhcsa_synthesis/index.md) knowledge base, which provides detailed modules for each topic with hands-on labs, troubleshooting guides, and exam strategies. **Start with the synthesis modules for the most comprehensive exam preparation.**
 
 ## Book Structure Overview
 
-### Asghar Ghori RHCSA Book Structure
+### Asghar Ghori RHCSA Book Structure (RHEL 10 Edition, Dec 2025)
 **22 Chapters with comprehensive exercises and labs**
 
 **Chapters 1-4: Foundation Skills**
-- Chapter 1: Local Installation 
+- Chapter 1: Local Installation
 - Chapter 2: Initial Interaction with the System
-- Chapter 3: Working with Files and File Permissions  
+- Chapter 3: Working with Files and File Permissions
 - Chapter 4: Basic File Permissions
 
 **Chapters 5-8: User and System Management**
 - Chapter 5: Basic User Management
 - Chapter 6: Advanced User Management
 - Chapter 7: The Bash Shell
-- Chapter 8: Managing Services and Processes
+- Chapter 8: Shell Scripting
 
 **Chapters 9-12: System Operations**
-- Chapter 9: Package Management
+- Chapter 9: Managing Services and Processes
 - Chapter 10: System Processes and Job Control
-- Chapter 11: Boot Process, GRUB2, and the Linux Kernel
-- Chapter 12: System Logging and Monitoring
+- Chapter 11: Package Management
+- Chapter 12: Flatpak Software Management
 
-**Chapters 13-16: Storage and Networking**
-- Chapter 13: Storage Management (LVM)
-- Chapter 14: File Systems and Swap
-- Chapter 15: Networking, Network Devices, and Network Connections
-- Chapter 16: Network File System
+**Chapters 13-16: Storage**
+- Chapter 13: Storage Management (Partitions and File Systems)
+- Chapter 14: Advanced Storage (LVM)
+- Chapter 15: Advanced Storage (LVM Thin Provisioning, Swap)
+- Chapter 16: Boot Process, GRUB2, and the Linux Kernel
 
-**Chapters 17-22: Advanced Topics**
-- Chapter 17: AutoFS and Automounting
-- Chapter 18: Storage Management
-- Chapter 19: Firewall and System Security
-- Chapter 20: SELinux
-- Chapter 21: SSH and Time Services  
-- Chapter 22: Containers with Podman
+**Chapters 17-22: Networking and Security**
+- Chapter 17: Networking, Network Devices, and Network Connections
+- Chapter 18: Hostname Resolution and Time Synchronization
+- Chapter 19: NFS and AutoFS
+- Chapter 20: Firewall and System Security
+- Chapter 21: SELinux
+- Chapter 22: SSH and Remote Access
+
+> **Note**: The RHEL 10 edition replaces the Podman/containers chapter with Flatpak, adds LVM thin provisioning, elevates shell scripting to its own chapter, and merges NFS+AutoFS into a single chapter.
 
 ### Sander van Vugt RHCSA Book Structure
 **26 Chapters organized in 5 parts**

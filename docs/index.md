@@ -21,7 +21,7 @@ Complete knowledge base with 15 detailed modules covering all RHCSA exam objecti
 - **Module 11**: [Boot & GRUB](rhcsa_synthesis/11_boot_grub.md) - System boot process
 - **Module 12**: [Logging & Monitoring](rhcsa_synthesis/12_logging_monitoring.md) - System monitoring
 - **Module 13**: [Scheduled Tasks](rhcsa_synthesis/13_scheduled_tasks.md) - Automation
-- **Module 14**: [Container Management](rhcsa_synthesis/14_container_management.md) - Podman containers
+- **Module 14**: [Flatpak Management](rhcsa_synthesis/14_flatpak_management.md) - Flatpak software management
 - **Module 15**: [Troubleshooting](rhcsa_synthesis/15_troubleshooting.md) - Problem resolution
 
 ### Quick References
@@ -36,7 +36,7 @@ Complete knowledge base with 15 detailed modules covering all RHCSA exam objecti
 Import the comprehensive flashcard deck for spaced repetition learning:
 
 - **Location**: [anki/rhcsa_deck.csv](https://github.com/kraker/rhcsa/blob/main/anki/rhcsa_deck.csv)
-- **Cards**: 146 essential commands and concepts
+- **Cards**: 169 essential commands and concepts
 - **Topics**: All RHCSA exam objectives with practical examples
 
 ### Flashcard Categories
@@ -47,14 +47,14 @@ Import the comprehensive flashcard deck for spaced repetition learning:
 - SELinux & Security
 - Firewall Configuration
 - Networking
-- Container Management
+- Flatpak Management
 
 ## 🏗️ Lab Environment
 
 Set up hands-on practice environment using Vagrant:
 
 - **Location**: [vagrant/](https://github.com/kraker/rhcsa/tree/main/vagrant) directory
-- **VMs**: RHEL 9 instances (rhel9a, rhel9b)
+- **VMs**: RHEL 10 instances (rhel10a, rhel10b)
 - **Features**: Automated provisioning, storage configuration, networking
 - **Prerequisites**: Vagrant, VirtualBox, Red Hat Developer subscription
 

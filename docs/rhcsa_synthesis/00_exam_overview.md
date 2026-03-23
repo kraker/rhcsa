@@ -23,15 +23,15 @@
 ### Exam Format
 - **Type**: Performance-based, hands-on exam (no multiple choice)
 - **Duration**: 3 hours
-- **Environment**: Virtual machines running RHEL 9
-- **Tasks**: 15-20 practical tasks to complete
+- **Environment**: Virtual machines running RHEL 10
+- **Tasks**: Practical tasks to complete
 - **Passing Score**: Typically 210/300 points (70%)
 - **Delivery**: Red Hat Training Centers or remote proctoring
 
 ### Exam Environment
-- **Systems**: Usually 2-3 RHEL 9 virtual machines
+- **Systems**: RHEL 10 virtual machines
 - **Access**: SSH and console access to systems
-- **Tools**: Standard RHEL 9 command line tools and documentation
+- **Tools**: Standard RHEL 10 command line tools and documentation
 - **Network**: Limited internet access (man pages available)
 - **Time Pressure**: Approximately 9-12 minutes per task average
 
@@ -118,7 +118,7 @@ man pages, info pages
 /usr/share/doc/ (system documentation)
 
 # System tools
-All standard RHEL 9 command-line utilities
+All standard RHEL 10 command-line utilities
 ```
 
 ### What's NOT Available
@@ -175,13 +175,13 @@ All standard RHEL 9 command-line utilities
 - Configure and start services
 - Set up scheduled tasks
 - Configure logging
-- Manage containers
+- Manage Flatpak software
 
 **Strategy**:
 - Services must be enabled AND started
 - Test functionality after configuration
 - Check logs for errors
-- Common commands: `systemctl`, `crontab`, `podman`
+- Common commands: `systemctl`, `crontab`, `flatpak`
 
 ---
 
@@ -260,7 +260,7 @@ ssh username@host      # Remote access works
 ### Recommended Practice Environment
 ```bash
 # Minimum setup for RHCSA practice:
-- 2 RHEL 9 VMs (4GB RAM each, 20GB+ disk)
+- 2 RHEL 10 VMs (4GB RAM each, 20GB+ disk)
 - Network connectivity between systems
 - Additional storage devices for LVM practice
 - SSH configured between systems

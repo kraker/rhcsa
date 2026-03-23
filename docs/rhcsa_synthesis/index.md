@@ -5,8 +5,8 @@
 ## Overview
 
 This knowledge base synthesizes content from two authoritative RHCSA study resources:
-- **Asghar Ghori**: "RHCSA Red Hat Enterprise Linux 9" (34,346+ lines of content)
-- **Sander van Vugt**: "Red Hat RHCSA 9 Cert Guide" (53,622+ lines of content)
+- **Asghar Ghori**: "RHCSA Red Hat Enterprise Linux 10" (Dec 2025 edition)
+- **Sander van Vugt**: "Red Hat RHCSA 9 Cert Guide" (concepts still applicable)
 
 Each topic module combines the best approaches from both authors, providing comprehensive coverage with practical labs, detailed explanations, and exam-focused strategies.
 
