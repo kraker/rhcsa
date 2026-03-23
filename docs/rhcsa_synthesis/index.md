@@ -60,7 +60,7 @@ Each topic module combines the best approaches from both authors, providing comp
 ### Modern RHEL Features
 | Module | Topic | Focus Areas | Exam Weight |
 |--------|-------|-------------|-------------|
-| [14](14_container_management.md) | **Container Management** | Podman, container services | High |
+| [14](14_flatpak_management.md) | **Flatpak Management** | Flatpak repos, application management | High |
 | [15](15_troubleshooting.md) | **Troubleshooting** | System recovery, boot issues | Medium |
 
 ## Quick Navigation
@@ -101,7 +101,7 @@ Track your progress through the synthesis modules:
 - [ ] 11 - Boot Process & GRUB
 - [ ] 12 - Logging & Monitoring
 - [ ] 13 - Scheduled Tasks
-- [ ] 14 - Container Management
+- [ ] 14 - Flatpak Management
 - [ ] 15 - Troubleshooting
 
 ## Additional Resources
