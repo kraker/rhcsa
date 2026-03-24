@@ -15,3 +15,6 @@ MD033: false
 
 # Allow emphasis as heading — used intentionally in study materials
 MD036: false
+
+# Disable table column style — tables are readable as-is
+MD060: false
