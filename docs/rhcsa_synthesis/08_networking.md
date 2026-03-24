@@ -21,6 +21,7 @@
 ## 2. Conceptual Foundation
 
 ### Core Theory
+
 RHEL 10 uses NetworkManager as the primary network management service:
 
 - **NetworkManager**: Modern network configuration service replacing traditional networking scripts
@@ -30,6 +31,7 @@ RHEL 10 uses NetworkManager as the primary network management service:
 - **Network namespaces**: Isolated network environments (advanced topic)
 
 ### Real-World Applications
+
 - **Server deployment**: Configuring static IPs for production servers
 - **Network troubleshooting**: Diagnosing connectivity issues in enterprise environments
 - **Remote management**: Ensuring SSH access through proper network configuration
@@ -37,6 +39,7 @@ RHEL 10 uses NetworkManager as the primary network management service:
 - **Network isolation**: Separating different types of traffic for security
 
 ### Common Misconceptions
+
 - **NetworkManager vs network scripts**: RHEL 10 uses NetworkManager, not legacy scripts
 - **Interface naming**: Modern systems use predictable names (ens3, enp0s3) not eth0
 - **Connection vs device state**: A device can be up but connection down
@@ -44,6 +47,7 @@ RHEL 10 uses NetworkManager as the primary network management service:
 - **Gateway terminology**: Default route and default gateway are the same concept
 
 ### Key Terminology
+
 - **Interface**: Physical or virtual network device (ens3, enp0s3, virbr0)
 - **Connection**: NetworkManager configuration profile applied to interface
 - **Profile**: Persistent network configuration including IP, DNS, gateway
@@ -58,6 +62,7 @@ RHEL 10 uses NetworkManager as the primary network management service:
 ## 3. Command Mastery
 
 ### NetworkManager Commands (nmcli)
+
 ```bash
 # Connection management
 nmcli connection show                    # List all connections
@@ -92,6 +97,7 @@ nmcli connection modify "static-ens3" connection.autoconnect yes
 ```
 
 ### Traditional Network Commands
+
 ```bash
 # Interface information
 ip addr show                    # Show all interface addresses
@@ -108,6 +114,7 @@ ss -tuln                        # Show listening sockets (replaces netstat)
 ```
 
 ### Network Testing Commands
+
 ```bash
 # Connectivity testing
 ping -c 4 8.8.8.8              # Test internet connectivity
@@ -127,6 +134,7 @@ ss -tuln | grep :80            # Check if service listening on port
 ```
 
 ### Hostname Management
+
 ```bash
 # Hostname commands
 hostnamectl                     # Show hostname information
@@ -139,6 +147,7 @@ hostname server1               # Set hostname (temporary)
 ```
 
 ### Network Configuration Files
+
 ```bash
 # NetworkManager connection files
 ls /etc/NetworkManager/system-connections/  # Connection profiles
@@ -151,6 +160,7 @@ cat /etc/nsswitch.conf         # Name resolution order
 ```
 
 ### Command Reference Table
+
 | Command | Purpose | Key Options | Example |
 |---------|---------|-------------|---------|
 | `nmcli con show` | List connections | `--active` | `nmcli con show --active` |
@@ -165,71 +175,82 @@ cat /etc/nsswitch.conf         # Name resolution order
 ## 4. Procedural Workflows
 
 ### Standard Procedure: Configure Static IP Address
+
 1. **Identify available interface**
-   ```bash
-   nmcli device status
-   ip link show
-   ```
+
+    ```bash
+    nmcli device status
+    ip link show
+    ```
 
 2. **Create static connection**
-   ```bash
-   nmcli connection add type ethernet \
-     con-name "static-connection" \
-     ifname ens3 \
-     ipv4.addresses 192.168.1.100/24 \
-     ipv4.gateway 192.168.1.1 \
-     ipv4.dns "8.8.8.8 8.8.4.4" \
-     ipv4.method manual \
-     connection.autoconnect yes
-   ```
+
+    ```bash
+    nmcli connection add type ethernet \
+      con-name "static-connection" \
+      ifname ens3 \
+      ipv4.addresses 192.168.1.100/24 \
+      ipv4.gateway 192.168.1.1 \
+      ipv4.dns "8.8.8.8 8.8.4.4" \
+      ipv4.method manual \
+      connection.autoconnect yes
+    ```
 
 3. **Activate connection**
-   ```bash
-   nmcli connection up "static-connection"
-   ```
+
+    ```bash
+    nmcli connection up "static-connection"
+    ```
 
 4. **Verify configuration**
-   ```bash
-   ip addr show ens3
-   ip route show
-   cat /etc/resolv.conf
-   ping -c 2 8.8.8.8
-   ```
+
+    ```bash
+    ip addr show ens3
+    ip route show
+    cat /etc/resolv.conf
+    ping -c 2 8.8.8.8
+    ```
 
 ### Standard Procedure: Switch from DHCP to Static
+
 1. **Check current configuration**
-   ```bash
-   nmcli connection show --active
-   nmcli device show ens3
-   ```
+
+    ```bash
+    nmcli connection show --active
+    nmcli device show ens3
+    ```
 
 2. **Modify existing connection**
-   ```bash
-   # Get current connection name
-   CON_NAME=$(nmcli -t -f NAME connection show --active | head -1)
+
+    ```bash
+    # Get current connection name
+    CON_NAME=$(nmcli -t -f NAME connection show --active | head -1)
    
-   # Modify to static
-   nmcli connection modify "$CON_NAME" \
-     ipv4.method manual \
-     ipv4.addresses 192.168.1.100/24 \
-     ipv4.gateway 192.168.1.1 \
-     ipv4.dns "8.8.8.8,8.8.4.4"
-   ```
+    # Modify to static
+    nmcli connection modify "$CON_NAME" \
+      ipv4.method manual \
+      ipv4.addresses 192.168.1.100/24 \
+      ipv4.gateway 192.168.1.1 \
+      ipv4.dns "8.8.8.8,8.8.4.4"
+    ```
 
 3. **Apply changes**
-   ```bash
-   nmcli connection down "$CON_NAME"
-   nmcli connection up "$CON_NAME"
-   ```
+
+    ```bash
+    nmcli connection down "$CON_NAME"
+    nmcli connection up "$CON_NAME"
+    ```
 
 4. **Verify changes**
-   ```bash
-   ip addr show
-   ping -c 2 google.com
-   ```
+
+    ```bash
+    ip addr show
+    ping -c 2 google.com
+    ```
 
 ### Decision Tree: Network Configuration Strategy
-```
+
+```text
 Network Configuration Need
 ├── New system setup?
 │   ├── DHCP available? → Use auto method
@@ -248,43 +269,50 @@ Network Configuration Need
 ```
 
 ### Standard Procedure: Network Troubleshooting
+
 1. **Check physical connectivity**
-   ```bash
-   nmcli device status
-   ip link show
-   # Look for "connected" state and "UP" flags
-   ```
+
+    ```bash
+    nmcli device status
+    ip link show
+    # Look for "connected" state and "UP" flags
+    ```
 
 2. **Check IP configuration**
-   ```bash
-   ip addr show
-   nmcli connection show --active
-   ```
+
+    ```bash
+    ip addr show
+    nmcli connection show --active
+    ```
 
 3. **Test network layers**
-   ```bash
-   # Layer 3 - IP connectivity
-   ping -c 2 127.0.0.1        # Loopback
-   ping -c 2 $(ip route | grep default | awk '{print $3}')  # Gateway
-   ping -c 2 8.8.8.8          # External IP
+
+    ```bash
+    # Layer 3 - IP connectivity
+    ping -c 2 127.0.0.1        # Loopback
+    ping -c 2 $(ip route | grep default | awk '{print $3}')  # Gateway
+    ping -c 2 8.8.8.8          # External IP
    
-   # Layer 7 - DNS resolution
-   nslookup google.com
-   ping -c 2 google.com
-   ```
+    # Layer 7 - DNS resolution
+    nslookup google.com
+    ping -c 2 google.com
+    ```
 
 4. **Check services and ports**
-   ```bash
-   ss -tuln                   # Listening services
-   systemctl status NetworkManager
-   ```
+
+    ```bash
+    ss -tuln                   # Listening services
+    systemctl status NetworkManager
+    ```
 
 ---
 
 ## 5. Configuration Deep Dive
 
 ### NetworkManager Connection Files
+
 #### Static IP Connection
+
 ```bash
 # /etc/NetworkManager/system-connections/static-ens3.nmconnection
 [connection]
@@ -309,6 +337,7 @@ method=auto
 ```
 
 #### DHCP Connection
+
 ```bash
 # /etc/NetworkManager/system-connections/dhcp-ens3.nmconnection
 [connection]
@@ -331,7 +360,9 @@ method=auto
 ```
 
 ### Advanced Network Configuration
+
 #### Multiple IP Addresses
+
 ```bash
 # Add secondary IP to existing connection
 nmcli connection modify "static-ens3" \
@@ -345,6 +376,7 @@ nmcli connection add type ethernet con-name "multi-ip" ifname ens3 \
 ```
 
 #### DNS Configuration
+
 ```bash
 # Set specific DNS servers
 nmcli connection modify "connection-name" \
@@ -360,7 +392,9 @@ nmcli connection modify "connection-name" \
 ```
 
 ### Network Interface Naming
+
 #### Predictable Network Interface Names
+
 ```bash
 # Modern naming scheme (RHEL 10):
 # ens3    - Ethernet slot 3
@@ -377,66 +411,73 @@ udevadm info /sys/class/net/ens3
 ## 6. Hands-On Labs
 
 ### Lab 6.1: Basic Network Configuration (Asghar Ghori Style)
+
 **Objective**: Configure static IP address and test connectivity
 
 **Steps**:
+
 1. **Explore current network configuration**
-   ```bash
-   # Check current interfaces and connections
-   nmcli device status
-   nmcli connection show
+
+    ```bash
+    # Check current interfaces and connections
+    nmcli device status
+    nmcli connection show
    
-   # Show detailed interface information
-   ip addr show
-   ip route show
+    # Show detailed interface information
+    ip addr show
+    ip route show
    
-   # Check current connectivity
-   ping -c 2 8.8.8.8
-   ```
+    # Check current connectivity
+    ping -c 2 8.8.8.8
+    ```
 
 2. **Create static IP configuration**
-   ```bash
-   # Create new static connection (adjust IP range for your environment)
-   nmcli connection add type ethernet \
-     con-name "lab-static" \
-     ifname ens3 \
-     ipv4.addresses 192.168.1.150/24 \
-     ipv4.gateway 192.168.1.1 \
-     ipv4.dns "8.8.8.8 8.8.4.4" \
-     ipv4.method manual \
-     connection.autoconnect yes
+
+    ```bash
+    # Create new static connection (adjust IP range for your environment)
+    nmcli connection add type ethernet \
+      con-name "lab-static" \
+      ifname ens3 \
+      ipv4.addresses 192.168.1.150/24 \
+      ipv4.gateway 192.168.1.1 \
+      ipv4.dns "8.8.8.8 8.8.4.4" \
+      ipv4.method manual \
+      connection.autoconnect yes
    
-   # Activate the new connection
-   nmcli connection up "lab-static"
-   ```
+    # Activate the new connection
+    nmcli connection up "lab-static"
+    ```
 
 3. **Verify static configuration**
-   ```bash
-   # Check new IP configuration
-   ip addr show ens3
-   ip route show
-   cat /etc/resolv.conf
+
+    ```bash
+    # Check new IP configuration
+    ip addr show ens3
+    ip route show
+    cat /etc/resolv.conf
    
-   # Test connectivity
-   ping -c 3 192.168.1.1        # Gateway
-   ping -c 3 8.8.8.8            # External IP
-   ping -c 3 google.com         # DNS resolution
-   ```
+    # Test connectivity
+    ping -c 3 192.168.1.1        # Gateway
+    ping -c 3 8.8.8.8            # External IP
+    ping -c 3 google.com         # DNS resolution
+    ```
 
 4. **Test connection management**
-   ```bash
-   # Bring connection down and up
-   nmcli connection down "lab-static"
-   ip addr show ens3            # Should show no IP
+
+    ```bash
+    # Bring connection down and up
+    nmcli connection down "lab-static"
+    ip addr show ens3            # Should show no IP
    
-   nmcli connection up "lab-static"
-   ip addr show ens3            # Should show static IP
+    nmcli connection up "lab-static"
+    ip addr show ens3            # Should show static IP
    
-   # Show connection details
-   nmcli connection show "lab-static"
-   ```
+    # Show connection details
+    nmcli connection show "lab-static"
+    ```
 
 **Verification**:
+
 ```bash
 # Complete verification
 nmcli connection show --active | grep lab-static
@@ -446,67 +487,74 @@ ip route show | grep default
 ```
 
 ### Lab 6.2: Advanced Network Management (Sander van Vugt Style)
+
 **Objective**: Modify existing connections and manage multiple network configurations
 
 **Steps**:
+
 1. **Analyze existing network setup**
-   ```bash
-   # Document current configuration
-   nmcli connection show > /tmp/original-connections.txt
-   nmcli device show > /tmp/original-devices.txt
-   ip addr show > /tmp/original-ips.txt
-   ```
+
+    ```bash
+    # Document current configuration
+    nmcli connection show > /tmp/original-connections.txt
+    nmcli device show > /tmp/original-devices.txt
+    ip addr show > /tmp/original-ips.txt
+    ```
 
 2. **Create DHCP backup connection**
-   ```bash
-   # Create DHCP connection for same interface
-   nmcli connection add type ethernet \
-     con-name "lab-dhcp-backup" \
-     ifname ens3 \
-     ipv4.method auto \
-     connection.autoconnect no
+
+    ```bash
+    # Create DHCP connection for same interface
+    nmcli connection add type ethernet \
+      con-name "lab-dhcp-backup" \
+      ifname ens3 \
+      ipv4.method auto \
+      connection.autoconnect no
    
-   # Test switching between static and DHCP
-   nmcli connection down "lab-static"
-   nmcli connection up "lab-dhcp-backup"
+    # Test switching between static and DHCP
+    nmcli connection down "lab-static"
+    nmcli connection up "lab-dhcp-backup"
    
-   # Check what IP was assigned by DHCP
-   ip addr show ens3
-   ```
+    # Check what IP was assigned by DHCP
+    ip addr show ens3
+    ```
 
 3. **Modify connection properties**
-   ```bash
-   # Switch back to static and modify it
-   nmcli connection down "lab-dhcp-backup"
-   nmcli connection up "lab-static"
+
+    ```bash
+    # Switch back to static and modify it
+    nmcli connection down "lab-dhcp-backup"
+    nmcli connection up "lab-static"
    
-   # Add secondary IP address
-   nmcli connection modify "lab-static" \
-     +ipv4.addresses 192.168.1.151/24
+    # Add secondary IP address
+    nmcli connection modify "lab-static" \
+      +ipv4.addresses 192.168.1.151/24
    
-   # Change DNS servers
-   nmcli connection modify "lab-static" \
-     ipv4.dns "1.1.1.1,8.8.8.8"
+    # Change DNS servers
+    nmcli connection modify "lab-static" \
+      ipv4.dns "1.1.1.1,8.8.8.8"
    
-   # Apply changes
-   nmcli connection down "lab-static"
-   nmcli connection up "lab-static"
-   ```
+    # Apply changes
+    nmcli connection down "lab-static"
+    nmcli connection up "lab-static"
+    ```
 
 4. **Verify multiple IPs and DNS changes**
-   ```bash
-   # Check multiple IP addresses
-   ip addr show ens3 | grep inet
+
+    ```bash
+    # Check multiple IP addresses
+    ip addr show ens3 | grep inet
    
-   # Verify DNS changes
-   cat /etc/resolv.conf
+    # Verify DNS changes
+    cat /etc/resolv.conf
    
-   # Test connectivity from both IPs
-   ping -c 2 -I 192.168.1.150 google.com
-   ping -c 2 -I 192.168.1.151 google.com
-   ```
+    # Test connectivity from both IPs
+    ping -c 2 -I 192.168.1.150 google.com
+    ping -c 2 -I 192.168.1.151 google.com
+    ```
 
 **Verification**:
+
 ```bash
 # Document final configuration
 nmcli connection show "lab-static"
@@ -515,137 +563,145 @@ nslookup google.com
 ```
 
 ### Lab 6.3: Network Troubleshooting Scenario (Synthesis Challenge)
+
 **Objective**: Diagnose and resolve complex network connectivity issues
 
 **Scenario**: A server has lost network connectivity and needs systematic troubleshooting
 
 **Requirements**:
+
 - Systematically diagnose network issues
 - Test connectivity at multiple network layers
 - Document findings and resolution steps
 - Restore full network functionality
 
 **Solution Steps**:
+
 1. **Create a "broken" network scenario**
-   ```bash
-   # Simulate network problems (choose one or more):
+
+    ```bash
+    # Simulate network problems (choose one or more):
    
-   # Problem 1: Wrong gateway
-   nmcli connection modify "lab-static" ipv4.gateway 192.168.1.99
+    # Problem 1: Wrong gateway
+    nmcli connection modify "lab-static" ipv4.gateway 192.168.1.99
    
-   # Problem 2: Wrong DNS
-   nmcli connection modify "lab-static" ipv4.dns "192.168.1.99"
+    # Problem 2: Wrong DNS
+    nmcli connection modify "lab-static" ipv4.dns "192.168.1.99"
    
-   # Problem 3: Wrong IP range
-   nmcli connection modify "lab-static" ipv4.addresses 10.0.0.100/24
+    # Problem 3: Wrong IP range
+    nmcli connection modify "lab-static" ipv4.addresses 10.0.0.100/24
    
-   # Apply one of these problematic configs
-   nmcli connection down "lab-static"
-   nmcli connection up "lab-static"
+    # Apply one of these problematic configs
+    nmcli connection down "lab-static"
+    nmcli connection up "lab-static"
    
-   # Verify the problem exists
-   ping -c 2 google.com  # This should fail
-   ```
+    # Verify the problem exists
+    ping -c 2 google.com  # This should fail
+    ```
 
 2. **Systematic network troubleshooting**
-   ```bash
-   # Step 1: Check physical and link layer
-   echo "=== LAYER 1 & 2 DIAGNOSTICS ==="
-   nmcli device status
-   ip link show ens3
+
+    ```bash
+    # Step 1: Check physical and link layer
+    echo "=== LAYER 1 & 2 DIAGNOSTICS ==="
+    nmcli device status
+    ip link show ens3
    
-   # Step 2: Check network layer (IP configuration)
-   echo "=== LAYER 3 DIAGNOSTICS ==="
-   ip addr show ens3
-   ip route show
+    # Step 2: Check network layer (IP configuration)
+    echo "=== LAYER 3 DIAGNOSTICS ==="
+    ip addr show ens3
+    ip route show
    
-   # Step 3: Test connectivity at each level
-   echo "=== CONNECTIVITY TESTS ==="
+    # Step 3: Test connectivity at each level
+    echo "=== CONNECTIVITY TESTS ==="
    
-   # Test loopback
-   ping -c 1 127.0.0.1 && echo "Loopback: OK" || echo "Loopback: FAIL"
+    # Test loopback
+    ping -c 1 127.0.0.1 && echo "Loopback: OK" || echo "Loopback: FAIL"
    
-   # Test local IP
-   LOCAL_IP=$(ip addr show ens3 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1)
-   ping -c 1 $LOCAL_IP && echo "Local IP: OK" || echo "Local IP: FAIL"
+    # Test local IP
+    LOCAL_IP=$(ip addr show ens3 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1)
+    ping -c 1 $LOCAL_IP && echo "Local IP: OK" || echo "Local IP: FAIL"
    
-   # Test gateway
-   GATEWAY=$(ip route show default | awk '{print $3}')
-   ping -c 1 $GATEWAY && echo "Gateway: OK" || echo "Gateway: FAIL"
+    # Test gateway
+    GATEWAY=$(ip route show default | awk '{print $3}')
+    ping -c 1 $GATEWAY && echo "Gateway: OK" || echo "Gateway: FAIL"
    
-   # Test external IP
-   ping -c 1 8.8.8.8 && echo "External IP: OK" || echo "External IP: FAIL"
+    # Test external IP
+    ping -c 1 8.8.8.8 && echo "External IP: OK" || echo "External IP: FAIL"
    
-   # Test DNS resolution
-   nslookup google.com > /dev/null 2>&1 && echo "DNS Resolution: OK" || echo "DNS Resolution: FAIL"
-   ```
+    # Test DNS resolution
+    nslookup google.com > /dev/null 2>&1 && echo "DNS Resolution: OK" || echo "DNS Resolution: FAIL"
+    ```
 
 3. **Diagnose and fix the specific problem**
-   ```bash
-   # Based on the test results, fix the issue:
+
+    ```bash
+    # Based on the test results, fix the issue:
    
-   # If gateway test failed:
-   echo "Fixing gateway configuration..."
-   nmcli connection modify "lab-static" ipv4.gateway 192.168.1.1
+    # If gateway test failed:
+    echo "Fixing gateway configuration..."
+    nmcli connection modify "lab-static" ipv4.gateway 192.168.1.1
    
-   # If DNS resolution failed but external IP worked:
-   echo "Fixing DNS configuration..."
-   nmcli connection modify "lab-static" ipv4.dns "8.8.8.8,8.8.4.4"
+    # If DNS resolution failed but external IP worked:
+    echo "Fixing DNS configuration..."
+    nmcli connection modify "lab-static" ipv4.dns "8.8.8.8,8.8.4.4"
    
-   # If external IP failed but gateway worked (wrong IP range):
-   echo "Fixing IP address configuration..."
-   nmcli connection modify "lab-static" ipv4.addresses 192.168.1.150/24
+    # If external IP failed but gateway worked (wrong IP range):
+    echo "Fixing IP address configuration..."
+    nmcli connection modify "lab-static" ipv4.addresses 192.168.1.150/24
    
-   # Apply the fix
-   nmcli connection down "lab-static"
-   nmcli connection up "lab-static"
-   ```
+    # Apply the fix
+    nmcli connection down "lab-static"
+    nmcli connection up "lab-static"
+    ```
 
 4. **Verify resolution and document**
-   ```bash
-   # Re-run connectivity tests
-   echo "=== POST-FIX VERIFICATION ==="
-   ping -c 2 127.0.0.1      # Loopback
-   ping -c 2 192.168.1.1    # Gateway
-   ping -c 2 8.8.8.8        # External IP
-   ping -c 2 google.com     # DNS resolution
+
+    ```bash
+    # Re-run connectivity tests
+    echo "=== POST-FIX VERIFICATION ==="
+    ping -c 2 127.0.0.1      # Loopback
+    ping -c 2 192.168.1.1    # Gateway
+    ping -c 2 8.8.8.8        # External IP
+    ping -c 2 google.com     # DNS resolution
    
-   # Create troubleshooting report
-   cat > /tmp/network-troubleshooting-report.txt << EOF
-   Network Troubleshooting Report
-   Date: $(date)
+    # Create troubleshooting report
+    cat > /tmp/network-troubleshooting-report.txt << EOF
+    Network Troubleshooting Report
+    Date: $(date)
    
-   Problem Description:
-   - Network connectivity was lost
-   - Systematic diagnostics performed
+    Problem Description:
+    - Network connectivity was lost
+    - Systematic diagnostics performed
    
-   Diagnostics Performed:
-   1. Physical layer check: nmcli device status
-   2. IP configuration check: ip addr show, ip route show
-   3. Connectivity tests: loopback, gateway, external IP, DNS
+    Diagnostics Performed:
+    1. Physical layer check: nmcli device status
+    2. IP configuration check: ip addr show, ip route show
+    3. Connectivity tests: loopback, gateway, external IP, DNS
    
-   Issue Found:
-   $(if ping -c 1 google.com > /dev/null 2>&1; then echo "Issue resolved successfully"; else echo "Issue still present"; fi)
+    Issue Found:
+    $(if ping -c 1 google.com > /dev/null 2>&1; then echo "Issue resolved successfully"; else echo "Issue still present"; fi)
    
-   Resolution Applied:
-   - Modified connection: lab-static
-   - Updated configuration parameters
-   - Reactivated network connection
+    Resolution Applied:
+    - Modified connection: lab-static
+    - Updated configuration parameters
+    - Reactivated network connection
    
-   Final Configuration:
-   $(nmcli connection show "lab-static" | grep ipv4)
+    Final Configuration:
+    $(nmcli connection show "lab-static" | grep ipv4)
    
-   Post-Fix Tests:
-   - Gateway connectivity: $(ping -c 1 192.168.1.1 > /dev/null 2>&1 && echo "PASS" || echo "FAIL")
-   - External connectivity: $(ping -c 1 8.8.8.8 > /dev/null 2>&1 && echo "PASS" || echo "FAIL")
-   - DNS resolution: $(ping -c 1 google.com > /dev/null 2>&1 && echo "PASS" || echo "FAIL")
-   EOF
+    Post-Fix Tests:
+    - Gateway connectivity: $(ping -c 1 192.168.1.1 > /dev/null 2>&1 && echo "PASS" || echo "FAIL")
+    - External connectivity: $(ping -c 1 8.8.8.8 > /dev/null 2>&1 && echo "PASS" || echo "FAIL")
+    - DNS resolution: $(ping -c 1 google.com > /dev/null 2>&1 && echo "PASS" || echo "FAIL")
+    EOF
    
-   # Display the report
-   cat /tmp/network-troubleshooting-report.txt
-   ```
+    # Display the report
+    cat /tmp/network-troubleshooting-report.txt
+    ```
 
 **Verification**:
+
 ```bash
 # Final comprehensive verification
 echo "=== FINAL NETWORK STATUS ==="
@@ -664,12 +720,15 @@ cat /tmp/network-troubleshooting-report.txt
 ### Common Issues
 
 #### Issue 1: No Network Connectivity After Configuration
+
 **Symptoms**:
+
 - Cannot ping gateway or external hosts
 - New IP configuration not applied
 - Connection shows as activated but no connectivity
 
 **Diagnosis**:
+
 ```bash
 # Check connection and device status
 nmcli connection show --active
@@ -684,6 +743,7 @@ journalctl -u NetworkManager --since "10 minutes ago"
 ```
 
 **Resolution**:
+
 ```bash
 # Restart NetworkManager service
 systemctl restart NetworkManager
@@ -702,12 +762,15 @@ nmcli connection show | grep interface-name
 **Prevention**: Always verify configuration before applying, test in stages
 
 #### Issue 2: DNS Resolution Not Working
+
 **Symptoms**:
+
 - Can ping IP addresses but not hostnames
 - /etc/resolv.conf has wrong or no DNS servers
 - nslookup/dig commands fail
 
 **Diagnosis**:
+
 ```bash
 # Check DNS configuration
 cat /etc/resolv.conf
@@ -722,6 +785,7 @@ systemctl status systemd-resolved  # If using resolved
 ```
 
 **Resolution**:
+
 ```bash
 # Fix DNS in connection configuration
 nmcli connection modify "connection-name" \
@@ -737,12 +801,15 @@ nmcli connection up "connection-name"
 ```
 
 #### Issue 3: Interface Name Changes After Reboot
+
 **Symptoms**:
+
 - Network interface has different name after reboot
 - Connection tied to specific interface fails
 - Previous interface name no longer exists
 
 **Diagnosis**:
+
 ```bash
 # Check current interfaces
 nmcli device status
@@ -754,6 +821,7 @@ journalctl -b | grep "renamed network interface"
 ```
 
 **Resolution**:
+
 ```bash
 # Update connection to use correct interface
 nmcli connection modify "connection-name" \
@@ -766,6 +834,7 @@ nmcli connection modify "new-connection" \
 ```
 
 ### Diagnostic Command Sequence
+
 ```bash
 # Network troubleshooting workflow
 nmcli device status              # Check device status
@@ -778,6 +847,7 @@ nslookup google.com             # Test DNS resolution
 ```
 
 ### Log File Analysis
+
 - **`journalctl -u NetworkManager`**: NetworkManager service logs
 - **`/var/log/messages`**: General system messages including network events
 - **`dmesg`**: Kernel messages about network interfaces
@@ -788,6 +858,7 @@ nslookup google.com             # Test DNS resolution
 ## 8. Quick Reference Card
 
 ### Essential Commands At-a-Glance
+
 ```bash
 # Connection management
 nmcli con show                   # List connections
@@ -808,6 +879,7 @@ ping -c 2 host                  # Test connectivity
 ```
 
 ### NetworkManager Configuration Structure
+
 ```bash
 # Connection properties:
 connection.id                   # Connection name
@@ -822,12 +894,14 @@ ipv4.dns                       # DNS servers
 ```
 
 ### Common Network Ranges
+
 - **Private Class A**: 10.0.0.0/8 (10.0.0.0 - 10.255.255.255)
 - **Private Class B**: 172.16.0.0/12 (172.16.0.0 - 172.31.255.255)  
 - **Private Class C**: 192.168.0.0/16 (192.168.0.0 - 192.168.255.255)
 - **Loopback**: 127.0.0.0/8 (127.0.0.1 is localhost)
 
 ### DNS Servers
+
 - **Google**: 8.8.8.8, 8.8.4.4
 - **Cloudflare**: 1.1.1.1, 1.0.0.1
 - **Quad9**: 9.9.9.9, 149.112.112.112
@@ -837,70 +911,80 @@ ipv4.dns                       # DNS servers
 ## 9. Knowledge Check
 
 ### Conceptual Questions
+
 1. **Question**: What's the difference between a network device and a network connection in NetworkManager?
-   **Answer**: A device is a physical or virtual network interface (like ens3), while a connection is a configuration profile that can be applied to a device. One device can have multiple connection profiles, but only one can be active at a time.
+    **Answer**: A device is a physical or virtual network interface (like ens3), while a connection is a configuration profile that can be applied to a device. One device can have multiple connection profiles, but only one can be active at a time.
 
 2. **Question**: Why might /etc/resolv.conf show different DNS servers than what you configured?
-   **Answer**: NetworkManager dynamically manages /etc/resolv.conf. If you have multiple connections or DHCP is providing DNS servers, NetworkManager combines them. Use `nmcli connection show` to see the actual DNS configuration for each connection.
+    **Answer**: NetworkManager dynamically manages /etc/resolv.conf. If you have multiple connections or DHCP is providing DNS servers, NetworkManager combines them. Use `nmcli connection show` to see the actual DNS configuration for each connection.
 
 3. **Question**: What happens when you set ipv4.method to "auto" versus "manual"?
-   **Answer**: "auto" uses DHCP to automatically obtain IP address, gateway, and DNS servers from a DHCP server. "manual" requires you to explicitly specify all network parameters and creates a static configuration.
+    **Answer**: "auto" uses DHCP to automatically obtain IP address, gateway, and DNS servers from a DHCP server. "manual" requires you to explicitly specify all network parameters and creates a static configuration.
 
 ### Practical Scenarios
+
 1. **Scenario**: Server needs to be accessible from multiple subnets but only has one interface.
-   **Solution**: Add multiple IP addresses to the same connection:
-   ```bash
-   nmcli con modify "connection" ipv4.addresses "192.168.1.100/24,10.0.1.100/24"
-   ```
+    **Solution**: Add multiple IP addresses to the same connection:
+
+    ```bash
+    nmcli con modify "connection" ipv4.addresses "192.168.1.100/24,10.0.1.100/24"
+    ```
 
 2. **Scenario**: Need to quickly switch between office and home network configurations.
-   **Solution**: Create two connection profiles for the same interface and switch between them:
-   ```bash
-   nmcli con add type ethernet con-name "office" ifname ens3 ipv4.method manual ...
-   nmcli con add type ethernet con-name "home" ifname ens3 ipv4.method auto
-   # Switch: nmcli con up "office" or nmcli con up "home"
-   ```
+    **Solution**: Create two connection profiles for the same interface and switch between them:
+
+    ```bash
+    nmcli con add type ethernet con-name "office" ifname ens3 ipv4.method manual ...
+    nmcli con add type ethernet con-name "home" ifname ens3 ipv4.method auto
+    # Switch: nmcli con up "office" or nmcli con up "home"
+    ```
 
 ### Command Challenges
+
 1. **Challenge**: Create a connection that gets IP via DHCP but uses custom DNS servers.
-   **Answer**: 
-   ```bash
-   nmcli con add type ethernet con-name "dhcp-custom-dns" ifname ens3 \
-     ipv4.method auto \
-     ipv4.dns "8.8.8.8,8.8.4.4" \
-     ipv4.ignore-auto-dns yes
-   ```
+    **Answer**:
+
+    ```bash
+    nmcli con add type ethernet con-name "dhcp-custom-dns" ifname ens3 \
+      ipv4.method auto \
+      ipv4.dns "8.8.8.8,8.8.4.4" \
+      ipv4.ignore-auto-dns yes
+    ```
 
 2. **Challenge**: Find all interfaces that are up but don't have an IP address.
-   **Answer**: `ip link show | grep "state UP" -A1 | grep -B1 "NO-CARRIER\|state UP" | grep "^[0-9]" | cut -d: -f2`
+    **Answer**: `ip link show | grep "state UP" -A1 | grep -B1 "NO-CARRIER\|state UP" | grep "^[0-9]" | cut -d: -f2`
 
 ---
 
 ## 10. Exam Strategy
 
 ### Topic-Specific Tips
+
 - Always use `nmcli` for configuration - it's the modern RHEL 10 way
 - Verify configuration with both `nmcli` and `ip` commands
 - Remember that connections must be activated after creation
 - Test connectivity at multiple levels (gateway, external, DNS)
 
 ### Common Exam Scenarios
+
 1. **Scenario**: Configure static IP address on server
-   **Approach**: Use `nmcli con add` with manual method, specify all required parameters
+    **Approach**: Use `nmcli con add` with manual method, specify all required parameters
 
 2. **Scenario**: Fix server that lost network connectivity
-   **Approach**: Check device status, connection status, IP configuration, test connectivity systematically
+    **Approach**: Check device status, connection status, IP configuration, test connectivity systematically
 
 3. **Scenario**: Change hostname of server
-   **Approach**: Use `hostnamectl set-hostname` and verify with `hostnamectl status`
+    **Approach**: Use `hostnamectl set-hostname` and verify with `hostnamectl status`
 
 ### Time Management
+
 - **Static IP configuration**: 5-7 minutes including verification
 - **Network troubleshooting**: 8-10 minutes for systematic diagnosis
 - **Hostname changes**: 2-3 minutes
 - **Always verify**: Test connectivity after any network changes
 
 ### Pitfalls to Avoid
+
 - Don't forget to activate connections after creating them
 - Remember that interface names may not be eth0 (use `nmcli device status` to find correct names)
 - Always test both IP connectivity and DNS resolution
@@ -912,12 +996,14 @@ ipv4.dns                       # DNS servers
 ## Summary
 
 ### Key Takeaways
+
 - **NetworkManager is the standard** in RHEL 10 - master `nmcli` commands
 - **Connections are profiles** applied to devices - understand this relationship
 - **Systematic troubleshooting** saves time - test connectivity at each network layer
 - **Always verify configuration** with multiple commands and connectivity tests
 
 ### Critical Commands to Remember
+
 ```bash
 nmcli con add type ethernet con-name "static" ifname ens3 \
   ipv4.addresses 192.168.1.100/24 \
@@ -932,6 +1018,7 @@ hostnamectl set-hostname name      # Set system hostname
 ```
 
 ### Next Steps
+
 - Continue to [Module 09: SELinux Management](09_selinux.md)
 - Practice network configuration in the Vagrant environment
 - Review related topics: [Firewall Configuration](10_firewall.md), [SSH Setup](08_networking.md)

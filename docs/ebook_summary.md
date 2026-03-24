@@ -7,33 +7,39 @@ Based on analysis of "RHCSA Red Hat Enterprise Linux 10" by Asghar Ghori (Dec 20
 ## Book Structure Overview
 
 ### Asghar Ghori RHCSA Book Structure (RHEL 10 Edition, Dec 2025)
+
 **22 Chapters with comprehensive exercises and labs**
 
 **Chapters 1-4: Foundation Skills**
+
 - Chapter 1: Local Installation
 - Chapter 2: Initial Interaction with the System
 - Chapter 3: Working with Files and File Permissions
 - Chapter 4: Basic File Permissions
 
 **Chapters 5-8: User and System Management**
+
 - Chapter 5: Basic User Management
 - Chapter 6: Advanced User Management
 - Chapter 7: The Bash Shell
 - Chapter 8: Shell Scripting
 
 **Chapters 9-12: System Operations**
+
 - Chapter 9: Managing Services and Processes
 - Chapter 10: System Processes and Job Control
 - Chapter 11: Package Management
 - Chapter 12: Flatpak Software Management
 
 **Chapters 13-16: Storage**
+
 - Chapter 13: Storage Management (Partitions and File Systems)
 - Chapter 14: Advanced Storage (LVM)
 - Chapter 15: Advanced Storage (LVM Thin Provisioning, Swap)
 - Chapter 16: Boot Process, GRUB2, and the Linux Kernel
 
 **Chapters 17-22: Networking and Security**
+
 - Chapter 17: Networking, Network Devices, and Network Connections
 - Chapter 18: Hostname Resolution and Time Synchronization
 - Chapter 19: NFS and AutoFS
@@ -44,9 +50,11 @@ Based on analysis of "RHCSA Red Hat Enterprise Linux 10" by Asghar Ghori (Dec 20
 > **Note**: The RHEL 10 edition replaces the Podman/containers chapter with Flatpak, adds LVM thin provisioning, elevates shell scripting to its own chapter, and merges NFS+AutoFS into a single chapter.
 
 ### Sander van Vugt RHCSA Book Structure
+
 **26 Chapters organized in 5 parts**
 
 **Part I: Basic System Management Tasks (Chapters 1-8)**
+
 - Chapter 1: Installing Red Hat Enterprise Linux Server
 - Chapter 2: Using Essential Tools
 - Chapter 3: Essential File Management Tools
@@ -57,6 +65,7 @@ Based on analysis of "RHCSA Red Hat Enterprise Linux 10" by Asghar Ghori (Dec 20
 - Chapter 8: Configuring Networking
 
 **Part II: Operating Running Systems (Chapters 9-13)**
+
 - Chapter 9: Software Management
 - Chapter 10: Managing Processes
 - Chapter 11: Working with Systemd Services
@@ -64,6 +73,7 @@ Based on analysis of "RHCSA Red Hat Enterprise Linux 10" by Asghar Ghori (Dec 20
 - Chapter 13: Configuring Logging
 
 **Part III: Advanced System Administration Tasks (Chapters 14-20)**
+
 - Chapter 14: Managing Storage
 - Chapter 15: Advanced Storage Management
 - Chapter 16: Basic Kernel Management
@@ -73,6 +83,7 @@ Based on analysis of "RHCSA Red Hat Enterprise Linux 10" by Asghar Ghori (Dec 20
 - Chapter 20: Managing Software
 
 **Part IV: Managing Network Services (Chapters 21-25)**
+
 - Chapter 21: Configuring SSH
 - Chapter 22: Managing SELinux
 - Chapter 23: Configuring a Firewall
@@ -80,6 +91,7 @@ Based on analysis of "RHCSA Red Hat Enterprise Linux 10" by Asghar Ghori (Dec 20
 - Chapter 25: Configuring Time Services
 
 **Part V: RHCSA Practice Exams (Chapter 26)**
+
 - Chapter 26: Managing Containers
 
 ## Topic-by-Topic Breakdown with Lab Exercises
@@ -87,17 +99,20 @@ Based on analysis of "RHCSA Red Hat Enterprise Linux 10" by Asghar Ghori (Dec 20
 ### 1. System Installation and Initial Setup
 
 #### **Asghar Ghori Labs:**
+
 - Exercise 1-1: Download and Install VirtualBox Software
 - Exercise 1-2: Download and Install RHEL
 - Exercise 1-3: Logging In from Windows  
 - Lab 1-1: Build RHEL9-VM2 (server2)
 
 #### **Sander van Vugt Labs:**
+
 - Focus on automated installation methods
 - Kickstart configuration
 - Initial system configuration
 
 #### **Key Commands:**
+
 ```bash
 # System information
 hostnamectl
@@ -116,6 +131,7 @@ localectl set-locale
 ### 2. File Management and Text Processing
 
 #### **Asghar Ghori Labs:**
+
 - Exercise 3-1: Create Compressed Archives
 - Exercise 3-2: Create and Manage Hard Links
 - Exercise 3-3: Create and Manage Soft Links
@@ -124,11 +140,13 @@ localectl set-locale
 - Lab 3-3: File and Directory Operations
 
 #### **Sander van Vugt Labs:**
+
 - Working with tar archives
 - Text file manipulation with sed, awk, grep
 - File linking and copying strategies
 
 #### **Key Commands:**
+
 ```bash
 # File operations
 ls -la
@@ -164,6 +182,7 @@ nano filename
 ### 3. File Permissions and Security
 
 #### **Asghar Ghori Labs:**
+
 - Exercise 4-1: Modify Permission Bits Using Symbolic Form
 - Exercise 4-2: Modify Permission Bits Using Octal Form
 - Exercise 4-3: Test the Effect of setuid Bit on Executable Files
@@ -176,11 +195,13 @@ nano filename
 - Lab 4-4: Find Files Using Different Criteria
 
 #### **Sander van Vugt Labs:**
+
 - Advanced permission scenarios
 - ACL implementation
 - Special permissions in practice
 
 #### **Key Commands:**
+
 ```bash
 # Basic permissions
 chmod 755 file
@@ -210,6 +231,7 @@ find / -group groupname
 ### 4. User and Group Management
 
 #### **Asghar Ghori Labs:**
+
 - Exercise 5-1: Create a User Account with Default Attributes
 - Exercise 5-2: Create a User Account with Custom Values
 - Exercise 5-3: Modify and Delete a User Account
@@ -219,11 +241,13 @@ find / -group groupname
 - Exercise 6-3: Lock and Unlock a User Account with usermod and passwd
 
 #### **Sander van Vugt Labs:**
+
 - User account policies
 - Group membership management
 - Password aging configuration
 
 #### **Key Commands:**
+
 ```bash
 # User management
 useradd -u UID -g GROUP -G GROUPS -s SHELL -d HOME username
@@ -255,16 +279,19 @@ lastb
 ### 5. Process and Service Management
 
 #### **Asghar Ghori Labs:**
+
 - Systemctl command exercises
 - Service configuration labs
 - Process monitoring and control
 
 #### **Sander van Vugt Labs:**
+
 - Systemd service creation
 - Timer configuration
 - Process priority management
 
 #### **Key Commands:**
+
 ```bash
 # Process management
 ps aux
@@ -304,16 +331,19 @@ systemctl isolate rescue.target
 ### 6. Package Management
 
 #### **Asghar Ghori Labs:**
+
 - DNF package management exercises
 - Repository configuration
 - RPM command usage
 
 #### **Sander van Vugt Labs:**
+
 - Advanced package queries
 - Group package management
 - Creating custom repositories
 
 #### **Key Commands:**
+
 ```bash
 # DNF package management
 dnf install package
@@ -346,16 +376,18 @@ rpm -Uvh package.rpm      # upgrade package
 ### 7. Storage Management and LVM
 
 #### **Asghar Ghori Labs:**
+
 - LVM creation and management exercises
 - File system creation and mounting
 - Swap configuration labs
 
 #### **Sander van Vugt Labs:**
+
 - Advanced LVM scenarios
 - Storage troubleshooting
 
-
 #### **Key Commands:**
+
 ```bash
 # Disk and partition management
 lsblk
@@ -401,16 +433,19 @@ swapon --show
 ### 8. Network Configuration
 
 #### **Asghar Ghori Labs:**
+
 - NetworkManager configuration with nmcli
 - Static IP configuration
 - Network troubleshooting exercises
 
 #### **Sander van Vugt Labs:**
+
 - Advanced networking scenarios
 - Network bonding and teaming
 - IPv6 configuration
 
 #### **Key Commands:**
+
 ```bash
 # Network information
 ip addr show
@@ -440,16 +475,19 @@ netstat -tuln
 ### 9. Firewall Configuration
 
 #### **Asghar Ghori Labs:**
+
 - firewall-cmd basic configuration
 - Service and port management
 - Rich rules implementation
 
 #### **Sander van Vugt Labs:**
+
 - Advanced firewall scenarios
 - Custom service definitions
 - Firewall troubleshooting
 
 #### **Key Commands:**
+
 ```bash
 # Firewall management
 firewall-cmd --state
@@ -472,17 +510,20 @@ firewall-cmd --change-interface=INTERFACE --zone=ZONE --permanent
 ### 10. SELinux Management
 
 #### **Asghar Ghori Labs:**
+
 - SELinux mode configuration
 - Context management exercises
 - Boolean configuration
 - Port labeling labs
 
 #### **Sander van Vugt Labs:**
+
 - Advanced SELinux troubleshooting
 - Custom policy modules
 - File context analysis
 
 #### **Key Commands:**
+
 ```bash
 # SELinux status and modes
 getenforce
@@ -516,16 +557,19 @@ sealert -a /var/log/audit/audit.log
 ### 11. Boot Process and GRUB
 
 #### **Asghar Ghori Labs:**
+
 - GRUB configuration modification
 - Kernel parameter management
 - Boot troubleshooting scenarios
 
 #### **Sander van Vugt Labs:**
+
 - Advanced boot procedures
 - Systemd target management
 - Recovery scenarios
 
 #### **Key Commands:**
+
 ```bash
 # GRUB management
 grub2-editenv list
@@ -546,16 +590,19 @@ dnf list installed kernel
 ### 12. Logging and Monitoring
 
 #### **Asghar Ghori Labs:**
+
 - Journald configuration
 - Rsyslog setup
 - Log rotation configuration
 
 #### **Sander van Vugt Labs:**
+
 - Advanced logging scenarios
 - Remote logging setup
 - Log analysis techniques
 
 #### **Key Commands:**
+
 ```bash
 # Journal management
 journalctl
@@ -577,16 +624,19 @@ logrotate -d /etc/logrotate.conf
 ### 13. Scheduled Tasks
 
 #### **Asghar Ghori Labs:**
+
 - Crontab configuration
 - At job scheduling
 - Systemd timer creation
 
 #### **Sander van Vugt Labs:**
+
 - Advanced scheduling scenarios
 - Timer unit configuration
 - Anacron usage
 
 #### **Key Commands:**
+
 ```bash
 # Cron management
 crontab -e
@@ -609,16 +659,19 @@ systemctl start timer.timer
 ### 14. Container Management
 
 #### **Asghar Ghori Labs:**
+
 - Podman basic operations
 - Container networking
 - Container storage management
 
 #### **Sander van Vugt Labs:**
+
 - Advanced container scenarios
 - Systemd integration
 - Container image management
 
 #### **Key Commands:**
+
 ```bash
 # Container management
 podman pull image
@@ -644,16 +697,19 @@ podman logs container
 ### 15. Network Services
 
 #### **Asghar Ghori Labs:**
+
 - NFS server and client configuration
 - AutoFS implementation
 - SSH configuration
 
 #### **Sander van Vugt Labs:**
+
 - Advanced NFS scenarios
 - Time synchronization
 - SSH key management
 
 #### **Key Commands:**
+
 ```bash
 # NFS management
 systemctl enable --now nfs-server
@@ -674,6 +730,7 @@ scp file user@server:/path
 ## Command Summary by Category
 
 ### User Management Commands
+
 ```bash
 useradd, usermod, userdel, passwd, chage, chsh, chfn
 groupadd, groupmod, groupdel, gpasswd
@@ -681,6 +738,7 @@ id, groups, who, w, last, lastb
 ```
 
 ### File Management Commands
+
 ```bash
 ls, cp, mv, rm, mkdir, rmdir, touch, find, locate
 chmod, chown, chgrp, umask
@@ -689,6 +747,7 @@ tar, gzip, gunzip, zip, unzip
 ```
 
 ### Process Management Commands
+
 ```bash
 ps, top, htop, pgrep, pkill, kill, killall
 jobs, bg, fg, nohup
@@ -696,12 +755,14 @@ nice, renice
 ```
 
 ### System Service Commands
+
 ```bash
 systemctl, journalctl
 service, chkconfig (legacy)
 ```
 
 ### Network Commands
+
 ```bash
 nmcli, nmtui
 ip, ifconfig (legacy)
@@ -710,6 +771,7 @@ ss, netstat (legacy)
 ```
 
 ### Storage Commands
+
 ```bash
 lsblk, fdisk, parted, partprobe
 pvcreate, vgcreate, lvcreate, pvs, vgs, lvs
@@ -718,11 +780,13 @@ xfs_growfs, resize2fs
 ```
 
 ### Package Management Commands
+
 ```bash
 dnf, rpm, yum (legacy)
 ```
 
 ### Security Commands
+
 ```bash
 firewall-cmd
 getenforce, setenforce, setsebool, restorecon, semanage
@@ -730,6 +794,7 @@ ausearch, sealert
 ```
 
 ### Container Commands
+
 ```bash
 podman, buildah, skopeo
 ```

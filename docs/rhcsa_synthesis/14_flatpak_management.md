@@ -25,6 +25,7 @@
 Flatpak is a framework for distributing desktop and command-line applications on Linux. It provides a sandboxed environment where applications run isolated from the host system, with their own bundled dependencies.
 
 **Key characteristics**:
+
 - **Sandboxed execution**: Applications run in isolated environments with controlled access to host resources
 - **Bundled dependencies**: Each application ships with its own runtime and libraries, avoiding dependency conflicts
 - **Distribution-agnostic**: The same Flatpak runs on any Linux distribution
@@ -55,6 +56,7 @@ Flatpak supports two installation scopes:
 ### Sandboxing and Permissions
 
 Flatpak uses a portal-based permission system:
+
 - **Filesystem access**: Controlled via `--filesystem=` overrides
 - **Network access**: Enabled/disabled per application
 - **Device access**: Camera, GPU, etc. via portals
@@ -126,71 +128,83 @@ flatpak update org.gimp.GIMP                           # Update specific applica
 ### Standard Procedure: Adding a Remote and Installing Software
 
 1. **Add the Flathub remote** (if not already configured):
-   ```bash
-   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-   ```
+
+    ```bash
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    ```
 
 2. **Verify the remote is configured**:
-   ```bash
-   flatpak remotes
-   ```
+
+    ```bash
+    flatpak remotes
+    ```
 
 3. **Search for the desired application**:
-   ```bash
-   flatpak search gimp
-   ```
+
+    ```bash
+    flatpak search gimp
+    ```
 
 4. **Install the application**:
-   ```bash
-   flatpak install flathub org.gimp.GIMP -y
-   ```
+
+    ```bash
+    flatpak install flathub org.gimp.GIMP -y
+    ```
 
 5. **Verify installation**:
-   ```bash
-   flatpak list --app | grep -i gimp
-   flatpak info org.gimp.GIMP
-   ```
+
+    ```bash
+    flatpak list --app | grep -i gimp
+    flatpak info org.gimp.GIMP
+    ```
 
 6. **Run the application**:
-   ```bash
-   flatpak run org.gimp.GIMP
-   ```
+
+    ```bash
+    flatpak run org.gimp.GIMP
+    ```
 
 ### Standard Procedure: User-Level Installation
 
 1. **Add remote for current user only**:
-   ```bash
-   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-   ```
+
+    ```bash
+    flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    ```
 
 2. **Install application for current user**:
-   ```bash
-   flatpak install --user flathub org.mozilla.firefox -y
-   ```
+
+    ```bash
+    flatpak install --user flathub org.mozilla.firefox -y
+    ```
 
 3. **Verify user-level install**:
-   ```bash
-   flatpak list --user --app
-   ls ~/.local/share/flatpak/app/
-   ```
+
+    ```bash
+    flatpak list --user --app
+    ls ~/.local/share/flatpak/app/
+    ```
 
 ### Standard Procedure: Updating and Cleaning Up
 
 1. **Check for available updates**:
-   ```bash
-   flatpak update --appstream    # Update metadata
-   flatpak remote-ls --updates   # List available updates
-   ```
+
+    ```bash
+    flatpak update --appstream    # Update metadata
+    flatpak remote-ls --updates   # List available updates
+    ```
 
 2. **Update all installed Flatpaks**:
-   ```bash
-   flatpak update -y
-   ```
+
+    ```bash
+    flatpak update -y
+    ```
 
 3. **Remove unused runtimes** (after uninstalling applications):
-   ```bash
-   flatpak uninstall --unused -y
-   ```
+
+    ```bash
+    flatpak uninstall --unused -y
+    ```
 
 ---
 
@@ -237,6 +251,7 @@ flatpak override --user --reset org.gimp.GIMP
 ```
 
 Override files are stored in:
+
 - System: `/var/lib/flatpak/overrides/`
 - User: `~/.local/share/flatpak/overrides/`
 
@@ -251,53 +266,62 @@ Override files are stored in:
 **Steps**:
 
 1. **Verify Flatpak is installed** (it should be on RHEL 10 by default):
-   ```bash
-   rpm -q flatpak
-   flatpak --version
-   ```
+
+    ```bash
+    rpm -q flatpak
+    flatpak --version
+    ```
 
 2. **List currently configured remotes**:
-   ```bash
-   flatpak remotes
-   ```
+
+    ```bash
+    flatpak remotes
+    ```
 
 3. **Add the Flathub repository** (system-wide, requires root):
-   ```bash
-   sudo flatpak remote-add --if-not-exists flathub \
-     https://flathub.org/repo/flathub.flatpakrepo
-   ```
+
+    ```bash
+    sudo flatpak remote-add --if-not-exists flathub \
+      https://flathub.org/repo/flathub.flatpakrepo
+    ```
 
 4. **Verify the remote was added**:
-   ```bash
-   flatpak remotes --show-details
-   ```
+
+    ```bash
+    flatpak remotes --show-details
+    ```
 
 5. **Search for and install an application**:
-   ```bash
-   flatpak search calculator
-   sudo flatpak install flathub org.gnome.Calculator -y
-   ```
+
+    ```bash
+    flatpak search calculator
+    sudo flatpak install flathub org.gnome.Calculator -y
+    ```
 
 6. **Verify the installation**:
-   ```bash
-   flatpak list --app
-   flatpak info org.gnome.Calculator
-   ```
+
+    ```bash
+    flatpak list --app
+    flatpak info org.gnome.Calculator
+    ```
 
 7. **Run the installed application**:
-   ```bash
-   flatpak run org.gnome.Calculator
-   ```
+
+    ```bash
+    flatpak run org.gnome.Calculator
+    ```
 
 8. **Install an application at user level** (no root needed):
-   ```bash
-   flatpak remote-add --user --if-not-exists flathub \
-     https://flathub.org/repo/flathub.flatpakrepo
-   flatpak install --user flathub org.gnome.TextEditor -y
-   flatpak list --user --app
-   ```
+
+    ```bash
+    flatpak remote-add --user --if-not-exists flathub \
+      https://flathub.org/repo/flathub.flatpakrepo
+    flatpak install --user flathub org.gnome.TextEditor -y
+    flatpak list --user --app
+    ```
 
 **Verification**:
+
 ```bash
 flatpak remotes                    # Should show flathub
 flatpak list --app                 # Should show installed apps
@@ -313,37 +337,44 @@ flatpak info org.gnome.Calculator  # Should show app details
 **Steps**:
 
 1. **Update all installed Flatpaks**:
-   ```bash
-   flatpak update -y
-   ```
+
+    ```bash
+    flatpak update -y
+    ```
 
 2. **List installed runtimes**:
-   ```bash
-   flatpak list --runtime
-   ```
+
+    ```bash
+    flatpak list --runtime
+    ```
 
 3. **Uninstall an application**:
-   ```bash
-   sudo flatpak uninstall org.gnome.Calculator -y
-   ```
+
+    ```bash
+    sudo flatpak uninstall org.gnome.Calculator -y
+    ```
 
 4. **Clean up unused runtimes**:
-   ```bash
-   sudo flatpak uninstall --unused -y
-   ```
+
+    ```bash
+    sudo flatpak uninstall --unused -y
+    ```
 
 5. **Verify removal**:
-   ```bash
-   flatpak list --app
-   ```
+
+    ```bash
+    flatpak list --app
+    ```
 
 6. **Check disk usage**:
-   ```bash
-   du -sh /var/lib/flatpak/
-   du -sh ~/.local/share/flatpak/
-   ```
+
+    ```bash
+    du -sh /var/lib/flatpak/
+    du -sh ~/.local/share/flatpak/
+    ```
 
 **Verification**:
+
 ```bash
 flatpak list --app                 # Removed apps should be gone
 flatpak list --runtime             # Unused runtimes should be cleaned
@@ -354,11 +385,13 @@ flatpak list --runtime             # Unused runtimes should be cleaned
 **Objective**: Configure a complete Flatpak environment suitable for enterprise use
 
 **Scenario**: As a system administrator, configure Flatpak on a RHEL 10 system so that:
+
 - Flathub is available as a system-wide remote
 - A standard set of applications is installed for all users
 - A regular user can install additional applications at the user level
 
 **Requirements**:
+
 1. Add Flathub as a system-wide remote
 2. Install two system-wide applications
 3. As a regular user, add a user-level remote and install one application
@@ -366,34 +399,39 @@ flatpak list --runtime             # Unused runtimes should be cleaned
 5. Verify system vs user install locations
 
 **Solution Steps**:
+
 1. **System-wide setup** (as root):
-   ```bash
-   sudo flatpak remote-add --if-not-exists flathub \
-     https://flathub.org/repo/flathub.flatpakrepo
-   sudo flatpak install flathub org.gnome.Calculator org.gnome.TextEditor -y
-   ```
+
+    ```bash
+    sudo flatpak remote-add --if-not-exists flathub \
+      https://flathub.org/repo/flathub.flatpakrepo
+    sudo flatpak install flathub org.gnome.Calculator org.gnome.TextEditor -y
+    ```
 
 2. **User-level setup** (as regular user):
-   ```bash
-   flatpak remote-add --user --if-not-exists flathub \
-     https://flathub.org/repo/flathub.flatpakrepo
-   flatpak install --user flathub org.gnome.Logs -y
-   ```
+
+    ```bash
+    flatpak remote-add --user --if-not-exists flathub \
+      https://flathub.org/repo/flathub.flatpakrepo
+    flatpak install --user flathub org.gnome.Logs -y
+    ```
 
 3. **Update everything**:
-   ```bash
-   sudo flatpak update -y
-   flatpak update --user -y
-   ```
+
+    ```bash
+    sudo flatpak update -y
+    flatpak update --user -y
+    ```
 
 4. **Verify**:
-   ```bash
-   flatpak list --app                              # All apps
-   flatpak list --app --system                     # System apps
-   flatpak list --app --user                       # User apps
-   ls /var/lib/flatpak/app/                        # System install path
-   ls ~/.local/share/flatpak/app/                  # User install path
-   ```
+
+    ```bash
+    flatpak list --app                              # All apps
+    flatpak list --app --system                     # System apps
+    flatpak list --app --user                       # User apps
+    ls /var/lib/flatpak/app/                        # System install path
+    ls ~/.local/share/flatpak/app/                  # User install path
+    ```
 
 ---
 
@@ -404,15 +442,18 @@ flatpak list --runtime             # Unused runtimes should be cleaned
 #### Issue 1: Remote Add Fails with GPG Error
 
 **Symptoms**:
+
 - Error about GPG verification when adding a remote
 - "GPG signatures found, but none are in trusted keyring"
 
 **Diagnosis**:
+
 ```bash
 flatpak remotes --show-details     # Check existing remote config
 ```
 
 **Resolution**:
+
 ```bash
 # Re-add the remote (the .flatpakrepo file includes the GPG key)
 flatpak remote-delete flathub
@@ -424,15 +465,18 @@ flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 #### Issue 2: Application Won't Install — Missing Runtime
 
 **Symptoms**:
+
 - Installation fails with "runtime not found" error
 
 **Diagnosis**:
+
 ```bash
 flatpak info --show-runtime org.example.App    # Check required runtime
 flatpak list --runtime                          # List installed runtimes
 ```
 
 **Resolution**:
+
 ```bash
 # Install the required runtime manually
 flatpak install flathub org.freedesktop.Platform//24.08 -y
@@ -443,16 +487,19 @@ flatpak install flathub org.example.App -y
 #### Issue 3: Application Crashes or Cannot Access Files
 
 **Symptoms**:
+
 - Application starts but cannot read/write files
 - Permission denied errors in application
 
 **Diagnosis**:
+
 ```bash
 flatpak info --show-permissions org.example.App
 flatpak override --user --show org.example.App
 ```
 
 **Resolution**:
+
 ```bash
 # Grant filesystem access
 flatpak override --user --filesystem=home org.example.App
@@ -521,41 +568,43 @@ flatpak run APP_ID                 # Confirm app runs
 ### Conceptual Questions
 
 1. **Question**: What is the difference between a Flatpak runtime and a Flatpak application?
-   **Answer**: A runtime is a shared set of base libraries (like `org.freedesktop.Platform`) that provides common dependencies. An application is the actual software built against a specific runtime. Multiple applications can share the same runtime, reducing disk usage.
+    **Answer**: A runtime is a shared set of base libraries (like `org.freedesktop.Platform`) that provides common dependencies. An application is the actual software built against a specific runtime. Multiple applications can share the same runtime, reducing disk usage.
 
 2. **Question**: What is the difference between system-level and user-level Flatpak installs?
-   **Answer**: System installs (default) are stored in `/var/lib/flatpak/` and available to all users but require root privileges. User installs (`--user`) are stored in `~/.local/share/flatpak/` and available only to the installing user but require no elevated privileges.
+    **Answer**: System installs (default) are stored in `/var/lib/flatpak/` and available to all users but require root privileges. User installs (`--user`) are stored in `~/.local/share/flatpak/` and available only to the installing user but require no elevated privileges.
 
 3. **Question**: How does Flatpak differ from RPM/DNF package management?
-   **Answer**: DNF manages system-level packages (kernel, libraries, system services) from RPM repositories. Flatpak manages sandboxed applications with bundled dependencies, providing isolation from the host system. They serve complementary roles — DNF for the base OS, Flatpak for application-layer software.
+    **Answer**: DNF manages system-level packages (kernel, libraries, system services) from RPM repositories. Flatpak manages sandboxed applications with bundled dependencies, providing isolation from the host system. They serve complementary roles — DNF for the base OS, Flatpak for application-layer software.
 
 ### Practical Scenarios
 
 1. **Scenario**: A user needs to install GIMP from Flathub but Flathub is not configured on the system.
-   **Solution**:
-   ```bash
-   sudo flatpak remote-add --if-not-exists flathub \
-     https://flathub.org/repo/flathub.flatpakrepo
-   sudo flatpak install flathub org.gimp.GIMP -y
-   ```
+    **Solution**:
+
+    ```bash
+    sudo flatpak remote-add --if-not-exists flathub \
+      https://flathub.org/repo/flathub.flatpakrepo
+    sudo flatpak install flathub org.gimp.GIMP -y
+    ```
 
 2. **Scenario**: A regular user wants to install applications without root access.
-   **Solution**:
-   ```bash
-   flatpak remote-add --user --if-not-exists flathub \
-     https://flathub.org/repo/flathub.flatpakrepo
-   flatpak install --user flathub org.example.App -y
-   ```
+    **Solution**:
+
+    ```bash
+    flatpak remote-add --user --if-not-exists flathub \
+      https://flathub.org/repo/flathub.flatpakrepo
+    flatpak install --user flathub org.example.App -y
+    ```
 
 ### Command Challenges
 
 1. **Challenge**: List all Flatpak applications (not runtimes) installed on the system.
-   **Answer**: `flatpak list --app`
-   **Explanation**: The `--app` flag filters output to show only applications, excluding shared runtimes.
+    **Answer**: `flatpak list --app`
+    **Explanation**: The `--app` flag filters output to show only applications, excluding shared runtimes.
 
 2. **Challenge**: Remove all unused runtimes left over from uninstalled applications.
-   **Answer**: `flatpak uninstall --unused`
-   **Explanation**: After uninstalling applications, their runtimes may remain. `--unused` identifies and removes runtimes no longer needed by any installed application.
+    **Answer**: `flatpak uninstall --unused`
+    **Explanation**: After uninstalling applications, their runtimes may remain. `--unused` identifies and removes runtimes no longer needed by any installed application.
 
 ---
 
@@ -571,19 +620,21 @@ flatpak run APP_ID                 # Confirm app runs
 ### Common Exam Scenarios
 
 1. **Scenario**: Configure Flathub repository and install a specified application
-   **Approach**:
-   ```bash
-   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-   flatpak install flathub org.example.App -y
-   flatpak list --app    # Verify
-   ```
+    **Approach**:
+
+    ```bash
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    flatpak install flathub org.example.App -y
+    flatpak list --app    # Verify
+    ```
 
 2. **Scenario**: Install a Flatpak application for a specific user without root
-   **Approach**:
-   ```bash
-   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-   flatpak install --user flathub org.example.App -y
-   ```
+    **Approach**:
+
+    ```bash
+    flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    flatpak install --user flathub org.example.App -y
+    ```
 
 ### Time Management
 

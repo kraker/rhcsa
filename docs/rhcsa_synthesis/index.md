@@ -5,6 +5,7 @@
 ## Overview
 
 This knowledge base synthesizes content from two authoritative RHCSA study resources:
+
 - **Asghar Ghori**: "RHCSA Red Hat Enterprise Linux 10" (Dec 2025 edition)
 - **Sander van Vugt**: "Red Hat RHCSA 9 Cert Guide" (concepts still applicable)
 
@@ -13,18 +14,21 @@ Each topic module combines the best approaches from both authors, providing comp
 ## Study Approach
 
 ### For First-Time Learners
+
 1. Start with [Exam Overview](00_exam_overview.md) for context
 2. Follow modules in numerical order (01-15)
 3. Complete all hands-on labs in each module
 4. Use Quick Reference Cards for review
 
 ### For Exam Preparation
+
 1. Review [Exam Overview](00_exam_overview.md) for strategy
 2. Focus on modules matching your weak areas
 3. Practice all troubleshooting scenarios
 4. Use Knowledge Checks for self-assessment
 
 ### For Reference/Review
+
 1. Use this index to jump to specific topics
 2. Leverage Quick Reference Cards for rapid lookup
 3. Consult Troubleshooting Playbooks for specific issues
@@ -32,6 +36,7 @@ Each topic module combines the best approaches from both authors, providing comp
 ## Module Index
 
 ### Foundation Topics
+
 | Module | Topic | Focus Areas | Exam Weight |
 |--------|-------|-------------|-------------|
 | [00](00_exam_overview.md) | **Exam Overview** | Format, strategy, environment setup | Essential |
@@ -40,6 +45,7 @@ Each topic module combines the best approaches from both authors, providing comp
 | [03](03_user_group_management.md) | **User & Group Management** | Account creation, policies, sudo | Critical |
 
 ### System Administration
+
 | Module | Topic | Focus Areas | Exam Weight |
 |--------|-------|-------------|-------------|
 | [04](04_file_permissions.md) | **File Permissions** | File permissions, access controls | Critical |
@@ -49,6 +55,7 @@ Each topic module combines the best approaches from both authors, providing comp
 | [08](08_networking.md) | **Network Configuration** | IP configuration, DNS, routing | High |
 
 ### Security and Advanced Topics
+
 | Module | Topic | Focus Areas | Exam Weight |
 |--------|-------|-------------|-------------|
 | [09](09_selinux.md) | **SELinux Management** | Contexts, booleans, troubleshooting | Critical |
@@ -58,6 +65,7 @@ Each topic module combines the best approaches from both authors, providing comp
 | [13](13_scheduled_tasks.md) | **Scheduled Tasks** | cron, at, systemd timers | Medium |
 
 ### Modern RHEL Features
+
 | Module | Topic | Focus Areas | Exam Weight |
 |--------|-------|-------------|-------------|
 | [14](14_flatpak_management.md) | **Flatpak Management** | Flatpak repos, application management | High |
@@ -66,6 +74,7 @@ Each topic module combines the best approaches from both authors, providing comp
 ## Quick Navigation
 
 ### By Exam Objective
+
 - **Understand and use essential tools** → Modules 01, 02
 - **Create simple shell scripts** → Module 02, 13
 - **Operate running systems** → Modules 05, 06, 12, 13
@@ -77,6 +86,7 @@ Each topic module combines the best approaches from both authors, providing comp
 - **Manage security** → Modules 04, 09, 10
 
 ### By Common Tasks
+
 - **System Setup**: Modules 01, 03, 08
 - **Storage Configuration**: Modules 07
 - **Security Hardening**: Modules 04, 09, 10
@@ -107,11 +117,13 @@ Track your progress through the synthesis modules:
 ## Additional Resources
 
 ### Original Sources
+
 - Current ebook analysis: [ebook_summary.md](../ebook_summary.md)
 - Comprehensive flashcards: [rhcsa_deck.csv](../../anki/rhcsa_deck.csv)
 - Quick exam reference: [exam_quick_reference.md](../exam_quick_reference.md)
 
 ### Command References
+
 - Organized by topic: [command_reference_by_topic.md](../command_reference_by_topic.md)
 - Acronyms and terminology: [rhcsa_acronyms_glossary.md](../rhcsa_acronyms_glossary.md)
 

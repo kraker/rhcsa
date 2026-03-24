@@ -5,6 +5,7 @@ Organized command reference extracted from both study guides, designed for quick
 ## System Information and Management
 
 ### Hardware and System Information
+
 ```bash
 # System information
 uname -a                    # System kernel and architecture
@@ -34,6 +35,7 @@ du -h --max-depth=1 /path   # Subdirectory sizes
 ```
 
 ### Date and Time Management
+
 ```bash
 # Time and timezone
 date                        # Current date and time
@@ -49,6 +51,7 @@ systemctl status chronyd   # Check time sync status
 ## File System and Storage Management
 
 ### Basic File Operations
+
 ```bash
 # Directory navigation
 pwd                         # Print working directory
@@ -79,6 +82,7 @@ touch file                  # Create empty file or update timestamp
 ```
 
 ### File Searching and Finding
+
 ```bash
 # Find files and directories
 find /path -name "pattern"  # Find by name
@@ -100,6 +104,7 @@ type command                # Show command type and location
 ```
 
 ### File Linking
+
 ```bash
 # Hard and soft links
 ln source hard_link         # Create hard link
@@ -109,6 +114,7 @@ stat file                   # Show file statistics and links
 ```
 
 ### File Compression and Archives
+
 ```bash
 # tar archives
 tar -czf archive.tar.gz files/     # Create gzipped tar
@@ -130,6 +136,7 @@ unzip archive.zip           # Extract zip archive
 ## Text Processing and File Content
 
 ### Viewing File Contents
+
 ```bash
 # Display file contents
 cat file                    # Display entire file
@@ -145,6 +152,7 @@ more file                   # Page through file (simpler)
 ```
 
 ### Text Processing Tools
+
 ```bash
 # Search and filter
 grep pattern file           # Search for pattern
@@ -180,6 +188,7 @@ wc -c file                  # Character count only
 ```
 
 ### Text Editors
+
 ```bash
 # vim editor
 vim file                    # Open file in vim
@@ -194,6 +203,7 @@ nano file                   # Open file in nano
 ## Permissions and Security
 
 ### File Permissions
+
 ```bash
 # View permissions
 ls -l file                  # Show permissions
@@ -226,6 +236,7 @@ umask 077                   # Set umask (700 for dirs, 600 for files)
 ```
 
 ### Special Permissions
+
 ```bash
 # Special permission bits
 chmod +s file               # Set setuid/setgid
@@ -241,6 +252,7 @@ find / -perm -1000 2>/dev/null  # Find sticky bit files
 ```
 
 ### Access Control Lists (ACLs) — Supplementary (not on RHEL 10 exam)
+
 ```bash
 # Manage ACLs
 setfacl -m u:username:rwx file      # Set user ACL
@@ -254,6 +266,7 @@ getfacl file                        # Display ACLs
 ## User and Group Management
 
 ### User Account Management
+
 ```bash
 # Create users
 useradd username            # Create user with defaults
@@ -287,6 +300,7 @@ finger username             # User information (if available)
 ```
 
 ### Password Management
+
 ```bash
 # Password operations
 passwd username             # Set user password
@@ -306,6 +320,7 @@ chage -E 2024-12-31 username  # Account expiration date
 ```
 
 ### Group Management
+
 ```bash
 # Create groups
 groupadd groupname          # Create group
@@ -328,6 +343,7 @@ getent group groupname      # Show group information
 ```
 
 ### User Information and Login History
+
 ```bash
 # Current activity
 who                         # Currently logged in users
@@ -341,6 +357,7 @@ lastlog                     # Last login for all users
 ## Process and Job Management
 
 ### Process Monitoring
+
 ```bash
 # View processes
 ps                          # Current session processes
@@ -354,6 +371,7 @@ htop                        # Enhanced process monitor
 ```
 
 ### Process Control
+
 ```bash
 # Find processes
 pgrep processname           # Find process IDs by name
@@ -375,6 +393,7 @@ renice -5 -u username       # Change priority for user processes
 ```
 
 ### Job Control
+
 ```bash
 # Background jobs
 command &                   # Run in background
@@ -392,6 +411,7 @@ Ctrl+C                      # Interrupt current job
 ## System Services and Systemd
 
 ### Service Management
+
 ```bash
 # Service operations
 systemctl start service     # Start service
@@ -415,6 +435,7 @@ systemctl --failed          # Show failed services
 ```
 
 ### Systemd Targets
+
 ```bash
 # Target management
 systemctl get-default       # Show default target
@@ -425,6 +446,7 @@ systemctl list-dependencies target  # Show target dependencies
 ```
 
 ### Unit Files and Configuration
+
 ```bash
 # Unit file management
 systemctl daemon-reload     # Reload unit files
@@ -437,6 +459,7 @@ systemctl show service      # Show unit properties
 ## Logging and Monitoring
 
 ### Journal (systemd logs)
+
 ```bash
 # View logs
 journalctl                  # All journal entries
@@ -454,6 +477,7 @@ journalctl --disk-usage     # Journal disk usage
 ```
 
 ### Traditional Logs
+
 ```bash
 # Log files
 tail -f /var/log/messages   # Follow system messages
@@ -464,6 +488,7 @@ logger "test message"       # Send message to syslog
 ```
 
 ### Log Rotation
+
 ```bash
 # Logrotate
 logrotate -d /etc/logrotate.conf  # Debug/test rotation
@@ -473,6 +498,7 @@ logrotate -f /etc/logrotate.conf  # Force rotation
 ## Network Configuration and Management
 
 ### Network Information
+
 ```bash
 # Network interfaces
 ip addr show                # Show IP addresses
@@ -486,6 +512,7 @@ route -n                    # Show routing table (deprecated)
 ```
 
 ### NetworkManager with nmcli
+
 ```bash
 # Connection management
 nmcli device status         # Device status
@@ -512,6 +539,7 @@ nmcli con delete "conn1"    # Delete connection
 ```
 
 ### Network Testing and Troubleshooting
+
 ```bash
 # Connectivity testing
 ping host                   # Test connectivity
@@ -536,6 +564,7 @@ lsof -i tcp:22              # Show SSH connections
 ## Network File System (NFS) and AutoFS
 
 ### NFS Client Operations
+
 ```bash
 # NFS package installation
 dnf install -y nfs-utils       # Install NFS client utilities
@@ -574,6 +603,7 @@ rpcinfo -p nfs-server          # Show RPC services
 ```
 
 ### NFS Server Management
+
 ```bash
 # NFS server package installation
 dnf install -y nfs-utils       # Install NFS server utilities
@@ -602,6 +632,7 @@ firewall-cmd --reload                          # Apply firewall changes
 ```
 
 ### AutoFS Configuration and Management
+
 ```bash
 # AutoFS installation
 dnf install -y autofs          # Install AutoFS package
@@ -638,6 +669,7 @@ mount | grep autofs                    # Show active automounts
 ```
 
 ### fstab Integration for NFS
+
 ```bash
 # fstab entry format for NFS
 # device mount-point type options dump fsck
@@ -655,6 +687,7 @@ findmnt /mnt/nfs              # Show mount details
 ```
 
 ### NFS and AutoFS Troubleshooting
+
 ```bash
 # NFS client troubleshooting
 showmount -e server           # Test server connectivity
@@ -686,6 +719,7 @@ lsof +D /mnt/nfs-share       # Show open files in NFS mount
 ## Package Management
 
 ### DNF Package Manager
+
 ```bash
 # Package operations
 dnf install package         # Install package
@@ -726,6 +760,7 @@ dnf autoremove              # Remove unneeded packages
 ```
 
 ### RPM Package Manager
+
 ```bash
 # RPM queries
 rpm -qa                     # List all installed packages
@@ -751,6 +786,7 @@ rpm -Va                     # Verify all packages
 ## Storage Management and File Systems
 
 ### Disk and Partition Management
+
 ```bash
 # Disk information
 lsblk                       # List block devices
@@ -770,6 +806,7 @@ tune2fs -L label /dev/partition  # Set file system label
 ```
 
 ### LVM (Logical Volume Management)
+
 ```bash
 # Physical volumes
 pvcreate /dev/device        # Create physical volume
@@ -798,6 +835,7 @@ lvremove /dev/vg/lv         # Remove logical volume
 ```
 
 ### File System Operations
+
 ```bash
 # Mounting
 mount /dev/device /mountpoint     # Mount file system
@@ -822,6 +860,7 @@ swapon -a                   # Enable all swap in fstab
 ```
 
 ### fstab Configuration
+
 ```bash
 # /etc/fstab format:
 # device mountpoint fstype options dump pass
@@ -843,6 +882,7 @@ nosuid          # Ignore setuid bits
 ## Firewall Management
 
 ### firewalld Configuration
+
 ```bash
 # Firewall status
 firewall-cmd --state        # Check if running
@@ -881,6 +921,7 @@ firewall-cmd --runtime-to-permanent  # Make runtime rules permanent
 ## SELinux Management
 
 ### SELinux Status and Modes
+
 ```bash
 # SELinux status
 getenforce                  # Current mode (Enforcing/Permissive/Disabled)
@@ -893,6 +934,7 @@ SELINUX=enforcing          # or permissive, disabled
 ```
 
 ### File Contexts
+
 ```bash
 # View contexts
 ls -Z file                  # Show file context
@@ -912,6 +954,7 @@ semanage fcontext -d "/web(/.*)?"  # Delete context rule
 ```
 
 ### SELinux Booleans
+
 ```bash
 # View booleans
 getsebool -a                # List all booleans
@@ -921,6 +964,7 @@ setsebool -P httpd_can_network_connect on  # Set boolean (permanent)
 ```
 
 ### Port Contexts
+
 ```bash
 # Manage port contexts
 semanage port -l            # List port contexts
@@ -930,6 +974,7 @@ semanage port -l | grep http  # Show HTTP ports
 ```
 
 ### SELinux Troubleshooting
+
 ```bash
 # Check for denials
 ausearch -m AVC -ts recent  # Recent AVC denials
@@ -946,6 +991,7 @@ semodule -i mypolicy.pp     # Install policy module
 ## Boot Process and GRUB
 
 ### GRUB Configuration
+
 ```bash
 # GRUB management
 grub2-editenv list          # List GRUB environment
@@ -959,6 +1005,7 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
 ### Boot Targets and Runlevels
+
 ```bash
 # Systemd targets
 systemctl get-default       # Show default target
@@ -974,6 +1021,7 @@ systemctl list-dependencies graphical.target  # Show dependencies
 ## Scheduled Tasks
 
 ### Cron Jobs
+
 ```bash
 # User crontab
 crontab -e                  # Edit user crontab
@@ -995,6 +1043,7 @@ ls /etc/cron.{hourly,daily,weekly,monthly}/  # Cron directories
 ```
 
 ### At Jobs
+
 ```bash
 # Schedule one-time jobs
 at now + 5 minutes          # Schedule for 5 minutes from now
@@ -1009,6 +1058,7 @@ at -c job_number            # Show job details
 ```
 
 ### Systemd Timers
+
 ```bash
 # Timer management
 systemctl list-timers       # List all timers
@@ -1021,6 +1071,7 @@ systemctl status timer.timer  # Check timer status
 ## Flatpak Software Management
 
 ### Remote and Application Management
+
 ```bash
 # Remote (repository) management
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -1045,6 +1096,7 @@ flatpak info org.example.App           # Show app details
 ## SSH and Remote Access
 
 ### SSH Client
+
 ```bash
 # SSH connections
 ssh user@hostname           # Connect to remote host
@@ -1063,6 +1115,7 @@ ssh-agent bash              # Start SSH agent
 ```
 
 ### SSH Server Configuration
+
 ```bash
 # SSH daemon configuration (/etc/ssh/sshd_config)
 Port 22                     # Change SSH port
@@ -1077,6 +1130,7 @@ sshd -t                     # Test configuration
 ```
 
 ### File Transfer
+
 ```bash
 # SCP (Secure Copy)
 scp file user@host:/path    # Copy file to remote

@@ -1,6 +1,7 @@
 # Module 13: Scheduled Tasks & Automation
 
 ## 1. Learning Objectives
+
 - Master cron and anacron scheduling systems
 - Configure systemd timers for service automation
 - Implement at and batch commands for one-time tasks
@@ -12,6 +13,7 @@
 ## 2. Key Concepts
 
 ### Task Scheduling Systems in RHEL 10
+
 - **cron**: Traditional time-based job scheduler
 - **anacron**: Enhanced scheduler for systems not always running
 - **systemd timers**: Modern systemd-based scheduling
@@ -19,17 +21,20 @@
 - **batch**: Queue-based task execution
 
 ### Cron Architecture
+
 - **crond**: Main cron daemon
 - **User crontabs**: Individual user scheduling
 - **System crontab**: `/etc/crontab` for system-wide tasks
 - **Cron directories**: `/etc/cron.{hourly,daily,weekly,monthly}/`
 
 ### Systemd Timer Types
+
 - **Realtime timers**: Calendar-based scheduling (like cron)
 - **Monotonic timers**: Relative to system events (boot, service start)
 - **Transient timers**: Temporary timers created on-the-fly
 
 ### Access Control
+
 - **Allow files**: `/etc/cron.allow`, `/etc/at.allow`
 - **Deny files**: `/etc/cron.deny`, `/etc/at.deny`
 - **Default behavior**: If no allow file exists, all users except those in deny file can schedule tasks
@@ -37,6 +42,7 @@
 ## 3. Essential Commands
 
 ### Cron Management
+
 ```bash
 # User crontab management
 crontab -e                                           # Edit current user's crontab
@@ -56,6 +62,7 @@ systemctl restart crond
 ```
 
 ### Crontab Syntax
+
 ```bash
 # Format: minute hour day_of_month month day_of_week command
 # Fields:    0-59  0-23    1-31        1-12      0-7 (0 and 7 are Sunday)
@@ -76,6 +83,7 @@ systemctl restart crond
 ```
 
 ### Systemd Timer Management
+
 ```bash
 # List all timers
 systemctl list-timers                               # Active timers
@@ -93,6 +101,7 @@ journalctl -u timer-name.service
 ```
 
 ### At and Batch Commands
+
 ```bash
 # Schedule one-time tasks with at
 at 15:30                                            # Run at 3:30 PM today
@@ -116,6 +125,7 @@ batch> <Ctrl+D>
 ```
 
 ### Access Control Management
+
 ```bash
 # Cron access control
 echo "username" >> /etc/cron.allow                  # Allow user
@@ -134,7 +144,9 @@ echo "username" >> /etc/at.deny                     # Deny user
 ## 4. Asghar Ghori's Approach
 
 ### Systematic Cron Implementation
+
 Ghori emphasizes step-by-step cron configuration:
+
 ```bash
 # 1. Plan the task schedule
 # Identify task frequency and timing requirements
@@ -161,7 +173,9 @@ crontab -e
 ```
 
 ### Anacron Configuration for Laptops
+
 Ghori's approach for systems not always running:
+
 ```bash
 # Configure anacron in /etc/anacrontab
 # period_in_days delay_in_minutes job-identifier command
@@ -177,6 +191,7 @@ anacron -T                                          # Test configuration
 ```
 
 ### Cron Security Best Practices
+
 ```bash
 # Ghori's security recommendations:
 # 1. Use full paths in cron scripts
@@ -193,7 +208,9 @@ MAILTO=admin@company.com
 ## 5. Sander van Vugt's Approach
 
 ### Systemd Timer Implementation
+
 Van Vugt emphasizes modern systemd timers over traditional cron:
+
 ```bash
 # Create service unit file
 cat > /etc/systemd/system/system-cleanup.service << 'EOF'
@@ -232,7 +249,9 @@ systemctl enable --now system-cleanup.timer
 ```
 
 ### Advanced Timer Scheduling
+
 Van Vugt's sophisticated timer configurations:
+
 ```bash
 # Complex calendar specifications
 OnCalendar=Mon,Tue,Wed,Thu,Fri *-*-* 02:00:00      # Weekdays at 2 AM
@@ -254,6 +273,7 @@ Persistent=true
 ```
 
 ### Timer Debugging and Analysis
+
 ```bash
 # Van Vugt's timer troubleshooting approach
 systemctl list-timers --all                       # Show all timer status
@@ -269,6 +289,7 @@ systemctl status timer-name.timer timer-name.service  # Combined status
 ## 6. Command Examples and Scenarios
 
 ### Scenario 1: System Maintenance Automation
+
 ```bash
 # Comprehensive system maintenance crontab
 # Edit: crontab -e
@@ -288,6 +309,7 @@ systemctl status timer-name.timer timer-name.service  # Combined status
 ```
 
 ### Scenario 2: User-specific Task Scheduling
+
 ```bash
 # User crontab for development environment
 # Run as regular user: crontab -e
@@ -305,6 +327,7 @@ MAILTO=developer@company.com
 ```
 
 ### Scenario 3: One-time and Conditional Tasks
+
 ```bash
 # Schedule immediate one-time tasks
 echo "systemctl restart httpd" | at now + 5 minutes
@@ -321,14 +344,17 @@ echo "/usr/local/bin/video-processing.sh" | batch
 ## 7. Lab Exercises
 
 ### Lab 13A: Cron and Anacron Configuration (Ghori-focused)
+
 **Time Limit**: 25 minutes
 **Objective**: Implement comprehensive cron-based task scheduling with proper security and logging
 
 **Prerequisites**:
+
 - RHEL 10 system with crond and anacron installed
 - Multiple user accounts for testing access control
 
 **Tasks**:
+
 1. Create system-wide backup script that runs daily at 2:30 AM
 2. Configure user crontab for log rotation every 6 hours
 3. Set up anacron for weekly system updates (for laptop usage)
@@ -336,6 +362,7 @@ echo "/usr/local/bin/video-processing.sh" | batch
 5. Create monitoring script that checks cron job execution
 
 **Verification Commands**:
+
 ```bash
 crontab -l                                          # Check user crontab
 cat /etc/crontab                                    # Check system crontab
@@ -344,14 +371,17 @@ grep CRON /var/log/cron                            # Check cron execution logs
 ```
 
 ### Lab 13B: Systemd Timer Implementation (van Vugt-focused)
+
 **Time Limit**: 30 minutes
 **Objective**: Build modern systemd-based scheduling system with advanced timer features
 
 **Prerequisites**:
+
 - RHEL 10 system with systemd
 - Understanding of systemd unit files
 
 **Tasks**:
+
 1. Create systemd service and timer for automated system cleanup
 2. Configure calendar-based timer for business hours only (9 AM - 5 PM, weekdays)
 3. Implement persistent timer that catches up missed executions
@@ -359,6 +389,7 @@ grep CRON /var/log/cron                            # Check cron execution logs
 5. Create timer with randomized delay for distributed execution
 
 **Verification Commands**:
+
 ```bash
 systemctl list-timers --all                        # Check all timers
 systemctl status cleanup.timer cleanup.service     # Check timer status
@@ -367,14 +398,17 @@ systemd-analyze calendar "Mon..Fri *-*-* 09..17:00:00"  # Validate calendar
 ```
 
 ### Lab 13C: Synthesis Challenge - Enterprise Task Scheduling
+
 **Time Limit**: 35 minutes
 **Objective**: Design comprehensive enterprise scheduling system combining all methodologies
 
 **Prerequisites**:
+
 - Multiple RHEL 10 systems for distributed scheduling
 - Network connectivity for centralized monitoring
 
 **Tasks**:
+
 1. Design multi-tier scheduling system using both cron and systemd timers
 2. Implement centralized task monitoring and alerting
 3. Create backup scheduling with dependency management
@@ -383,11 +417,13 @@ systemd-analyze calendar "Mon..Fri *-*-* 09..17:00:00"  # Validate calendar
 6. Implement security hardening for all scheduled tasks
 
 **Advanced Requirements**:
+
 - Combine Ghori's systematic approach with van Vugt's modern timer techniques
 - Implement cross-system task coordination
 - Create automated failover mechanisms for critical tasks
 
 **Verification Commands**:
+
 ```bash
 systemctl list-timers && crontab -l                # Check all scheduling
 grep -r "CRON\|Timer" /var/log/                    # Check execution logs
@@ -398,6 +434,7 @@ find /etc -name "*cron*" -o -name "*.timer" | head -10  # Find config files
 ## 8. Troubleshooting Common Issues
 
 ### Cron Jobs Not Executing
+
 ```bash
 # Symptoms: Scheduled tasks not running
 # Check cron service status
@@ -423,6 +460,7 @@ ls -la /etc/cron.{allow,deny}
 ```
 
 ### Environment Variables in Cron
+
 ```bash
 # Symptoms: Script works manually but fails in cron
 # Solution: Set environment variables in crontab
@@ -441,6 +479,7 @@ source ~/.bashrc
 ```
 
 ### Systemd Timer Not Triggering
+
 ```bash
 # Symptoms: Timer exists but service doesn't run
 # Check timer status
@@ -460,6 +499,7 @@ journalctl -u timer-name.service
 ```
 
 ### At Jobs Not Running
+
 ```bash
 # Symptoms: at command accepts job but doesn't execute
 # Check atd service
@@ -479,6 +519,7 @@ tail -f /var/log/cron                               # at uses cron logging
 ```
 
 ### Permission Denied Errors
+
 ```bash
 # Symptoms: Jobs fail with permission errors
 # Check script ownership and permissions
@@ -498,6 +539,7 @@ username ALL=(ALL) NOPASSWD: /usr/local/bin/script.sh
 ## 9. Best Practices
 
 ### Security Considerations
+
 - Use full paths for all commands and scripts
 - Set restrictive permissions on cron scripts (755 or 750)
 - Implement proper logging and monitoring
@@ -506,6 +548,7 @@ username ALL=(ALL) NOPASSWD: /usr/local/bin/script.sh
 - Implement access control using allow/deny files
 
 ### Performance Optimization
+
 - Avoid scheduling multiple resource-intensive tasks simultaneously
 - Use batch command for CPU-intensive tasks
 - Implement task dependencies to prevent conflicts
@@ -513,6 +556,7 @@ username ALL=(ALL) NOPASSWD: /usr/local/bin/script.sh
 - Use randomized delays for distributed environments
 
 ### Error Handling and Monitoring
+
 - Redirect output to log files for debugging
 - Implement notification mechanisms for task failures
 - Use MAILTO variable for cron error notifications
@@ -520,6 +564,7 @@ username ALL=(ALL) NOPASSWD: /usr/local/bin/script.sh
 - Maintain audit logs of all scheduled task changes
 
 ### Modern Scheduling Strategy
+
 - Prefer systemd timers for new implementations
 - Use persistent timers for critical tasks
 - Implement proper service dependencies
@@ -529,24 +574,28 @@ username ALL=(ALL) NOPASSWD: /usr/local/bin/script.sh
 ## 10. Integration with Other RHCSA Topics
 
 ### Service Management Integration
+
 - Schedule service restarts and updates
 - Coordinate scheduled tasks with service dependencies
 - Monitor service health through scheduled checks
 - Implement service failover through automation
 
 ### Storage Integration
+
 - Schedule filesystem cleanup and maintenance
 - Automate backup and archive operations
 - Monitor disk usage and implement alerts
 - Coordinate with LVM operations for snapshots
 
 ### Security Integration
+
 - Schedule security updates and patches
 - Automate log analysis and security monitoring
 - Coordinate with SELinux policy updates
 - Implement automated security scanning
 
 ### Network Integration
+
 - Schedule network monitoring and diagnostics
 - Automate network configuration backups
 - Coordinate with network service maintenance

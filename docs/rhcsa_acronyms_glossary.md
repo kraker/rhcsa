@@ -5,6 +5,7 @@
 ---
 
 ## Quick Navigation
+
 - [Alphabetical Index](#alphabetical-index)
 - [Acronyms by Category](#acronyms-by-category)
   - [Certification & System](#certification--system)
@@ -256,6 +257,7 @@
 ## Acronyms by Category
 
 ### Certification & System
+
 - **RHCSA** - Red Hat Certified System Administrator
 - **RHCE** - Red Hat Certified Engineer  
 - **RHEL** - Red Hat Enterprise Linux
@@ -274,6 +276,7 @@
 - **LTS** - Long Term Support
 
 ### Hardware & Boot
+
 - **CPU** - Central Processing Unit
 - **RAM** - Random Access Memory
 - **BIOS** - Basic Input/Output System
@@ -294,6 +297,7 @@
 - **I/O** - Input/Output
 
 ### File Systems & Storage
+
 - **XFS** - X File System (RHEL default)
 - **EXT4** - Fourth Extended Filesystem
 - **BTRFS** - B-tree File System
@@ -311,6 +315,7 @@
 - **SWAP** - Swap Space
 
 ### Networking
+
 - **IP** - Internet Protocol
 - **IPv4** - Internet Protocol version 4
 - **IPv6** - Internet Protocol version 6
@@ -343,6 +348,7 @@
 - **NMTUI** - NetworkManager Text User Interface
 
 ### Security
+
 - **SELinux** - Security-Enhanced Linux
 - **MAC** - Mandatory Access Control
 - **DAC** - Discretionary Access Control
@@ -358,6 +364,7 @@
 - **GPG** - GNU Privacy Guard
 
 ### Services & Process Management
+
 - **SYSTEMD** - System Daemon
 - **PID** - Process Identifier
 - **PPID** - Parent Process Identifier
@@ -372,6 +379,7 @@
 - **LIFO** - Last In, First Out
 
 ### Flatpak & Software Distribution
+
 - **Flatpak** - Application distribution framework with sandboxing
 - **Flathub** - Public Flatpak application repository
 - **OSTree** - Content-addressable storage system
@@ -381,12 +389,14 @@
 - **VNC** - Virtual Network Computing
 
 ### Package Management
+
 - **DNF** - Dandified YUM
 - **YUM** - Yellowdog Updater Modified
 - **RPM** - Red Hat Package Manager
 - **EPM** - Enterprise Package Manager
 
 ### Other Common Acronyms
+
 - **AWK** - Aho, Weinberger, and Kernighan
 - **SED** - Stream Editor
 - **TAR** - Tape Archive
@@ -429,6 +439,7 @@
 ## Key Non-Acronym Terms
 
 ### System Components
+
 - **daemon** - Background service process
 - **kernel** - Core operating system component
 - **shell** - Command interpreter
@@ -436,6 +447,7 @@
 - **console** - Physical or virtual system interface
 
 ### File System Terms
+
 - **inode** - Index node storing file metadata
 - **block** - Basic storage allocation unit
 - **sector** - Physical disk storage unit
@@ -443,6 +455,7 @@
 - **umount** - Detach filesystem from directory tree
 
 ### Process Terms
+
 - **fork** - Create child process
 - **exec** - Execute new program
 - **zombie** - Defunct process awaiting cleanup
@@ -450,6 +463,7 @@
 - **thread** - Lightweight process component
 
 ### Network Terms
+
 - **socket** - Network communication endpoint
 - **port** - Network service identifier
 - **interface** - Network connection point
@@ -457,6 +471,7 @@
 - **netmask** - Network address mask
 
 ### Security Terms
+
 - **context** - SELinux security label
 - **boolean** - SELinux policy toggle
 - **permission** - File access rights
@@ -464,6 +479,7 @@
 - **audit** - Security event logging
 
 ### Storage Terms
+
 - **partition** - Disk subdivision
 - **filesystem** - Data organization method
 - **journal** - Filesystem transaction log
@@ -471,6 +487,7 @@
 - **snapshot** - Point-in-time copy
 
 ### Service Terms
+
 - **unit** - Systemd management object
 - **target** - Systemd state grouping
 - **service** - Systemd daemon unit
@@ -478,6 +495,7 @@
 - **socket** - Systemd activation unit
 
 ### Flatpak Terms
+
 - **remote** - Flatpak repository source
 - **runtime** - Shared base libraries for Flatpak apps
 - **app ID** - Reverse-DNS application identifier
