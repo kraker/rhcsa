@@ -1,6 +1,7 @@
 # Module 12: Logging & Monitoring
 
 ## 1. Learning Objectives
+
 - Master systemd journald and traditional syslog logging systems
 - Configure rsyslog for centralized log management
 - Monitor system performance using built-in RHEL tools
@@ -12,23 +13,27 @@
 ## 2. Key Concepts
 
 ### Logging Architecture in RHEL 10
+
 - **systemd-journald**: Primary logging daemon for systemd services
 - **rsyslog**: Traditional syslog daemon for compatibility and advanced features
 - **Log Storage**: Binary journal files and text-based syslog files
 - **Log Forwarding**: Integration between journald and rsyslog
 
 ### Journal vs Syslog
+
 - **Journal**: Binary format, structured metadata, automatic rotation
 - **Syslog**: Text format, traditional facilities/priorities, manual rotation
 - **Integration**: journald forwards to rsyslog for persistent storage
 
 ### Log Facilities and Priorities
-```
+
+```text
 Facilities: kern, user, mail, daemon, auth, syslog, lpr, news, uucp, cron, authpriv, ftp, local0-7
 Priorities: emerg, alert, crit, err, warning, notice, info, debug
 ```
 
 ### System Monitoring Tools
+
 - **top/htop**: Real-time process monitoring
 - **vmstat**: Virtual memory statistics
 - **iostat**: I/O statistics
@@ -38,6 +43,7 @@ Priorities: emerg, alert, crit, err, warning, notice, info, debug
 ## 3. Essential Commands
 
 ### Journal Management
+
 ```bash
 # View journal logs
 journalctl                                            # All logs
@@ -61,6 +67,7 @@ journalctl -k                                         # Kernel messages only
 ```
 
 ### Journal Configuration
+
 ```bash
 # Journal persistence configuration
 mkdir -p /var/log/journal
@@ -79,6 +86,7 @@ journalctl --vacuum-size=100M                        # Limit size
 ```
 
 ### Rsyslog Configuration
+
 ```bash
 # Main configuration file: /etc/rsyslog.conf
 # Additional configs: /etc/rsyslog.d/*.conf
@@ -95,6 +103,7 @@ systemctl restart rsyslog
 ```
 
 ### Log Rotation Management
+
 ```bash
 # Logrotate configuration
 /etc/logrotate.conf                                   # Main config
@@ -120,6 +129,7 @@ EOF
 ```
 
 ### System Monitoring Commands
+
 ```bash
 # Process and memory monitoring
 top                                                   # Real-time process viewer
@@ -143,7 +153,9 @@ iftop                                                 # Network traffic by conne
 ## 4. Asghar Ghori's Approach
 
 ### Systematic Log Analysis Method
+
 Ghori emphasizes structured log examination:
+
 ```bash
 # Step-by-step log analysis workflow
 # 1. Identify the time frame
@@ -163,7 +175,9 @@ journalctl -k --since "30 minutes ago"              # Kernel messages
 ```
 
 ### Rsyslog Centralization Setup
+
 Ghori's approach to centralized logging:
+
 ```bash
 # Server configuration (/etc/rsyslog.conf)
 $ModLoad imudp
@@ -181,6 +195,7 @@ firewall-cmd --reload
 ```
 
 ### Performance Monitoring Workflow
+
 ```bash
 # Ghori's systematic performance analysis
 # 1. Overall system health
@@ -203,7 +218,9 @@ netstat -i                                           # Interface statistics
 ## 5. Sander van Vugt's Approach
 
 ### Advanced Journal Queries
+
 Van Vugt focuses on sophisticated filtering techniques:
+
 ```bash
 # Complex journal queries using field matching
 journalctl _COMM=sshd _PID=1234                      # Multiple field filters
@@ -221,7 +238,9 @@ journalctl -F PRIORITY                               # List priority values
 ```
 
 ### Rsyslog Advanced Configuration
+
 Van Vugt's sophisticated rsyslog setup:
+
 ```bash
 # Template-based logging
 # Add to /etc/rsyslog.conf:
@@ -240,6 +259,7 @@ $IMJournalStateFile imjournal.state                 # State file location
 ```
 
 ### SAR-based Long-term Monitoring
+
 ```bash
 # Configure SAR data collection
 # Edit /etc/sysconfig/sysstat
@@ -259,6 +279,7 @@ sar -A -s 09:00:00 -e 17:00:00                      # All stats, time range
 ## 6. Command Examples and Scenarios
 
 ### Scenario 1: Troubleshooting Service Failures
+
 ```bash
 # Service failed to start - comprehensive analysis
 systemctl status httpd                               # Service status
@@ -272,6 +293,7 @@ semanage port -l | grep http                        # Check SELinux ports
 ```
 
 ### Scenario 2: Performance Investigation
+
 ```bash
 # System running slowly - systematic analysis
 # 1. Quick overview
@@ -293,6 +315,7 @@ dmesg | tail -20                                     # Recent kernel messages
 ```
 
 ### Scenario 3: Security Event Analysis
+
 ```bash
 # Investigating failed login attempts
 journalctl -u sshd | grep "Failed password"         # SSH failures
@@ -308,14 +331,17 @@ aureport --auth --summary                           # SELinux auth summary
 ## 7. Lab Exercises
 
 ### Lab 12A: Journal and Rsyslog Configuration (Ghori-focused)
+
 **Time Limit**: 25 minutes
 **Objective**: Configure comprehensive logging system with journal persistence and rsyslog customization
 
 **Prerequisites**:
+
 - RHEL 10 system with systemd and rsyslog installed
 - Root access for configuration modifications
 
 **Tasks**:
+
 1. Configure journal persistence with 2GB maximum usage
 2. Set up rsyslog to separate SSH logs to `/var/log/ssh.log`
 3. Configure log rotation for SSH logs (daily, keep 30 days)
@@ -323,6 +349,7 @@ aureport --auth --summary                           # SELinux auth summary
 5. Forward all critical messages to remote server (simulated)
 
 **Verification Commands**:
+
 ```bash
 ls -la /var/log/journal/                             # Check journal persistence
 grep -i ssh /etc/rsyslog.conf                       # Verify SSH logging config
@@ -331,14 +358,17 @@ cat /etc/logrotate.d/ssh                            # Check rotation config
 ```
 
 ### Lab 12B: System Monitoring and Analysis (van Vugt-focused)
+
 **Time Limit**: 30 minutes
 **Objective**: Implement comprehensive system monitoring using built-in tools
 
 **Prerequisites**:
+
 - RHEL 10 system with full monitoring tools installed
 - Network connectivity for remote logging tests
 
 **Tasks**:
+
 1. Configure SAR to collect data every 2 minutes
 2. Analyze system performance during high load simulation
 3. Set up advanced journal queries to identify security events
@@ -346,6 +376,7 @@ cat /etc/logrotate.d/ssh                            # Check rotation config
 5. Generate performance report covering 24-hour period
 
 **Verification Commands**:
+
 ```bash
 crontab -l | grep sa                                 # Check SAR cron job
 sar -u 1 3                                          # Test SAR functionality
@@ -354,14 +385,17 @@ ls -la /var/log/sa/                                  # Check SAR data files
 ```
 
 ### Lab 12C: Synthesis Challenge - Complete Logging Infrastructure
+
 **Time Limit**: 35 minutes
 **Objective**: Build enterprise-grade logging and monitoring system
 
 **Prerequisites**:
+
 - Multiple RHEL 10 systems (or containers) for centralized logging
 - Administrative access to all systems
 
 **Tasks**:
+
 1. Set up centralized rsyslog server with client forwarding
 2. Configure journal with structured logging for application troubleshooting
 3. Implement automated log analysis with alerting mechanisms
@@ -370,11 +404,13 @@ ls -la /var/log/sa/                                  # Check SAR data files
 6. Document incident response procedures using log analysis
 
 **Advanced Requirements**:
+
 - Combine both Ghori's systematic approach and van Vugt's advanced techniques
 - Implement security-focused logging with audit integration
 - Create automated scripts for common troubleshooting scenarios
 
 **Verification Commands**:
+
 ```bash
 ss -tulnp | grep :514                               # Check rsyslog server
 journalctl --disk-usage                             # Check journal usage
@@ -385,6 +421,7 @@ systemctl status rsyslog systemd-journald           # Check service status
 ## 8. Troubleshooting Common Issues
 
 ### Journal Not Persisting
+
 ```bash
 # Symptoms: Logs lost after reboot
 # Solution: Enable persistent journal storage
@@ -403,6 +440,7 @@ systemctl restart systemd-journald
 ```
 
 ### High Log Volume Consuming Disk Space
+
 ```bash
 # Symptoms: Logs filling up filesystem
 # Solutions: Implement proper rotation and retention
@@ -421,6 +459,7 @@ logrotate -d /etc/logrotate.conf | grep -A5 -B5 error
 ```
 
 ### Rsyslog Not Receiving Remote Logs
+
 ```bash
 # Symptoms: Central log server not receiving client logs
 # Solution: Check network and configuration
@@ -440,6 +479,7 @@ logger -n logserver "Test message from client"
 ```
 
 ### Missing Log Entries
+
 ```bash
 # Symptoms: Expected log entries not appearing
 # Solution: Check service status and configuration
@@ -458,6 +498,7 @@ logger "Another test message"
 ```
 
 ### Performance Impact from Logging
+
 ```bash
 # Symptoms: System slowdown due to excessive logging
 # Solution: Optimize logging configuration
@@ -478,6 +519,7 @@ Storage=volatile                                    # Use memory storage tempora
 ## 9. Best Practices
 
 ### Log Management Strategy
+
 - Implement centralized logging for multi-server environments
 - Configure appropriate retention policies based on compliance requirements
 - Use structured logging formats for easier analysis
@@ -485,6 +527,7 @@ Storage=volatile                                    # Use memory storage tempora
 - Monitor log growth and implement automated cleanup
 
 ### Performance Optimization
+
 - Balance between log detail and system performance
 - Use asynchronous logging for high-volume applications
 - Configure appropriate buffer sizes for network log forwarding
@@ -492,6 +535,7 @@ Storage=volatile                                    # Use memory storage tempora
 - Implement log compression for long-term storage
 
 ### Security Considerations
+
 - Protect log files with appropriate permissions (640 or 644)
 - Implement log integrity checking for critical systems
 - Use encrypted connections for remote log forwarding
@@ -499,6 +543,7 @@ Storage=volatile                                    # Use memory storage tempora
 - Regular security log analysis and alerting
 
 ### Monitoring Best Practices
+
 - Establish baseline performance metrics
 - Set up automated alerting for critical thresholds
 - Document normal system behavior patterns
@@ -508,24 +553,28 @@ Storage=volatile                                    # Use memory storage tempora
 ## 10. Integration with Other RHCSA Topics
 
 ### Security Integration
+
 - Correlate SELinux denials with application errors
 - Monitor authentication and authorization events
 - Track file permission changes and access attempts
 - Integrate with audit subsystem for compliance logging
 
 ### Network Integration
+
 - Monitor network service performance and errors
 - Track connection attempts and failures
 - Correlate network issues with system performance
 - Monitor firewall rule effectiveness through logs
 
 ### Storage Integration
+
 - Monitor filesystem usage and I/O performance
 - Track LVM operations and storage events
 - Correlate storage errors with application failures
 - Monitor backup and restore operations
 
 ### Service Integration
+
 - Monitor systemd service dependencies and failures
 - Track service startup and shutdown times
 - Correlate service errors with system events

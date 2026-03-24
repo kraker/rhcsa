@@ -7,11 +7,13 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 ### 📚 Study Materials
 
 #### 🌐 Online Documentation Site
-- **GitHub Pages**: https://kraker.github.io/rhcsa/ (live documentation site)
+
+- **GitHub Pages**: <https://kraker.github.io/rhcsa/> (live documentation site)
 - Built with MkDocs using the readthedocs theme
 - Mobile-friendly and searchable interface
 
 #### 📁 Local Files
+
 - **`docs/`** - All study materials (MkDocs source)
   - `rhcsa_synthesis/` - 15 comprehensive study modules
   - `exam_quick_reference.md` - Essential commands for exam day
@@ -21,11 +23,13 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 - **`anki/rhcsa_deck.csv`** - 169 comprehensive flashcards for Anki import
 
 ### 🏗️ Lab Environment
+
 - **`vagrant/`** - Automated RHEL 10 VM provisioning with Vagrant
   - `Vagrantfile` - VM configuration for rhel10a and rhel10b instances
   - `playbook.yml` - Ansible playbook for environment setup
 
 ### 📖 External Resources (`sources/` directory, not tracked)
+
 - Official Red Hat documentation (PDFs)  
 - Study book materials (EPUBs)
 - Book summaries and extracted content
@@ -34,6 +38,7 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 ## Quick Start
 
 ### Using the Anki Flashcards
+
 1. Import `anki/rhcsa_deck.csv` into Anki
 2. The deck includes 169 cards organized by topic tags:
    - `user_management`, `permissions`, `systemd`
@@ -44,17 +49,20 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 ### Lab Environment Setup
 
 **Vagrant VM Provisioning**:
+
 - See `vagrant/` directory for automated lab environment setup
 - RHEL 10 VMs configured with proper resources and networking
 - Automated subscription registration and storage disk configuration
 - Prerequisites: Vagrant, VirtualBox, Red Hat Developer subscription
 
 **Setup Steps**:
+
 1. Edit `vagrant/.rhel-credentials` with your Red Hat Developer credentials
 2. Source credentials and start VMs: `cd vagrant && source .rhel-credentials && vagrant up`
 
 ### Study Workflow
-1. **Visit the Documentation Site**: Browse https://kraker.github.io/rhcsa/ for organized study materials
+
+1. **Visit the Documentation Site**: Browse <https://kraker.github.io/rhcsa/> for organized study materials
 2. **Start with RHCSA Synthesis**: Begin with the 15 comprehensive study modules
 3. **Use Anki flashcards** (`anki/rhcsa_deck.csv`) for command memorization and spaced repetition
 4. **Reference quick guides** for exam preparation
@@ -62,7 +70,9 @@ A comprehensive study repository for Red Hat Certified System Administrator (RHC
 6. **Focus on hands-on** command execution and verification
 
 ### Local Development
+
 To run the documentation site locally:
+
 ```bash
 # Install dependencies
 uv sync
@@ -73,11 +83,13 @@ uv run mkdocs serve
 # Build static site
 uv run mkdocs build
 ```
+
 The site will be available at `http://127.0.0.1:8000`
 
 ## Key RHCSA Command Categories
 
 The flashcards and lab scenarios cover all essential areas:
+
 - **System Management**: systemctl, journalctl, service configuration
 - **User/Group Management**: useradd, usermod, chage, permissions
 - **Storage & LVM**: fdisk, pvcreate, vgcreate, lvcreate, filesystem management
@@ -88,12 +100,43 @@ The flashcards and lab scenarios cover all essential areas:
 ## Lab Scenarios
 
 Each lab includes:
+
 - Time limits matching exam conditions
 - Step-by-step task instructions
 - Verification commands to confirm completion
 - Prerequisites and setup requirements
 
+## Linting & Pre-commit Hooks
+
+This repository uses [prek](https://prek.j178.dev/) (a fast, drop-in replacement for
+pre-commit) with [markdownlint](https://github.com/igorshubovych/markdownlint-cli) to
+enforce consistent markdown formatting.
+
+```bash
+# Install git hooks (one-time setup)
+prek install
+
+# Lint all markdown files
+markdownlint '**/*.md'
+
+# Auto-fix fixable issues
+markdownlint --fix docs/
+
+# Run all hooks against all files
+prek run --all-files
+```
+
+**Key markdown conventions:**
+
+- Use **4-space indentation** for content under ordered list items (Python-Markdown requirement)
+- Always specify a language on fenced code blocks (`bash`, `text`, etc.)
+- Use 4 backticks (``````) for outer fences when nesting code blocks (e.g., heredocs)
+- Escape `|` as `\|` inside markdown table cells
+
+See `.markdownlint.yaml` for the full rule configuration.
+
 ## Notes
+
 - Lab 3 (SELinux) contains a TODO section requiring completion
 - All scenarios designed for RHEL 10 environments
 - Commands in flashcards represent real exam tasks

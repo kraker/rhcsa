@@ -50,8 +50,9 @@ markdown_extensions:
   - toc:
       permalink: true
   - admonition
-  - codehilite:
+  - pymdownx.highlight:
       guess_lang: false
+  - pymdownx.superfences
   - def_list
   - footnotes
   - meta

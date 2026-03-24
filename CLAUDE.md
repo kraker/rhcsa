@@ -9,8 +9,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## User Context
 
 **GitHub Username**: @kraker (not stovepipe)
-**Repository**: https://github.com/kraker/rhcsa
-**GitHub Pages Site**: https://kraker.github.io/rhcsa/
+**Repository**: <https://github.com/kraker/rhcsa>
+**GitHub Pages Site**: <https://kraker.github.io/rhcsa/>
 
 CRITICAL: Always use @kraker as the GitHub username in all URLs, repository references, and documentation.
 
@@ -53,19 +53,22 @@ This is a Red Hat Certified System Administrator (RHCSA) certification study rep
 ## Lab Environment Requirements
 
 **Vagrant Configuration**: The `../vagrant/` directory provides automated lab environment provisioning:
+
 - RHEL 10 VMs with proper resource allocation and networking
 - Automated subscription registration with Red Hat Developer accounts
 - Pre-configured storage setup for LVM and filesystem labs
 - Prerequisites: Vagrant, VirtualBox, Red Hat Developer subscription
 
 **VM Usage**:
+
 - **rhel10a**: Used for user management and SELinux scenarios
 - **rhel10b**: Used for storage management scenarios (multiple disks pre-configured)
 
 ## Common Study Tasks
 
 ### Working with Study Materials
-- **Visit Documentation Site**: Browse https://kraker.github.io/rhcsa/ for organized study materials
+
+- **Visit Documentation Site**: Browse <https://kraker.github.io/rhcsa/> for organized study materials
 - **Start with RHCSA Synthesis**: Begin with comprehensive modules in `docs/rhcsa_synthesis/` for complete topic coverage
 - **Use Anki flashcards** for spaced repetition and command memorization
 - **Reference guides** in `docs/` directory for quick lookup during study
@@ -73,7 +76,9 @@ This is a Red Hat Certified System Administrator (RHCSA) certification study rep
 - **Focus on hands-on** command execution and verification in lab environment
 
 ### Anki Flashcard Usage
+
 The `anki/rhcsa_deck.csv` file contains 169 essential commands organized by tags:
+
 - `user_management` - useradd, usermod, chage, groupadd
 - `permissions` - chmod, chown, file access controls
 - `systemd` - systemctl, journalctl, service management
@@ -87,6 +92,7 @@ The `anki/rhcsa_deck.csv` file contains 169 essential commands organized by tags
 ## Key RHCSA Command Categories
 
 ### Essential System Management
+
 ```bash
 # Service Management
 systemctl start/stop/enable/disable service
@@ -105,6 +111,7 @@ find / -user username -type f 2>/dev/null
 ```
 
 ### Storage and LVM
+
 ```bash
 # LVM Workflow
 pvcreate /dev/device
@@ -120,6 +127,7 @@ resize2fs /dev/device   # For ext4
 ```
 
 ### Security and SELinux
+
 ```bash
 # SELinux Management
 getenforce / setenforce 0|1
@@ -138,7 +146,8 @@ firewall-cmd --reload
 
 **CRITICAL**: Claude Code must update `COPYRIGHT_NOTICE.md` whenever adding copyrighted content to the repository.
 
-### When Adding New Copyrighted Materials:
+### When Adding New Copyrighted Materials
+
 1. **Read COPYRIGHT_NOTICE.md first** to understand current copyright inventory
 2. **Add new materials to `sources/` directory** (gitignored)
 3. **Update COPYRIGHT_NOTICE.md** with:
@@ -149,15 +158,41 @@ firewall-cmd --reload
 4. **Verify .gitignore excludes the new content**
 5. **Never commit copyrighted content to git repository**
 
-### Content Classification:
+### Content Classification
+
 - **Original Work**: Content created for this repository → `docs/` directory (tracked)
 - **Copyrighted Materials**: Books, PDFs, images from external sources → `sources/` directory (not tracked)
 - **Derived Content**: Analysis or summaries of copyrighted works → `sources/` directory (not tracked)
 
+## Markdown Style Guide
+
+When writing or editing markdown files in this repository, follow these conventions:
+
+- **4-space indentation** for all content under ordered list items (Python-Markdown requires this for list continuation after blank lines)
+- **Always specify a language** on fenced code blocks — use `bash` for commands, `text` for ASCII diagrams/decision trees
+- **Nested code fences** (e.g., heredocs that generate markdown): use `````bash` (4 backticks) for the outer fence so inner ` ``` ` don't close it
+- **Escape pipes in tables**: use `\|` inside table cells (e.g., `` `ps aux \| grep httpd` ``)
+- **MkDocs extensions**: the site uses `pymdownx.highlight` + `pymdownx.superfences` (not legacy `codehilite`)
+
+### Linting
+
+Pre-commit hooks are managed by [prek](https://prek.j178.dev/) with markdownlint:
+
+- Config: `.pre-commit-config.yaml` (markdownlint with `--fix`)
+- Rules: `.markdownlint.yaml` — disabled: MD013 (line length), MD024 (duplicate headings), MD033 (inline HTML), MD036 (emphasis as heading)
+- Ignore: `.markdownlintignore` — excludes `sources/`, `site/`, `node_modules/`, `.venv/`
+
+```bash
+prek install              # Install git hooks (one-time)
+markdownlint '**/*.md'    # Lint all markdown
+markdownlint --fix docs/  # Auto-fix issues
+prek run --all-files      # Run all hooks
+```
+
 ## Notes for Claude Code
 
 - This repository focuses on RHCSA exam preparation, not software development
-- **Documentation Site**: The repository is published as a MkDocs site at https://kraker.github.io/rhcsa/
+- **Documentation Site**: The repository is published as a MkDocs site at <https://kraker.github.io/rhcsa/>
 - When helping with study materials, emphasize practical command execution and verification
 - The study materials in `docs/` are original work and tracked in git
 - External resources in `sources/` contain copyrighted materials and are not tracked
@@ -169,6 +204,7 @@ firewall-cmd --reload
 ## Git Commit Style Guide
 
 ### Atomic Commit Principles
+
 Following [Aleksandr Hovhannisyan's atomic git commits](https://www.aleksandrhovhannisyan.com/blog/atomic-git-commits/):
 
 **Core Rule**: Each commit should represent "a single, complete unit of work" that can be independently reviewed and reverted.
@@ -176,6 +212,7 @@ Following [Aleksandr Hovhannisyan's atomic git commits](https://www.aleksandrhov
 ### Commit Message Format
 
 **Simple Changes** (data fixes, small bug fixes):
+
 ```bash
 git commit -m "Fix malformed times in SELinux troubleshooting examples"
 git commit -m "Update Anki flashcard for ausearch command syntax"
@@ -183,12 +220,14 @@ git commit -m "Add missing firewall commands to quick reference"
 ```
 
 **Feature Commits** (new capabilities, significant changes):
+
 ```bash
 git commit -m "Add comprehensive ausearch troubleshooting section to SELinux lab"
 git commit -m "Implement enhanced SELinux flashcards with Red Hat official syntax"
 ```
 
 **Milestone/Release Commits** (major completions):
+
 ```bash
 # Use detailed heredoc format for comprehensive changelog
 git commit -m "$(cat <<'EOF'
@@ -208,6 +247,7 @@ EOF
 ```
 
 ### Guidelines
+
 - **Present tense verbs**: "Fix", "Add", "Update", "Remove", "Implement"
 - **Component focus**: Mention what study material/system is changed
 - **Atomic scope**: One logical change per commit
@@ -215,6 +255,7 @@ EOF
 - **Commit early and often**: Make commits as soon as a logical unit is complete
 
 ### Examples by Type
+
 - **Content fixes**: `Fix duplicate commands in storage management flashcards`
 - **Study material updates**: `Add comprehensive ausearch examples to SELinux lab`
 - **Reference enhancements**: `Implement timezone-aware examples in quick reference`
@@ -223,7 +264,7 @@ EOF
 
 ## Study Workflow Recommendations
 
-1. **Visit Documentation Site**: Browse https://kraker.github.io/rhcsa/ for organized study materials
+1. **Visit Documentation Site**: Browse <https://kraker.github.io/rhcsa/> for organized study materials
 2. **Begin with RHCSA Synthesis**: Start with `docs/rhcsa_synthesis/` for comprehensive topic coverage
 3. **Use Anki deck** (`anki/rhcsa_deck.csv`) for command memorization and quick reference
 4. **Practice with Vagrant VMs** using Asghar Ghori book lab exercises

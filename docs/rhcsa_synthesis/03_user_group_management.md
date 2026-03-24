@@ -21,6 +21,7 @@
 ## 2. Conceptual Foundation
 
 ### Core Theory
+
 User and group management in RHEL 10 is based on the traditional Unix model with modern enhancements:
 
 - **User accounts**: Unique identities with UID, home directory, and shell
@@ -30,6 +31,7 @@ User and group management in RHEL 10 is based on the traditional Unix model with
 - **Password policies**: Rules governing password complexity and expiration
 
 ### Real-World Applications
+
 - **Multi-user environments**: Corporate servers with multiple administrators
 - **Service accounts**: Running applications with specific privileges
 - **Temporary access**: Creating accounts for contractors or temporary staff
@@ -37,6 +39,7 @@ User and group management in RHEL 10 is based on the traditional Unix model with
 - **Resource management**: Controlling access to files and system resources
 
 ### Common Misconceptions
+
 - **Root is UID 0**: Root always has UID 0, but UID 0 doesn't always mean "root" name
 - **Group membership**: Users can belong to multiple groups simultaneously
 - **Home directories**: Not automatically deleted when users are removed
@@ -44,6 +47,7 @@ User and group management in RHEL 10 is based on the traditional Unix model with
 - **Password expiration**: Affects login but not running processes
 
 ### Key Terminology
+
 - **UID**: User Identifier (numeric ID for user accounts)
 - **GID**: Group Identifier (numeric ID for groups)
 - **Primary group**: User's main group (stored in /etc/passwd)
@@ -58,6 +62,7 @@ User and group management in RHEL 10 is based on the traditional Unix model with
 ## 3. Command Mastery
 
 ### User Management Commands
+
 ```bash
 # Creating users
 useradd username                    # Basic user creation
@@ -85,6 +90,7 @@ userdel -r username                 # Delete user and home directory
 ```
 
 ### Group Management Commands
+
 ```bash
 # Creating groups
 groupadd groupname                  # Basic group creation
@@ -105,6 +111,7 @@ groupdel groupname                  # Delete group
 ```
 
 ### Password Management Commands
+
 ```bash
 # Setting passwords
 passwd username                     # Set/change password
@@ -123,6 +130,7 @@ chage -l username                  # List aging information
 ```
 
 ### Information Commands
+
 ```bash
 # User information
 id username                        # Show UID, GID, and groups
@@ -142,6 +150,7 @@ getent group groupname            # Get group info from all sources
 ```
 
 ### Command Reference Table
+
 | Command | Purpose | Key Options | Example |
 |---------|---------|-------------|---------|
 | `useradd` | Create user account | `-u`, `-g`, `-G`, `-s`, `-d` | `useradd -G wheel john` |
@@ -156,62 +165,73 @@ getent group groupname            # Get group info from all sources
 ## 4. Procedural Workflows
 
 ### Standard Procedure: Creating a New User
+
 1. **Plan user requirements**
-   ```bash
-   # Determine: UID, primary group, supplementary groups, shell, home directory
-   ```
+
+    ```bash
+    # Determine: UID, primary group, supplementary groups, shell, home directory
+    ```
 
 2. **Create the user account**
-   ```bash
-   useradd -u 1500 -g users -G wheel,developers -s /bin/bash -m username
-   ```
+
+    ```bash
+    useradd -u 1500 -g users -G wheel,developers -s /bin/bash -m username
+    ```
 
 3. **Set initial password**
-   ```bash
-   passwd username
-   # Force password change on first login
-   chage -d 0 username
-   ```
+
+    ```bash
+    passwd username
+    # Force password change on first login
+    chage -d 0 username
+    ```
 
 4. **Configure password policy**
-   ```bash
-   chage -M 90 -m 7 -W 14 username
-   ```
+
+    ```bash
+    chage -M 90 -m 7 -W 14 username
+    ```
 
 5. **Verify account creation**
-   ```bash
-   id username
-   ls -ld /home/username
-   getent passwd username
-   ```
+
+    ```bash
+    id username
+    ls -ld /home/username
+    getent passwd username
+    ```
 
 ### Standard Procedure: User Account Maintenance
+
 1. **Regular account review**
-   ```bash
-   # Check for unused accounts
-   last | grep username
-   # Review password aging
-   chage -l username
-   ```
+
+    ```bash
+    # Check for unused accounts
+    last | grep username
+    # Review password aging
+    chage -l username
+    ```
 
 2. **Modify account as needed**
-   ```bash
-   # Add to new group
-   usermod -aG newgroup username
-   # Change shell
-   usermod -s /bin/zsh username
-   ```
+
+    ```bash
+    # Add to new group
+    usermod -aG newgroup username
+    # Change shell
+    usermod -s /bin/zsh username
+    ```
 
 3. **Handle account issues**
-   ```bash
-   # Temporarily lock account
-   usermod -L username
-   # Force password change
-   passwd -e username
-   ```
+
+    ```bash
+    # Temporarily lock account
+    usermod -L username
+    # Force password change
+    passwd -e username
+    ```
 
 ### Decision Tree: Account Creation Strategy
-```
+
+```text
 New User Request
 ├── Regular user? 
 │   ├── Standard UID range (≥1000)
@@ -228,28 +248,32 @@ New User Request
 ```
 
 ### Standard Procedure: Group Management
+
 1. **Create group structure**
-   ```bash
-   # Create functional groups
-   groupadd -g 2000 developers
-   groupadd -g 2001 admins
-   groupadd -g 2002 operations
-   ```
+
+    ```bash
+    # Create functional groups
+    groupadd -g 2000 developers
+    groupadd -g 2001 admins
+    groupadd -g 2002 operations
+    ```
 
 2. **Assign users to groups**
-   ```bash
-   # Add existing users
-   usermod -aG developers user1,user2
-   gpasswd -a user3 admins
-   ```
+
+    ```bash
+    # Add existing users
+    usermod -aG developers user1,user2
+    gpasswd -a user3 admins
+    ```
 
 3. **Verify group memberships**
-   ```bash
-   # Check specific user
-   groups username
-   # Check specific group
-   getent group groupname
-   ```
+
+    ```bash
+    # Check specific user
+    groups username
+    # Check specific group
+    getent group groupname
+    ```
 
 ---
 
@@ -258,6 +282,7 @@ New User Request
 ### Primary Configuration Files
 
 #### /etc/passwd - User Account Information
+
 ```bash
 # Format: username:password:UID:GID:comment:home:shell
 root:x:0:0:root:/root:/bin/bash
@@ -266,6 +291,7 @@ apache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin
 ```
 
 #### /etc/shadow - Password Information
+
 ```bash
 # Format: username:password:lastchange:min:max:warn:inactive:expire:reserved
 root:$6$encrypted$hash:19000:0:99999:7:::
@@ -273,6 +299,7 @@ john:$6$encrypted$hash:19000:7:90:14:30:19200:
 ```
 
 #### /etc/group - Group Information
+
 ```bash
 # Format: groupname:password:GID:members
 root:x:0:
@@ -281,6 +308,7 @@ developers:x:2000:john,jane,bob
 ```
 
 #### /etc/gshadow - Group Password Information
+
 ```bash
 # Format: groupname:password:admins:members
 root:::
@@ -291,6 +319,7 @@ developers:!!::john,jane,bob
 ### Default Configuration Files
 
 #### /etc/default/useradd - Default User Settings
+
 ```bash
 # Default values for useradd command
 GROUP=100
@@ -303,6 +332,7 @@ CREATE_MAIL_SPOOL=yes
 ```
 
 #### /etc/login.defs - Login Definitions
+
 ```bash
 # Password aging controls
 PASS_MAX_DAYS   90
@@ -323,6 +353,7 @@ SYS_GID_MAX     999
 ```
 
 #### /etc/skel/ - Skeleton Directory
+
 ```bash
 # Template files copied to new user home directories
 /etc/skel/.bash_logout
@@ -333,6 +364,7 @@ SYS_GID_MAX     999
 ### Password Policy Configuration
 
 #### System-wide Password Policies
+
 ```bash
 # /etc/security/pwquality.conf
 minlen = 8              # Minimum password length
@@ -347,45 +379,51 @@ ocredit = -1           # Require at least 1 special character
 ## 6. Hands-On Labs
 
 ### Lab 6.1: Basic User Management (Asghar Ghori Style)
+
 **Objective**: Create, modify, and manage user accounts with various configurations
 
 **Steps**:
+
 1. **Create users with different specifications**
-   ```bash
-   # Regular user with defaults
-   useradd alice
-   passwd alice
+
+    ```bash
+    # Regular user with defaults
+    useradd alice
+    passwd alice
    
-   # User with custom UID and group
-   useradd -u 1500 -g wheel -s /bin/bash bob
-   passwd bob
+    # User with custom UID and group
+    useradd -u 1500 -g wheel -s /bin/bash bob
+    passwd bob
    
-   # Service account
-   useradd -r -s /sbin/nologin -d /var/lib/webservice webservice
-   ```
+    # Service account
+    useradd -r -s /sbin/nologin -d /var/lib/webservice webservice
+    ```
 
 2. **Modify existing users**
-   ```bash
-   # Add alice to additional groups
-   usermod -aG wheel,developers alice
+
+    ```bash
+    # Add alice to additional groups
+    usermod -aG wheel,developers alice
    
-   # Change bob's shell
-   usermod -s /bin/zsh bob
+    # Change bob's shell
+    usermod -s /bin/zsh bob
    
-   # Lock webservice account
-   usermod -L webservice
-   ```
+    # Lock webservice account
+    usermod -L webservice
+    ```
 
 3. **Configure password policies**
-   ```bash
-   # Set password aging for alice
-   chage -M 60 -m 5 -W 10 alice
+
+    ```bash
+    # Set password aging for alice
+    chage -M 60 -m 5 -W 10 alice
    
-   # Force password change for bob
-   passwd -e bob
-   ```
+    # Force password change for bob
+    passwd -e bob
+    ```
 
 **Verification**:
+
 ```bash
 # Verify user creation and modifications
 id alice
@@ -397,52 +435,58 @@ getent passwd | grep -E "(alice|bob|webservice)"
 ```
 
 ### Lab 6.2: Group Management and Membership (Sander van Vugt Style)
+
 **Objective**: Create groups and manage complex membership scenarios
 
 **Steps**:
+
 1. **Create organizational groups**
-   ```bash
-   # Create department groups
-   groupadd -g 2000 marketing
-   groupadd -g 2001 sales
-   groupadd -g 2002 engineering
+
+    ```bash
+    # Create department groups
+    groupadd -g 2000 marketing
+    groupadd -g 2001 sales
+    groupadd -g 2002 engineering
    
-   # Create role-based groups
-   groupadd -g 3000 managers
-   groupadd -g 3001 leads
-   ```
+    # Create role-based groups
+    groupadd -g 3000 managers
+    groupadd -g 3001 leads
+    ```
 
 2. **Create users and assign group memberships**
-   ```bash
-   # Marketing team
-   useradd -g marketing -G leads marketing_lead
-   useradd -g marketing marketing_user1
-   useradd -g marketing marketing_user2
+
+    ```bash
+    # Marketing team
+    useradd -g marketing -G leads marketing_lead
+    useradd -g marketing marketing_user1
+    useradd -g marketing marketing_user2
    
-   # Engineering team
-   useradd -g engineering -G managers,leads engineering_lead
-   useradd -g engineering engineering_dev1
-   useradd -g engineering engineering_dev2
+    # Engineering team
+    useradd -g engineering -G managers,leads engineering_lead
+    useradd -g engineering engineering_dev1
+    useradd -g engineering engineering_dev2
    
-   # Set passwords
-   echo "password123" | passwd --stdin marketing_lead
-   echo "password123" | passwd --stdin marketing_user1
-   echo "password123" | passwd --stdin engineering_lead
-   echo "password123" | passwd --stdin engineering_dev1
-   ```
+    # Set passwords
+    echo "password123" | passwd --stdin marketing_lead
+    echo "password123" | passwd --stdin marketing_user1
+    echo "password123" | passwd --stdin engineering_lead
+    echo "password123" | passwd --stdin engineering_dev1
+    ```
 
 3. **Modify group memberships**
-   ```bash
-   # Add cross-functional team members
-   usermod -aG sales marketing_lead
-   usermod -aG marketing engineering_lead
+
+    ```bash
+    # Add cross-functional team members
+    usermod -aG sales marketing_lead
+    usermod -aG marketing engineering_lead
    
-   # Use gpasswd for group management
-   gpasswd -a marketing_user1 leads
-   gpasswd -A marketing_lead marketing
-   ```
+    # Use gpasswd for group management
+    gpasswd -a marketing_user1 leads
+    gpasswd -A marketing_lead marketing
+    ```
 
 **Verification**:
+
 ```bash
 # Verify group structure
 getent group | grep -E "(marketing|sales|engineering|managers|leads)"
@@ -454,80 +498,87 @@ getent gshadow | grep marketing
 ```
 
 ### Lab 6.3: Advanced User Account Scenarios (Synthesis Challenge)
+
 **Objective**: Handle complex user management scenarios combining both methodologies
 
 **Scenario**: Set up a development environment with different user types and access requirements
 
 **Requirements**:
+
 - Create system service accounts
 - Set up developer accounts with specific group memberships
 - Implement password policies and account expiration
 - Handle temporary contractor accounts
 
 **Solution Steps**:
+
 1. **Create service accounts for applications**
-   ```bash
-   # Database service account
-   useradd -r -u 500 -g daemon -s /sbin/nologin -d /var/lib/database database
+
+    ```bash
+    # Database service account
+    useradd -r -u 500 -g daemon -s /sbin/nologin -d /var/lib/database database
    
-   # Web service account
-   useradd -r -u 501 -g daemon -s /sbin/nologin -d /var/lib/webapp webapp
+    # Web service account
+    useradd -r -u 501 -g daemon -s /sbin/nologin -d /var/lib/webapp webapp
    
-   # Backup service account
-   useradd -r -u 502 -g daemon -s /bin/bash -d /var/lib/backup backup
-   ```
+    # Backup service account
+    useradd -r -u 502 -g daemon -s /bin/bash -d /var/lib/backup backup
+    ```
 
 2. **Create developer environment**
-   ```bash
-   # Create developer groups
-   groupadd -g 5000 developers
-   groupadd -g 5001 senior_devs
-   groupadd -g 5002 devops
+
+    ```bash
+    # Create developer groups
+    groupadd -g 5000 developers
+    groupadd -g 5001 senior_devs
+    groupadd -g 5002 devops
    
-   # Create developer accounts
-   useradd -g developers -G wheel -s /bin/bash -c "Senior Developer" senior_dev1
-   useradd -g developers -s /bin/bash -c "Junior Developer" junior_dev1
-   useradd -g developers -G devops,wheel -s /bin/bash -c "DevOps Engineer" devops1
+    # Create developer accounts
+    useradd -g developers -G wheel -s /bin/bash -c "Senior Developer" senior_dev1
+    useradd -g developers -s /bin/bash -c "Junior Developer" junior_dev1
+    useradd -g developers -G devops,wheel -s /bin/bash -c "DevOps Engineer" devops1
    
-   # Set strong password policies for developers
-   for user in senior_dev1 junior_dev1 devops1; do
-       passwd $user
-       chage -M 30 -m 3 -W 5 $user
-   done
-   ```
+    # Set strong password policies for developers
+    for user in senior_dev1 junior_dev1 devops1; do
+        passwd $user
+        chage -M 30 -m 3 -W 5 $user
+    done
+    ```
 
 3. **Handle contractor accounts**
-   ```bash
-   # Create temporary contractor account (expires in 90 days)
-   future_date=$(date -d "+90 days" +%Y-%m-%d)
-   useradd -g developers -s /bin/bash -c "Contractor" -e $future_date contractor1
-   passwd contractor1
+
+    ```bash
+    # Create temporary contractor account (expires in 90 days)
+    future_date=$(date -d "+90 days" +%Y-%m-%d)
+    useradd -g developers -s /bin/bash -c "Contractor" -e $future_date contractor1
+    passwd contractor1
    
-   # Force password change on first login
-   chage -d 0 contractor1
+    # Force password change on first login
+    chage -d 0 contractor1
    
-   # Set shorter password validity
-   chage -M 14 -m 1 -W 3 contractor1
-   ```
+    # Set shorter password validity
+    chage -M 14 -m 1 -W 3 contractor1
+    ```
 
 4. **Verification and documentation**
-   ```bash
-   # Generate user report
-   echo "=== Service Accounts ===" > user_report.txt
-   getent passwd | awk -F: '$3 < 1000 && $3 != 0 {print $1, $3, $7}' >> user_report.txt
+
+    ```bash
+    # Generate user report
+    echo "=== Service Accounts ===" > user_report.txt
+    getent passwd | awk -F: '$3 < 1000 && $3 != 0 {print $1, $3, $7}' >> user_report.txt
    
-   echo -e "\n=== Developer Accounts ===" >> user_report.txt
-   getent passwd | awk -F: '$3 >= 1000 {print $1, $3, $5}' >> user_report.txt
+    echo -e "\n=== Developer Accounts ===" >> user_report.txt
+    getent passwd | awk -F: '$3 >= 1000 {print $1, $3, $5}' >> user_report.txt
    
-   echo -e "\n=== Group Memberships ===" >> user_report.txt
-   for user in $(getent passwd | awk -F: '$3 >= 1000 {print $1}'); do
-       echo "$user: $(groups $user | cut -d: -f2)" >> user_report.txt
-   done
+    echo -e "\n=== Group Memberships ===" >> user_report.txt
+    for user in $(getent passwd | awk -F: '$3 >= 1000 {print $1}'); do
+        echo "$user: $(groups $user | cut -d: -f2)" >> user_report.txt
+    done
    
-   # Check account expiration
-   echo -e "\n=== Account Expiration ===" >> user_report.txt
-   chage -l contractor1 | grep "Account expires" >> user_report.txt
-   ```
+    # Check account expiration
+    echo -e "\n=== Account Expiration ===" >> user_report.txt
+    chage -l contractor1 | grep "Account expires" >> user_report.txt
+    ```
 
 ---
 
@@ -536,12 +587,15 @@ getent gshadow | grep marketing
 ### Common Issues
 
 #### Issue 1: User Cannot Login
+
 **Symptoms**:
+
 - Authentication failures
 - Account locked messages
 - Permission denied errors
 
 **Diagnosis**:
+
 ```bash
 # Check account status
 passwd -S username
@@ -555,6 +609,7 @@ grep username /etc/passwd
 ```
 
 **Resolution**:
+
 ```bash
 # Unlock account if locked
 passwd -u username
@@ -571,12 +626,15 @@ usermod -s /bin/bash username
 **Prevention**: Implement regular account audits and proper password policies
 
 #### Issue 2: Group Permission Problems
+
 **Symptoms**:
+
 - Users cannot access group files
 - "Permission denied" for group resources
 - Inconsistent group memberships
 
 **Diagnosis**:
+
 ```bash
 # Check current group membership
 groups username
@@ -588,6 +646,7 @@ getent group groupname
 ```
 
 **Resolution**:
+
 ```bash
 # Add user to correct group
 usermod -aG groupname username
@@ -599,12 +658,15 @@ getent group groupname
 ```
 
 #### Issue 3: UID/GID Conflicts
+
 **Symptoms**:
+
 - User creation fails with "UID already exists"
 - File ownership shows numbers instead of names
 - Permission inconsistencies
 
 **Diagnosis**:
+
 ```bash
 # Check for UID conflicts
 getent passwd | sort -t: -k3 -n | uniq -D -f2
@@ -615,6 +677,7 @@ find / -nouser -o -nogroup 2>/dev/null
 ```
 
 **Resolution**:
+
 ```bash
 # Change conflicting UID
 usermod -u newuid username
@@ -625,6 +688,7 @@ find /home/username -uid olduid -exec chown username {} \;
 ```
 
 ### Diagnostic Command Sequence
+
 ```bash
 # User account troubleshooting workflow
 getent passwd username      # Verify account exists
@@ -636,6 +700,7 @@ last username              # Check login history
 ```
 
 ### Log File Analysis
+
 - **`/var/log/secure`**: Authentication events, login attempts
 - **`/var/log/messages`**: General system messages including user management
 - **`/var/log/audit/audit.log`**: SELinux denials related to user operations
@@ -646,6 +711,7 @@ last username              # Check login history
 ## 8. Quick Reference Card
 
 ### Essential Commands At-a-Glance
+
 ```bash
 # User management
 useradd -G wheel username   # Create user with sudo access
@@ -665,6 +731,7 @@ chage -l username          # Show password aging info
 ```
 
 ### Key File Locations
+
 - **User accounts**: `/etc/passwd`
 - **Password hashes**: `/etc/shadow`
 - **Group information**: `/etc/group`
@@ -674,6 +741,7 @@ chage -l username          # Show password aging info
 - **Skeleton directory**: `/etc/skel/`
 
 ### Important UID/GID Ranges
+
 - **Root**: UID 0, GID 0
 - **System accounts**: UID 1-999
 - **Regular users**: UID ≥ 1000
@@ -681,6 +749,7 @@ chage -l username          # Show password aging info
 - **Regular groups**: GID ≥ 1000
 
 ### Password Aging Parameters
+
 - **Maximum age**: `-M days` (default 99999)
 - **Minimum age**: `-m days` (default 0)
 - **Warning period**: `-W days` (default 7)
@@ -692,64 +761,72 @@ chage -l username          # Show password aging info
 ## 9. Knowledge Check
 
 ### Conceptual Questions
+
 1. **Question**: What's the difference between primary and supplementary groups?
-   **Answer**: A primary group is a user's default group (stored in /etc/passwd, field 4) used for file creation. Supplementary groups are additional groups a user belongs to, providing access to resources owned by those groups. Users can have one primary group but multiple supplementary groups.
+    **Answer**: A primary group is a user's default group (stored in /etc/passwd, field 4) used for file creation. Supplementary groups are additional groups a user belongs to, providing access to resources owned by those groups. Users can have one primary group but multiple supplementary groups.
 
 2. **Question**: Why might you use a system account instead of a regular user account?
-   **Answer**: System accounts (UID < 1000) are designed for services and daemons. They typically don't have home directories, use /sbin/nologin as shell, and follow the principle of least privilege. This provides better security isolation and prevents interactive login for service accounts.
+    **Answer**: System accounts (UID < 1000) are designed for services and daemons. They typically don't have home directories, use /sbin/nologin as shell, and follow the principle of least privilege. This provides better security isolation and prevents interactive login for service accounts.
 
 3. **Question**: What happens when you lock a user account with `usermod -L`?
-   **Answer**: Account locking prepends an exclamation mark (!) to the password hash in /etc/shadow, preventing password authentication. However, the user might still login using SSH keys. For complete access blocking, also set shell to /sbin/nologin and consider expiring the account.
+    **Answer**: Account locking prepends an exclamation mark (!) to the password hash in /etc/shadow, preventing password authentication. However, the user might still login using SSH keys. For complete access blocking, also set shell to /sbin/nologin and consider expiring the account.
 
 ### Practical Scenarios
+
 1. **Scenario**: Create a contractor account that expires in 30 days and must change password every 14 days.
-   **Solution**:
-   ```bash
-   future_date=$(date -d "+30 days" +%Y-%m-%d)
-   useradd -e $future_date -s /bin/bash contractor
-   passwd contractor
-   chage -M 14 -m 1 -W 3 -d 0 contractor
-   ```
+    **Solution**:
+
+    ```bash
+    future_date=$(date -d "+30 days" +%Y-%m-%d)
+    useradd -e $future_date -s /bin/bash contractor
+    passwd contractor
+    chage -M 14 -m 1 -W 3 -d 0 contractor
+    ```
 
 2. **Scenario**: A user reports they can't access files owned by the "projects" group despite being added to it.
-   **Solution**: The user needs to logout and login again for group membership changes to take effect, or use `newgrp projects` to switch to the new group in the current session.
+    **Solution**: The user needs to logout and login again for group membership changes to take effect, or use `newgrp projects` to switch to the new group in the current session.
 
 ### Command Challenges
+
 1. **Challenge**: Write a command to show all users with UID between 1000 and 2000.
-   **Answer**: `getent passwd | awk -F: '$3 >= 1000 && $3 <= 2000 {print $1, $3}'`
-   **Explanation**: Uses getent to get all passwd entries, awk to filter by UID range in field 3
+    **Answer**: `getent passwd | awk -F: '$3 >= 1000 && $3 <= 2000 {print $1, $3}'`
+    **Explanation**: Uses getent to get all passwd entries, awk to filter by UID range in field 3
 
 2. **Challenge**: Create a user with no login shell, custom home directory, and specific UID.
-   **Answer**: `useradd -u 1555 -d /opt/service -s /sbin/nologin -m serviceuser`
-   **Explanation**: `-u` sets UID, `-d` sets custom home, `-s` sets shell, `-m` creates home directory
+    **Answer**: `useradd -u 1555 -d /opt/service -s /sbin/nologin -m serviceuser`
+    **Explanation**: `-u` sets UID, `-d` sets custom home, `-s` sets shell, `-m` creates home directory
 
 ---
 
 ## 10. Exam Strategy
 
 ### Topic-Specific Tips
+
 - Always verify user creation with `id username` and `getent passwd username`
 - Remember that group changes require logout/login or `newgrp` to take effect
 - Use `chage -l` to verify password policies are correctly applied
 - Practice creating users with multiple requirements in single commands
 
 ### Common Exam Scenarios
+
 1. **Scenario**: Create users with specific group memberships and password policies
-   **Approach**: Use `useradd` with multiple options, then `chage` for password aging
+    **Approach**: Use `useradd` with multiple options, then `chage` for password aging
 
 2. **Scenario**: Troubleshoot user access problems
-   **Approach**: Check account status, group memberships, and home directory permissions
+    **Approach**: Check account status, group memberships, and home directory permissions
 
 3. **Scenario**: Set up service accounts for applications
-   **Approach**: Use system UID range, /sbin/nologin shell, and appropriate group
+    **Approach**: Use system UID range, /sbin/nologin shell, and appropriate group
 
 ### Time Management
+
 - **Basic user creation**: 2-3 minutes including verification
 - **Complex user with groups and policies**: 4-5 minutes
 - **Troubleshooting user issues**: 5-7 minutes depending on complexity
 - **Always verify**: Use `id` and `groups` commands to confirm
 
 ### Pitfalls to Avoid
+
 - Don't forget `-m` flag when creating home directories with `useradd`
 - Remember that `usermod -G` replaces all supplementary groups (use `-aG` to append)
 - Always set passwords after creating users
@@ -761,12 +838,14 @@ chage -l username          # Show password aging info
 ## Summary
 
 ### Key Takeaways
+
 - **User and group management is foundational** - required for virtually all system administration
 - **Understand the difference between primary and supplementary groups** - critical for file permissions
 - **Master password policies and account aging** - important for security compliance
 - **System accounts vs. regular users** - different configuration requirements and security implications
 
 ### Critical Commands to Remember
+
 ```bash
 useradd -G wheel -s /bin/bash -m username    # Create user with sudo access
 usermod -aG groupname username               # Add user to supplementary group
@@ -776,6 +855,7 @@ id username                                  # Verify user configuration
 ```
 
 ### Next Steps
+
 - Continue to [Module 04: File Permissions](04_file_permissions.md)
 - Practice user management in the Vagrant environment
 - Review related topics: [SELinux](09_selinux.md), [SSH Configuration](08_networking.md)

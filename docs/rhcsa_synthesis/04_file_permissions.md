@@ -23,6 +23,7 @@
 ## 2. Conceptual Foundation
 
 ### Core Theory
+
 Linux file permissions operate on a three-tier model:
 
 - **Owner (user)**: The file/directory owner's permissions
@@ -31,6 +32,7 @@ Linux file permissions operate on a three-tier model:
 - **Permission types**: Read (r), Write (w), Execute (x)
 
 ### Real-World Applications
+
 - **System security**: Protecting sensitive configuration files
 - **Collaboration**: Shared directories for team projects
 - **Service accounts**: Restricting application access to specific files
@@ -38,11 +40,13 @@ Linux file permissions operate on a three-tier model:
 - **Web servers**: Setting appropriate permissions for web content
 
 ### Common Misconceptions
+
 - **Directory permissions**: Execute permission on directories means "traverse" not "run"
 - **Group permissions**: Group permission applies to primary group, not all user's groups
 - **Root override**: Root can read/write most files regardless of permissions (but not execute)
 
 ### Key Terminology
+
 - **Octal notation**: Numeric representation of permissions (755, 644, etc.)
 - **Symbolic notation**: Letter-based permission representation (rwxr-xr-x)
 - **umask**: Default permission mask for new files and directories
@@ -52,6 +56,7 @@ Linux file permissions operate on a three-tier model:
 ## 3. Command Mastery
 
 ### Basic Permission Commands
+
 ```bash
 # View permissions
 ls -l file                    # Show detailed permissions
@@ -73,6 +78,7 @@ chmod 777 file                # rwxrwxrwx (dangerous!)
 ```
 
 ### Ownership Commands
+
 ```bash
 # Change ownership
 chown user file               # Change owner only
@@ -86,6 +92,7 @@ chmod -R 755 directory        # Change permissions recursively
 ```
 
 ### umask Configuration
+
 ```bash
 # View current umask
 umask                         # Show current umask in octal
@@ -98,6 +105,7 @@ umask u=rwx,g=rx,o=          # Symbolic umask setting
 ```
 
 ### Finding Files by Permissions
+
 ```bash
 # Find by permission patterns
 find / -perm 777              # Find world-writable files
@@ -111,6 +119,7 @@ find / -nogroup               # Find files with no valid group
 ```
 
 ### Command Reference Table
+
 | Command | Purpose | Key Options | Example |
 |---------|---------|-------------|---------|
 | `chmod` | Change file permissions | `u+x`, `g-w`, `755`, `-R` | `chmod 644 file.txt` |
@@ -123,49 +132,58 @@ find / -nogroup               # Find files with no valid group
 ## 4. Procedural Workflows
 
 ### Standard Procedure: Setting Up Secure File Permissions
+
 1. **Determine access requirements**
-   ```bash
-   # Identify who needs what access:
-   # - Owner: full control
-   # - Group: read/execute
-   # - Others: no access
-   ```
+
+    ```bash
+    # Identify who needs what access:
+    # - Owner: full control
+    # - Group: read/execute
+    # - Others: no access
+    ```
 
 2. **Set basic permissions**
-   ```bash
-   chmod 750 file_or_directory
-   # or symbolically:
-   chmod u=rwx,g=rx,o= file_or_directory
-   ```
+
+    ```bash
+    chmod 750 file_or_directory
+    # or symbolically:
+    chmod u=rwx,g=rx,o= file_or_directory
+    ```
 
 3. **Set appropriate ownership**
-   ```bash
-   chown owner:group file_or_directory
-   ```
+
+    ```bash
+    chown owner:group file_or_directory
+    ```
 
 4. **Verify permissions**
-   ```bash
-   ls -l file_or_directory
-   stat file_or_directory
-   ```
+
+    ```bash
+    ls -l file_or_directory
+    stat file_or_directory
+    ```
 
 ### Standard Procedure: Shared Directory Setup
+
 1. **Create directory with appropriate permissions**
-   ```bash
-   mkdir /shared/project
-   chmod 775 /shared/project
-   chown :projectteam /shared/project
-   ```
+
+    ```bash
+    mkdir /shared/project
+    chmod 775 /shared/project
+    chown :projectteam /shared/project
+    ```
 
 2. **Test directory functionality**
-   ```bash
-   # Test as different users
-   touch /shared/project/testfile
-   ls -l /shared/project/testfile
-   ```
+
+    ```bash
+    # Test as different users
+    touch /shared/project/testfile
+    ls -l /shared/project/testfile
+    ```
 
 ### Decision Tree: Permission Strategy
-```
+
+```text
 Permission Requirements
 ├── Simple user/group/other? → Use chmod with octal notation
 ├── Shared directory? → Use group permissions + chmod
@@ -173,34 +191,40 @@ Permission Requirements
 ```
 
 ### Standard Procedure: Security Audit
-1. **Find potentially dangerous permissions**
-   ```bash
-   # World-writable files
-   find / -type f -perm -002 2>/dev/null
 
-   # Files with no owner/group
-   find / \( -nouser -o -nogroup \) 2>/dev/null
-   ```
+1. **Find potentially dangerous permissions**
+
+    ```bash
+    # World-writable files
+    find / -type f -perm -002 2>/dev/null
+
+    # Files with no owner/group
+    find / \( -nouser -o -nogroup \) 2>/dev/null
+    ```
 
 2. **Review critical system files**
-   ```bash
-   ls -l /etc/passwd /etc/shadow /etc/group
-   ls -l /etc/sudoers
-   ls -ld /tmp /var/tmp
-   ```
+
+    ```bash
+    ls -l /etc/passwd /etc/shadow /etc/group
+    ls -l /etc/sudoers
+    ls -ld /tmp /var/tmp
+    ```
 
 3. **Check home directory permissions**
-   ```bash
-   ls -ld /home/*
-   find /home -type d -perm -002 2>/dev/null
-   ```
+
+    ```bash
+    ls -ld /home/*
+    find /home -type d -perm -002 2>/dev/null
+    ```
 
 ---
 
 ## 5. Configuration Deep Dive
 
 ### Permission Calculation
+
 #### Octal Permission Values
+
 ```bash
 # Read (r) = 4, Write (w) = 2, Execute (x) = 1
 
@@ -213,6 +237,7 @@ Permission Requirements
 ```
 
 #### Special Permission Values
+
 ```bash
 # Special permissions (added to regular permissions):
 4000 = setuid bit
@@ -227,7 +252,9 @@ Permission Requirements
 ```
 
 ### umask Configuration Files
+
 #### System-wide umask
+
 ```bash
 # /etc/bashrc or /etc/profile
 umask 022          # Default for most users
@@ -237,6 +264,7 @@ umask 027          # More restrictive for root
 ```
 
 #### Per-user umask
+
 ```bash
 # ~/.bashrc or ~/.bash_profile
 umask 077          # Very restrictive (user-only access)
@@ -247,78 +275,89 @@ umask 077          # Very restrictive (user-only access)
 ## 6. Hands-On Labs
 
 ### Lab 6.1: Basic Permission Management (Asghar Ghori Style)
+
 **Objective**: Master fundamental permission operations and special bits
 
 **Steps**:
+
 1. **Create test environment**
-   ```bash
-   mkdir ~/permissions_lab
-   cd ~/permissions_lab
-   touch file1 file2 file3
-   mkdir dir1 dir2 dir3
-   ```
+
+    ```bash
+    mkdir ~/permissions_lab
+    cd ~/permissions_lab
+    touch file1 file2 file3
+    mkdir dir1 dir2 dir3
+    ```
 
 2. **Practice basic permissions**
-   ```bash
-   # Set different permission combinations
-   chmod 644 file1          # Standard file permissions
-   chmod 755 dir1           # Standard directory permissions
-   chmod 600 file2          # Private file
-   chmod 700 dir2           # Private directory
+
+    ```bash
+    # Set different permission combinations
+    chmod 644 file1          # Standard file permissions
+    chmod 755 dir1           # Standard directory permissions
+    chmod 600 file2          # Private file
+    chmod 700 dir2           # Private directory
    
-   # Use symbolic notation
-   chmod u=rw,g=r,o= file3  # Owner: rw, Group: r, Other: none
-   chmod u+x dir3           # Add execute for owner
-   ```
+    # Use symbolic notation
+    chmod u=rw,g=r,o= file3  # Owner: rw, Group: r, Other: none
+    chmod u+x dir3           # Add execute for owner
+    ```
 
 **Verification**:
+
 ```bash
 ls -la                       # Check all permissions
 stat file1 file2 file3       # Detailed permission info
 ```
 
 ### Lab 6.2: Ownership and umask Configuration
+
 **Objective**: Practice ownership changes and understand umask
 
 **Steps**:
-1. **Practice ownership changes**
-   ```bash
-   mkdir ~/ownership_lab
-   cd ~/ownership_lab
-   touch file1 file2
-   mkdir dir1
 
-   # Change ownership (requires root or owning the files)
-   chown :users file1
-   chgrp users dir1
-   ```
+1. **Practice ownership changes**
+
+    ```bash
+    mkdir ~/ownership_lab
+    cd ~/ownership_lab
+    touch file1 file2
+    mkdir dir1
+
+    # Change ownership (requires root or owning the files)
+    chown :users file1
+    chgrp users dir1
+    ```
 
 2. **Understand umask effects**
-   ```bash
-   # Check current umask
-   umask
-   umask -S
 
-   # Set restrictive umask and test
-   umask 077
-   touch private_file
-   mkdir private_dir
-   ls -l private_file         # Should be rw-------
-   ls -ld private_dir         # Should be rwx------
+    ```bash
+    # Check current umask
+    umask
+    umask -S
 
-   # Set collaborative umask
-   umask 002
-   touch shared_file
-   ls -l shared_file          # Should be rw-rw-r--
-   ```
+    # Set restrictive umask and test
+    umask 077
+    touch private_file
+    mkdir private_dir
+    ls -l private_file         # Should be rw-------
+    ls -ld private_dir         # Should be rwx------
+
+    # Set collaborative umask
+    umask 002
+    touch shared_file
+    ls -l shared_file          # Should be rw-rw-r--
+    ```
 
 3. **Configure persistent umask**
-   ```bash
-   # Add umask to ~/.bashrc for persistence
-   echo "umask 027" >> ~/.bashrc
-   ```
+
+    ```bash
+    # Add umask to ~/.bashrc for persistence
+    echo "umask 027" >> ~/.bashrc
+    ```
 
 **Verification**:
+
 ```bash
 ls -la ~/ownership_lab/
 stat ~/ownership_lab/private_file
@@ -326,38 +365,44 @@ umask
 ```
 
 ### Lab 6.3: Shared Directory Setup (Synthesis Challenge)
+
 **Objective**: Create a collaborative workspace using standard permissions
 
 **Scenario**: Set up a project directory where a team can collaborate.
 
 **Requirements**:
+
 - Project team members: read/write access
 - Others: no access
 
 **Solution Steps**:
-1. **Create directory structure**
-   ```bash
-   sudo mkdir -p /projects/webapp
-   sudo groupadd developers
 
-   # Add users to group (assuming users exist)
-   # sudo usermod -aG developers alice
-   # sudo usermod -aG developers bob
-   ```
+1. **Create directory structure**
+
+    ```bash
+    sudo mkdir -p /projects/webapp
+    sudo groupadd developers
+
+    # Add users to group (assuming users exist)
+    # sudo usermod -aG developers alice
+    # sudo usermod -aG developers bob
+    ```
 
 2. **Set permissions and ownership**
-   ```bash
-   sudo chown :developers /projects/webapp
-   sudo chmod 770 /projects/webapp
-   ```
+
+    ```bash
+    sudo chown :developers /projects/webapp
+    sudo chmod 770 /projects/webapp
+    ```
 
 3. **Verify**
-   ```bash
-   ls -ld /projects/webapp/
-   # Test as a member of the developers group
-   touch /projects/webapp/testfile
-   ls -l /projects/webapp/testfile
-   ```
+
+    ```bash
+    ls -ld /projects/webapp/
+    # Test as a member of the developers group
+    touch /projects/webapp/testfile
+    ls -l /projects/webapp/testfile
+    ```
 
 ---
 
@@ -366,12 +411,15 @@ umask
 ### Common Issues
 
 #### Issue 1: Permission Denied Errors
+
 **Symptoms**:
+
 - Users cannot access files they should be able to read
 - Applications fail with permission errors
 - "Permission denied" messages in logs
 
 **Diagnosis**:
+
 ```bash
 # Check file permissions and ownership
 ls -la filename
@@ -390,6 +438,7 @@ getfacl filename
 ```
 
 **Resolution**:
+
 ```bash
 # Fix basic permissions
 chmod 644 filename          # For regular files
@@ -408,6 +457,7 @@ setfacl -m u:username:r-- filename
 **Prevention**: Always verify permissions after creating files and directories
 
 ### Diagnostic Command Sequence
+
 ```bash
 # Permission troubleshooting workflow
 ls -la filename             # Check basic permissions
@@ -418,6 +468,7 @@ lsattr filename             # Check extended attributes
 ```
 
 ### Log File Analysis
+
 - **`/var/log/messages`**: General permission-related errors
 - **`/var/log/secure`**: Authentication and access control events
 - **`/var/log/audit/audit.log`**: SELinux and detailed access events
@@ -428,6 +479,7 @@ lsattr filename             # Check extended attributes
 ## 8. Quick Reference Card
 
 ### Essential Commands At-a-Glance
+
 ```bash
 # Permissions
 chmod 755 file              # Standard executable/directory
@@ -438,6 +490,7 @@ umask 022                   # Set default permission mask
 ```
 
 ### Octal Permission Reference
+
 - **755**: rwxr-xr-x (directories, executables)
 - **644**: rw-r--r-- (regular files)
 - **600**: rw------- (private files)
@@ -445,6 +498,7 @@ umask 022                   # Set default permission mask
 - **000**: --------- (no permissions)
 
 ### Common umask Values
+
 - **022**: Default (644 for files, 755 for directories)
 - **027**: Group-friendly (640 for files, 750 for directories)
 - **077**: Private (600 for files, 700 for directories)
@@ -454,64 +508,73 @@ umask 022                   # Set default permission mask
 ## 9. Knowledge Check
 
 ### Conceptual Questions
+
 1. **Question**: What is the difference between octal and symbolic permission notation?
-   **Answer**: Octal notation uses numbers (e.g., `755` = rwxr-xr-x) where each digit represents user/group/other permissions (r=4, w=2, x=1). Symbolic notation uses letters (e.g., `u+x`, `g=rw`, `o-w`) to add, set, or remove specific permissions.
+    **Answer**: Octal notation uses numbers (e.g., `755` = rwxr-xr-x) where each digit represents user/group/other permissions (r=4, w=2, x=1). Symbolic notation uses letters (e.g., `u+x`, `g=rw`, `o-w`) to add, set, or remove specific permissions.
 
 2. **Question**: What does the execute permission mean on a directory?
-   **Answer**: On a directory, execute (x) means "traverse" — the ability to cd into the directory and access files within it. Without execute on a directory, you cannot access its contents even if you have read permission (which only lets you list filenames).
+    **Answer**: On a directory, execute (x) means "traverse" — the ability to cd into the directory and access files within it. Without execute on a directory, you cannot access its contents even if you have read permission (which only lets you list filenames).
 
 3. **Question**: How does umask affect new file and directory permissions?
-   **Answer**: umask subtracts from the default permissions. New files start at 666 (no execute) and directories at 777. With umask 022, files become 644 (rw-r--r--) and directories become 755 (rwxr-xr-x).
+    **Answer**: umask subtracts from the default permissions. New files start at 666 (no execute) and directories at 777. With umask 022, files become 644 (rw-r--r--) and directories become 755 (rwxr-xr-x).
 
 ### Practical Scenarios
+
 1. **Scenario**: Create a directory where only members of the "project" group can access files.
-   **Solution**:
-   ```bash
-   mkdir /project
-   chown :project /project
-   chmod 770 /project
-   ```
+    **Solution**:
+
+    ```bash
+    mkdir /project
+    chown :project /project
+    chmod 770 /project
+    ```
 
 2. **Scenario**: A user creates files that are world-readable by default. Make them private.
-   **Solution**: Set a restrictive umask:
-   ```bash
-   umask 077
-   # Or add to ~/.bashrc for persistence
-   echo "umask 077" >> ~/.bashrc
-   ```
+    **Solution**: Set a restrictive umask:
+
+    ```bash
+    umask 077
+    # Or add to ~/.bashrc for persistence
+    echo "umask 077" >> ~/.bashrc
+    ```
 
 ### Command Challenges
+
 1. **Challenge**: Change ownership of all files in /data to user "admin" and group "staff" recursively.
-   **Answer**: `chown -R admin:staff /data`
-   **Explanation**: `-R` applies the change recursively to all files and subdirectories.
+    **Answer**: `chown -R admin:staff /data`
+    **Explanation**: `-R` applies the change recursively to all files and subdirectories.
 
 2. **Challenge**: Find all files owned by a user who no longer exists on the system.
-   **Answer**: `find / -nouser 2>/dev/null`
-   **Explanation**: `-nouser` finds files whose numeric UID doesn't match any user in /etc/passwd.
+    **Answer**: `find / -nouser 2>/dev/null`
+    **Explanation**: `-nouser` finds files whose numeric UID doesn't match any user in /etc/passwd.
 
 ---
 
 ## 10. Exam Strategy
 
 ### Topic-Specific Tips
+
 - Master octal notation — it's faster than symbolic for complex permissions
 - Always verify permissions after setting them with `ls -l`
 - Know how umask affects default permissions for new files and directories
 - Practice chmod, chown, chgrp until they are second nature
 
 ### Common Exam Scenarios
+
 1. **Scenario**: Set up a shared directory for a group
-   **Approach**: Create group, set group ownership with `chown :group dir`, set `chmod 770` or `chmod 775`
+    **Approach**: Create group, set group ownership with `chown :group dir`, set `chmod 770` or `chmod 775`
 
 2. **Scenario**: Set appropriate permissions on configuration files
-   **Approach**: Restrictive permissions like `chmod 600` for sensitive files, `chmod 644` for readable configs
+    **Approach**: Restrictive permissions like `chmod 600` for sensitive files, `chmod 644` for readable configs
 
 ### Time Management
+
 - **Basic permission tasks**: 2-3 minutes including verification
 - **Ownership changes**: 1-2 minutes
 - **Always verify**: Use `ls -l` and `stat` to confirm settings
 
 ### Pitfalls to Avoid
+
 - Don't forget that directory execute permission is needed for traversal
 - Remember that changing group membership requires logout/login to take effect
 - Don't use 777 permissions unless absolutely necessary (security risk)
@@ -522,11 +585,13 @@ umask 022                   # Set default permission mask
 ## Summary
 
 ### Key Takeaways
+
 - **File permissions are the foundation of Linux security** — master chmod, chown, chgrp
 - **umask controls default permissions** — understand its impact on file creation
 - **Ownership determines access** — proper user:group assignment is critical
 
 ### Critical Commands to Remember
+
 ```bash
 chmod 755 directory                      # Standard directory permissions
 chmod 644 file                          # Standard file permissions
@@ -537,6 +602,7 @@ find / -nouser                         # Find orphaned files
 ```
 
 ### Next Steps
+
 - Continue to [Module 05: Process & Service Management](05_process_service_management.md)
 - Practice permission scenarios in the Vagrant environment
 - Review related topics: [User Management](03_user_group_management.md), [SELinux](09_selinux.md)
@@ -548,6 +614,7 @@ find / -nouser                         # Find orphaned files
 > **Note**: Access Control Lists (ACLs) are no longer an RHCSA exam objective as of RHEL 10. This section is retained for reference only.
 
 ### ACL Commands
+
 ```bash
 # View ACLs
 getfacl file                  # Show ACL information
@@ -574,6 +641,7 @@ getfacl file1 | setfacl --set-file=- file2  # Copy ACLs between files
 > **Note**: setuid, setgid, and sticky bit are no longer RHCSA exam objectives as of RHEL 10. This section is retained for reference only.
 
 ### Special Permission Commands
+
 ```bash
 # setuid (4000) — execute file with owner's privileges
 chmod u+s file                # Add setuid bit
@@ -589,11 +657,13 @@ chmod 1755 directory          # Set permissions with sticky bit
 ```
 
 ### Special Permission Values
+
 - **4000**: setuid bit
 - **2000**: setgid bit
 - **1000**: sticky bit
 
 ### Finding Special Permission Files
+
 ```bash
 find / -perm -4000 2>/dev/null   # Find setuid files
 find / -perm -2000 2>/dev/null   # Find setgid files

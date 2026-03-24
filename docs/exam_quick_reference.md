@@ -3,6 +3,7 @@
 ## Essential Acronyms & Terms
 
 ### Certification & System
+
 - **RHCSA** - Red Hat Certified System Administrator (EX200)
 - **RHEL** - Red Hat Enterprise Linux (version 9)
 - **OS** - Operating System
@@ -15,6 +16,7 @@
 - **STDIN/STDOUT/STDERR** - Standard input/output/error
 
 ### Hardware & Boot
+
 - **CPU** - Central Processing Unit
 - **RAM** - Random Access Memory
 - **BIOS** - Basic Input/Output System
@@ -25,6 +27,7 @@
 - **KVM** - Kernel-based Virtual Machine
 
 ## Pre-Exam Checklist
+
 - [ ] Verify VM access and connectivity
 - [ ] Test sudo access: `sudo -l`
 - [ ] Check available storage devices: `lsblk`
@@ -38,6 +41,7 @@
 ## File Management & Text Processing
 
 ### Key Terms & Acronyms
+
 - **inode** - Index node (file metadata structure)
 - **hard link** - Direct link to inode (same filesystem)
 - **soft link** - Symbolic link (can cross filesystems)
@@ -51,6 +55,7 @@
 - **buffer** - Temporary data storage
 
 ### Key File Paths
+
 ```bash
 /tmp/                         # Temporary files directory
 /var/tmp/                     # Persistent temporary files
@@ -60,6 +65,7 @@
 ```
 
 ### Essential Commands
+
 ```bash
 # File operations
 ls -la                               # List files with details
@@ -115,6 +121,7 @@ readlink link_name                 # Show link target
 ```
 
 ### File Archiving & Compression
+
 ```bash
 # Tar operations
 tar -cf archive.tar files          # Create tar archive
@@ -138,6 +145,7 @@ unzip archive.zip                 # Extract zip archive
 ```
 
 ### Input/Output Redirection
+
 ```bash
 # Redirection operators
 command > file                     # Redirect stdout to file (overwrite)
@@ -151,6 +159,7 @@ command &> file                    # Redirect both stdout and stderr
 ```
 
 ### Common Tasks
+
 ```bash
 # Create directory structure and files
 mkdir -p /project/{docs,src,tests}
@@ -173,6 +182,7 @@ find /path -name "*.conf" -exec sed -i 's/old/new/g' {} \;
 ```
 
 ### Troubleshooting
+
 ```bash
 # File system issues
 df -h                              # Check disk space
@@ -192,6 +202,7 @@ od -c filename | head              # Check for special characters
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Using `rm -rf /` accidentally → **RIGHT**: Always double-check paths
 - **WRONG**: Not quoting file names with spaces → **RIGHT**: Use quotes or escape spaces
 - **WRONG**: Forgetting `-r` for directory operations → **RIGHT**: Use `-r` for recursive operations
@@ -202,6 +213,7 @@ od -c filename | head              # Check for special characters
 ## User and Group Management
 
 ### Key Terms & Acronyms
+
 - **UID** - User Identifier (numeric user ID, root=0)
 - **GID** - Group Identifier (numeric group ID)
 - **sudo** - Superuser do (privilege escalation)
@@ -211,6 +223,7 @@ od -c filename | head              # Check for special characters
 - **wheel** - Administrative group with sudo privileges
 
 ### Key File Paths
+
 ```bash
 /etc/passwd                   # User account information
 /etc/shadow                   # Password hashes
@@ -222,6 +235,7 @@ od -c filename | head              # Check for special characters
 ```
 
 ### Essential Commands
+
 ```bash
 # User creation and management
 useradd alice                          # Basic user with defaults
@@ -256,6 +270,7 @@ last alice                            # Login history for user
 ```
 
 ### Common Tasks
+
 ```bash
 # Create user with sudo access
 useradd -G wheel username && passwd username
@@ -272,6 +287,7 @@ su - username  # Test login
 ```
 
 ### Sudo Configuration
+
 ```bash
 # Always use visudo to edit
 visudo
@@ -283,6 +299,7 @@ alice ALL=(ALL) NOPASSWD: /bin/systemctl  # Specific command only
 ```
 
 ### Troubleshooting
+
 ```bash
 # User can't login
 passwd -S username                    # Check password status
@@ -295,6 +312,7 @@ groups username                       # Verify group membership
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Direct editing `/etc/sudoers` → **RIGHT**: Use `visudo`
 - **WRONG**: Creating user without password → **RIGHT**: Always set password after `useradd`
 - **WRONG**: Forgetting home directory → **RIGHT**: Use `-m` or check `/home`
@@ -304,6 +322,7 @@ groups username                       # Verify group membership
 ## File Permissions & Access Control
 
 ### Key Terms & Acronyms
+
 - **ACL** - Access Control List (extended permissions)
 - **setuid** - Set User ID (execute as owner)
 - **setgid** - Set Group ID (execute as group)
@@ -317,6 +336,7 @@ groups username                       # Verify group membership
 - **mask** - Maximum ACL permissions allowed
 
 ### Key File Paths
+
 ```bash
 /etc/passwd                   # User account information
 /etc/group                    # Group information
@@ -324,6 +344,7 @@ groups username                       # Verify group membership
 ```
 
 ### Essential Commands
+
 ```bash
 # Basic permission management
 chmod 755 filename                    # Set permissions (octal)
@@ -368,6 +389,7 @@ umask 002                            # Set umask (files 664, dirs 775)
 ```
 
 ### Permission Calculation
+
 ```bash
 # Octal permissions breakdown
 # Read (r) = 4, Write (w) = 2, Execute (x) = 1
@@ -391,6 +413,7 @@ umask 002                            # Set umask (files 664, dirs 775)
 ```
 
 ### Common Tasks
+
 ```bash
 # Set up shared directory with group collaboration
 mkdir /shared
@@ -423,6 +446,7 @@ find /usr/bin -not -user root         # Non-root owned executables
 ```
 
 ### Troubleshooting Permission Issues
+
 ```bash
 # Permission denied troubleshooting
 ls -la /path/to/file                  # Check file permissions
@@ -444,6 +468,7 @@ find /path -type d -exec chmod 755 {} \;     # Directories to 755
 ```
 
 ### ACL vs Traditional Permissions (Supplementary — not on RHEL 10 exam)
+
 ```bash
 # Traditional permissions (3 entities: user, group, other)
 chmod 750 file        # rwxr-x--- (user: rwx, group: r-x, other: ---)
@@ -457,6 +482,7 @@ setfacl -d -m u:alice:rwx /directory  # New files inherit ACL
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Using `777` permissions everywhere → **RIGHT**: Use least privilege principle
 - **WRONG**: Forgetting recursive flag for directories → **RIGHT**: Use `-R` for recursive operations
 - **WRONG**: Not checking parent directory permissions → **RIGHT**: Verify full path permissions
@@ -468,6 +494,7 @@ setfacl -d -m u:alice:rwx /directory  # New files inherit ACL
 ## Package Management
 
 ### Key Terms & Acronyms
+
 - **DNF** - Dandified YUM (RHEL 10 package manager)
 - **YUM** - Yellowdog Updater Modified (legacy package manager)
 - **RPM** - Red Hat Package Manager (low-level package format)
@@ -481,6 +508,7 @@ setfacl -d -m u:alice:rwx /directory  # New files inherit ACL
 - **AppStream** - Application and runtime repository
 
 ### Key File Paths
+
 ```bash
 /etc/dnf/dnf.conf              # DNF main configuration
 /etc/yum.repos.d/              # Repository configuration files
@@ -490,6 +518,7 @@ setfacl -d -m u:alice:rwx /directory  # New files inherit ACL
 ```
 
 ### Essential Commands
+
 ```bash
 # Package information and search
 dnf list                              # List all packages
@@ -541,6 +570,7 @@ rpm -qd httpd                        # List documentation
 ```
 
 ### Module Operations (Application Streams)
+
 ```bash
 # Module management
 dnf module list                      # List available modules
@@ -553,6 +583,7 @@ dnf module reset nodejs             # Reset module state
 ```
 
 ### Repository Configuration
+
 ```bash
 # Add custom repository
 cat > /etc/yum.repos.d/custom.repo << EOF
@@ -570,6 +601,7 @@ dnf config-manager --enable epel
 ```
 
 ### Common Tasks
+
 ```bash
 # Install web server stack
 dnf install -y httpd php php-mysqlnd mariadb-server
@@ -592,6 +624,7 @@ dnf autoremove                       # Remove orphaned packages
 ```
 
 ### Troubleshooting
+
 ```bash
 # Package issues
 dnf check                           # Check for problems
@@ -615,6 +648,7 @@ dnf install --nogpgcheck package    # Skip GPG verification (not recommended)
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Using `yum` commands → **RIGHT**: Use `dnf` in RHEL 10
 - **WRONG**: Not updating before installing → **RIGHT**: Run `dnf update` regularly
 - **WRONG**: Installing from untrusted sources → **RIGHT**: Verify GPG signatures
@@ -625,6 +659,7 @@ dnf install --nogpgcheck package    # Skip GPG verification (not recommended)
 ## Storage and LVM Management
 
 ### Key Terms & Acronyms
+
 - **LVM** - Logical Volume Manager (flexible disk management)
 - **PV** - Physical Volume (physical disk/partition)
 - **VG** - Volume Group (pool of PVs)
@@ -640,8 +675,8 @@ dnf install --nogpgcheck package    # Skip GPG verification (not recommended)
 - **mount point** - Directory where filesystem is attached
 - **PE** - Physical Extent (LVM allocation unit)
 
-
 ### Key File Paths
+
 ```bash
 /etc/fstab                    # Filesystem mount configuration
 /dev/mapper/                  # Device mapper devices (LVM)
@@ -652,6 +687,7 @@ dnf install --nogpgcheck package    # Skip GPG verification (not recommended)
 ```
 
 ### Essential Commands
+
 ```bash
 # Disk and partition management
 lsblk                                  # Check available disks
@@ -691,6 +727,7 @@ lsblk                                 # Verify block device structure
 ```
 
 ### Swap Management
+
 ```bash
 # Create and enable swap
 mkswap /dev/sdd1                      # Create swap on partition
@@ -700,6 +737,7 @@ swapon --show                         # Verify active swap
 ```
 
 ### fstab Configuration
+
 ```bash
 # Add entries to /etc/fstab for persistence
 echo "/dev/vg_data/lv_database /database xfs defaults 0 2" >> /etc/fstab
@@ -711,6 +749,7 @@ umount /database && mount /database   # Test specific mount
 ```
 
 ### Common Tasks
+
 ```bash
 # Complete LVM setup from scratch
 lsblk                                 # Check available disks
@@ -733,6 +772,7 @@ df -h /app                            # Verify new size
 ```
 
 ### Troubleshooting
+
 ```bash
 # Storage issues diagnostic
 df -h                                 # Check disk space
@@ -749,6 +789,7 @@ fuser -mv /mountpoint                 # Alternative to lsof
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Using `resize2fs` for XFS → **RIGHT**: Use `xfs_growfs` for XFS
 - **WRONG**: Forgetting partition type → **RIGHT**: Set type `8e` for LVM in fdisk
 - **WRONG**: Not testing fstab → **RIGHT**: Always `mount -a` before reboot
@@ -759,6 +800,7 @@ fuser -mv /mountpoint                 # Alternative to lsof
 ## Network Configuration
 
 ### Key Terms & Acronyms
+
 - **NetworkManager** - Primary network service in RHEL
 - **nmcli** - NetworkManager CLI
 - **nmtui** - NetworkManager TUI
@@ -774,6 +816,7 @@ fuser -mv /mountpoint                 # Alternative to lsof
 - **connection** - NetworkManager configuration profile
 
 ### Key File Paths
+
 ```bash
 /etc/NetworkManager/          # NetworkManager configuration
 /etc/resolv.conf              # DNS configuration
@@ -784,6 +827,7 @@ fuser -mv /mountpoint                 # Alternative to lsof
 ```
 
 ### Essential Commands
+
 ```bash
 # Network information
 ip addr show                          # Show IP addresses
@@ -816,6 +860,7 @@ nmcli con up "System eth0"
 ```
 
 ### Network Testing
+
 ```bash
 # Connectivity testing
 ping -c 3 192.168.1.1                # Test gateway
@@ -830,6 +875,7 @@ dig @8.8.8.8 google.com              # Query specific DNS server
 ```
 
 ### Common Tasks
+
 ```bash
 # Configure static IP from scratch
 nmcli con add type ethernet con-name "server" ifname ens33 \
@@ -840,6 +886,7 @@ ping -c 3 8.8.8.8                    # Verify connectivity
 ```
 
 ### Troubleshooting
+
 ```bash
 # Network connectivity issues (layer-by-layer)
 ip link show                          # Physical layer
@@ -858,6 +905,7 @@ systemctl status NetworkManager       # Check NetworkManager service
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Forgetting to activate connection → **RIGHT**: Always `nmcli con up` after changes
 - **WRONG**: Not setting method to manual → **RIGHT**: Set `ipv4.method manual` for static IP
 - **WRONG**: Configuring without checking interface name → **RIGHT**: Check `ip link show` first
@@ -867,6 +915,7 @@ systemctl status NetworkManager       # Check NetworkManager service
 ## SELinux Management
 
 ### Key Terms & Acronyms
+
 - **SELinux** - Security-Enhanced Linux (MAC system)
 - **MAC** - Mandatory Access Control
 - **DAC** - Discretionary Access Control
@@ -883,6 +932,7 @@ systemctl status NetworkManager       # Check NetworkManager service
 - **relabel** - Reapply correct SELinux contexts
 
 ### Key File Paths
+
 ```bash
 /etc/selinux/config           # SELinux mode configuration
 /var/log/audit/audit.log      # SELinux audit logs
@@ -891,6 +941,7 @@ systemctl status NetworkManager       # Check NetworkManager service
 ```
 
 ### Essential Commands
+
 ```bash
 # SELinux status and modes
 getenforce                            # Current mode
@@ -941,6 +992,7 @@ semanage port -l | grep http          # Show HTTP ports
 ```
 
 ### Troubleshooting SELinux
+
 ```bash
 # Essential ausearch commands (RED HAT OFFICIAL SYNTAX)
 ausearch -m AVC -ts recent                                    # Recent AVC denials
@@ -960,6 +1012,7 @@ grep "SELinux is preventing" /var/log/messages  # setroubleshoot messages
 ```
 
 ### Common Tasks
+
 ```bash
 # Configure custom document root for Apache
 mkdir -p /web/html
@@ -996,6 +1049,7 @@ reboot
 ```
 
 ### Troubleshooting Workflow
+
 ```bash
 # Step-by-step SELinux troubleshooting
 getenforce                            # 1. Check mode
@@ -1007,6 +1061,7 @@ ausearch -m AVC -ts recent            # 6. Verify no new denials
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Temporary boolean change `setsebool boolean on` → **RIGHT**: Use `-P` for permanent
 - **WRONG**: Forgetting `restorecon` after context changes → **RIGHT**: Always run `restorecon -Rv`
 - **WRONG**: Using wrong context type → **RIGHT**: Use `semanage fcontext -l | grep service` to find correct type
@@ -1019,6 +1074,7 @@ ausearch -m AVC -ts recent            # 6. Verify no new denials
 ## Firewall Management
 
 ### Key Terms & Acronyms
+
 - **firewalld** - Dynamic firewall daemon
 - **zone** - Network security trust level
 - **service** - Predefined firewall rule set
@@ -1031,6 +1087,7 @@ ausearch -m AVC -ts recent            # 6. Verify no new denials
 - **permanent** - Persistent configuration
 
 ### Key File Paths
+
 ```bash
 /etc/firewalld/               # Firewall configuration files
 /etc/firewalld/zones/         # Zone configuration files
@@ -1038,6 +1095,7 @@ ausearch -m AVC -ts recent            # 6. Verify no new denials
 ```
 
 ### Essential Commands
+
 ```bash
 # Firewall status and information
 firewall-cmd --state                  # Check if firewalld is running
@@ -1071,6 +1129,7 @@ firewall-cmd --add-rich-rule='rule family="ipv4" source address="10.0.0.5" port 
 ```
 
 ### Common Tasks
+
 ```bash
 # Allow web server traffic
 firewall-cmd --add-service=http --permanent
@@ -1089,6 +1148,7 @@ firewall-cmd --add-port=443/tcp --permanent && firewall-cmd --reload
 ```
 
 ### Troubleshooting
+
 ```bash
 # Check if firewall is blocking service
 firewall-cmd --list-all               # Check current rules
@@ -1099,6 +1159,7 @@ firewall-cmd --reload
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Adding rule without `--permanent` → **RIGHT**: Always use `--permanent` and `--reload`
 - **WRONG**: Forgetting to reload → **RIGHT**: Run `--reload` to apply permanent changes
 - **WRONG**: Not verifying service is listening → **RIGHT**: Check with `ss -tuln | grep :port`
@@ -1108,6 +1169,7 @@ firewall-cmd --reload
 ## Services and Systemd Management
 
 ### Key Terms & Acronyms
+
 - **systemd** - System and service manager (PID 1)
 - **unit** - Basic systemd object
 - **service** - Daemon unit type (.service)
@@ -1122,6 +1184,7 @@ firewall-cmd --reload
 - **runlevel** - Legacy term (replaced by targets)
 
 ### Key File Paths
+
 ```bash
 /etc/systemd/system/          # Custom systemd unit files
 /usr/lib/systemd/system/      # System-provided unit files
@@ -1130,6 +1193,7 @@ firewall-cmd --reload
 ```
 
 ### Essential Commands
+
 ```bash
 # Service lifecycle management
 systemctl status httpd                # Check service status
@@ -1169,6 +1233,7 @@ systemctl restart systemd-journald
 ```
 
 ### Common Tasks
+
 ```bash
 # Install and configure web server
 dnf install -y httpd
@@ -1185,6 +1250,7 @@ systemctl status mariadb
 ```
 
 ### Troubleshooting Services
+
 ```bash
 # Service startup troubleshooting workflow
 systemctl status service_name         # 1. Check service status
@@ -1205,6 +1271,7 @@ ss -tuln | grep :port                # Port availability
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Starting service but not enabling → **RIGHT**: Use `systemctl enable --now`
 - **WRONG**: Using restart when reload suffices → **RIGHT**: Use `reload` when possible
 - **WRONG**: Not checking logs for errors → **RIGHT**: Always check `journalctl -u service`
@@ -1214,6 +1281,7 @@ ss -tuln | grep :port                # Port availability
 ## Boot Process & GRUB Configuration
 
 ### Key Terms & Acronyms
+
 - **GRUB** - Grand Unified Bootloader (version 2)
 - **UEFI** - Unified Extensible Firmware Interface
 - **BIOS** - Basic Input/Output System (legacy)
@@ -1228,6 +1296,7 @@ ss -tuln | grep :port                # Port availability
 - **ESP** - EFI System Partition
 
 ### Key File Paths
+
 ```bash
 /boot/grub2/grub.cfg          # GRUB configuration (auto-generated)
 /etc/default/grub             # GRUB settings file
@@ -1239,6 +1308,7 @@ ss -tuln | grep :port                # Port availability
 ```
 
 ### Essential Commands
+
 ```bash
 # GRUB configuration management
 grub2-mkconfig -o /boot/grub2/grub.cfg    # Regenerate GRUB config
@@ -1275,6 +1345,7 @@ lsinitrd /boot/initramfs-$(uname -r).img # List specific initramfs
 ```
 
 ### GRUB Configuration
+
 ```bash
 # Edit GRUB defaults (/etc/default/grub)
 GRUB_TIMEOUT=5                          # Boot menu timeout
@@ -1294,6 +1365,7 @@ menuentry "My Custom Boot" {
 ```
 
 ### Boot Targets (Systemd)
+
 ```bash
 # Common systemd targets
 graphical.target     # Multi-user + GUI (runlevel 5)
@@ -1310,6 +1382,7 @@ systemctl get-default                  # Check current default
 ```
 
 ### Password Recovery Procedure
+
 ```bash
 # RHEL 10 Password Reset Steps:
 # 1. Boot system and interrupt GRUB menu (press 'e')
@@ -1326,6 +1399,7 @@ exit
 ```
 
 ### Common Tasks
+
 ```bash
 # Change default boot target to text mode
 systemctl set-default multi-user.target
@@ -1351,6 +1425,7 @@ dracut --force --regenerate-all
 ```
 
 ### Boot Troubleshooting
+
 ```bash
 # Boot process diagnosis
 journalctl -b                          # Current boot logs
@@ -1377,6 +1452,7 @@ grubby --remove-kernel=/boot/vmlinuz-old # Remove problematic kernel
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Editing `/boot/grub2/grub.cfg` directly → **RIGHT**: Use `grub2-mkconfig` or `grubby`
 - **WRONG**: Forgetting `/.autorelabel` after password reset → **RIGHT**: Always touch when SELinux enabled
 - **WRONG**: Not regenerating GRUB config after changes → **RIGHT**: Run `grub2-mkconfig` after editing defaults
@@ -1387,6 +1463,7 @@ grubby --remove-kernel=/boot/vmlinuz-old # Remove problematic kernel
 ## Logging & System Monitoring
 
 ### Key Terms & Acronyms
+
 - **journald** - Systemd journal daemon
 - **rsyslog** - System logging service
 - **syslog** - System logging protocol
@@ -1401,6 +1478,7 @@ grubby --remove-kernel=/boot/vmlinuz-old # Remove problematic kernel
 - **rsyslogd** - Remote system logging daemon
 
 ### Key File Paths
+
 ```bash
 /var/log/messages             # General system messages (rsyslog)
 /var/log/secure              # Authentication and security messages
@@ -1415,6 +1493,7 @@ grubby --remove-kernel=/boot/vmlinuz-old # Remove problematic kernel
 ```
 
 ### Essential Commands
+
 ```bash
 # Systemd Journal (journalctl)
 journalctl                              # View all journal entries
@@ -1467,6 +1546,7 @@ netstat -tuln                         # Network connections (legacy)
 ```
 
 ### Performance Monitoring
+
 ```bash
 # System performance tools
 sar                                   # System activity reporter
@@ -1481,6 +1561,7 @@ vmstat 1 5                          # 1 second intervals, 5 times
 ```
 
 ### Log Configuration
+
 ```bash
 # Make journal persistent
 mkdir -p /var/log/journal
@@ -1507,6 +1588,7 @@ systemctl restart rsyslog
 ```
 
 ### Log Rotation
+
 ```bash
 # Logrotate configuration
 # Edit /etc/logrotate.d/myapp:
@@ -1529,6 +1611,7 @@ logrotate -f /etc/logrotate.d/myapp     # Force rotation
 ```
 
 ### Common Tasks
+
 ```bash
 # Monitor system startup issues
 journalctl -b -p err                   # Boot errors
@@ -1554,6 +1637,7 @@ find /var/log -name "*.gz" -mtime +30 -delete  # Remove compressed logs > 30 day
 ```
 
 ### Troubleshooting with Logs
+
 ```bash
 # Service won't start
 systemctl status servicename           # Service status
@@ -1583,6 +1667,7 @@ dmesg | grep -i error                 # Kernel errors
 ```
 
 ### Log Analysis Techniques
+
 ```bash
 # Pattern matching and analysis
 grep "ERROR" /var/log/messages | tail -20
@@ -1600,6 +1685,7 @@ multitail /var/log/messages /var/log/secure  # Multiple files simultaneously
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Using `tail -f` on journal files → **RIGHT**: Use `journalctl -f`
 - **WRONG**: Not making journal persistent → **RIGHT**: Create `/var/log/journal` directory
 - **WRONG**: Ignoring log rotation → **RIGHT**: Configure logrotate for custom logs
@@ -1610,6 +1696,7 @@ multitail /var/log/messages /var/log/secure  # Multiple files simultaneously
 ## NFS and AutoFS
 
 ### Key Terms & Acronyms
+
 - **NFS** - Network File System (remote file sharing protocol, NFS 4.2 is the RHEL 10 default)
 - **AutoFS** - Automatic File System (on-demand mounting service)
 - **export** - Making shares available on NFS server
@@ -1624,6 +1711,7 @@ multitail /var/log/messages /var/log/secure  # Multiple files simultaneously
 - **\_netdev** - Mount option indicating network dependency
 
 ### Key File Paths
+
 ```bash
 /etc/exports                  # NFS server export configuration
 /etc/fstab                    # Persistent mount configuration
@@ -1634,6 +1722,7 @@ multitail /var/log/messages /var/log/secure  # Multiple files simultaneously
 ```
 
 ### NFS Server Setup
+
 ```bash
 # Install NFS server software
 dnf install -y nfs-utils
@@ -1668,6 +1757,7 @@ firewall-cmd --reload
 ```
 
 ### NFS Client Operations
+
 ```bash
 # Install NFS client software
 dnf install -y nfs-utils
@@ -1691,6 +1781,7 @@ umount /mnt/nfs-data
 ```
 
 ### Persistent NFS Mounting via fstab
+
 ```bash
 # Add entry to /etc/fstab for persistent mounting
 echo "server.example.com:/nfs-share /mnt/nfs-data nfs defaults,_netdev 0 0" >> /etc/fstab
@@ -1713,8 +1804,9 @@ mount /mnt/nfs-data          # Mount specific entry
 ### AutoFS Configuration
 
 **Direct vs Indirect Maps Overview:**
+
 - **Indirect Maps**: Mount point is a directory that contains subdirectories for each share
-  - Master map: `/mnt/auto /etc/auto.nfs` → Access `/mnt/auto/sharename` 
+  - Master map: `/mnt/auto /etc/auto.nfs` → Access `/mnt/auto/sharename`
   - Map file defines keys (subdirectory names) and their NFS locations
 - **Direct Maps**: Each share has its own specific mount point anywhere in filesystem
   - Master map: `/- /etc/auto.direct` → Access exact paths like `/shared-data`
@@ -1764,6 +1856,7 @@ mount | grep autofs          # Show active automounts
 ```
 
 ### AutoFS Wildcards for User Home Directories
+
 ```bash
 # Wildcard mapping in indirect map
 # * matches subdirectory name, & substitutes server/path
@@ -1777,6 +1870,7 @@ echo "/home /etc/auto.home" >> /etc/auto.master
 ```
 
 ### Common NFS and AutoFS Tasks
+
 ```bash
 # Set up NFS client with AutoFS indirect map
 showmount -e nfs-server              # List available shares
@@ -1799,6 +1893,7 @@ mount | grep autofs
 ```
 
 ### Troubleshooting NFS and AutoFS
+
 ```bash
 # NFS server troubleshooting
 exportfs -v                          # Show active exports
@@ -1827,6 +1922,7 @@ systemctl restart autofs            # Full restart if needed
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Forgetting `_netdev` in fstab → **RIGHT**: Always use `_netdev` for network filesystems
 - **WRONG**: Using AutoFS and fstab together → **RIGHT**: Choose either AutoFS or fstab, not both
 - **WRONG**: Not starting rpcbind service → **RIGHT**: Ensure rpcbind runs before nfs-server
@@ -1839,6 +1935,7 @@ systemctl restart autofs            # Full restart if needed
 ## Flatpak Software Management
 
 ### Key Terms & Acronyms
+
 - **Flatpak** - Application distribution framework with sandboxing
 - **Flathub** - Largest public Flatpak repository (flathub.org)
 - **remote** - Flatpak repository (similar to DNF repo)
@@ -1850,6 +1947,7 @@ systemctl restart autofs            # Full restart if needed
 - **app ID** - Reverse-DNS application identifier (e.g., org.gimp.GIMP)
 
 ### Key File Paths
+
 ```bash
 /var/lib/flatpak/                     # System-wide Flatpak installations
 ~/.local/share/flatpak/               # User Flatpak installations
@@ -1859,6 +1957,7 @@ systemctl restart autofs            # Full restart if needed
 ```
 
 ### Essential Commands
+
 ```bash
 # Remote (repository) management
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -1886,6 +1985,7 @@ flatpak update                                    # Update all Flatpaks
 ```
 
 ### Common Tasks
+
 ```bash
 # Set up Flathub and install application
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -1903,6 +2003,7 @@ flatpak uninstall --unused -y                     # Remove orphaned runtimes
 ```
 
 ### Permission Overrides
+
 ```bash
 # Grant filesystem access to sandboxed app
 flatpak override --user --filesystem=home org.example.App
@@ -1911,6 +2012,7 @@ flatpak override --user --reset org.example.App   # Reset to defaults
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Trying to install without adding remote first → **RIGHT**: Add remote with `flatpak remote-add` before installing
 - **WRONG**: Forgetting `--if-not-exists` → **RIGHT**: Use it to make commands idempotent
 - **WRONG**: Not cleaning up runtimes → **RIGHT**: Run `flatpak uninstall --unused` after removing apps
@@ -1920,6 +2022,7 @@ flatpak override --user --reset org.example.App   # Reset to defaults
 ## Scheduled Tasks & Automation
 
 ### Key Terms & Acronyms
+
 - **cron** - Time-based job scheduler
 - **crontab** - Cron table (user's scheduled jobs)
 - **crond** - Cron daemon
@@ -1933,6 +2036,7 @@ flatpak override --user --reset org.example.App   # Reset to defaults
 - **Persistent** - Timer survives system shutdown
 
 ### Key File Paths
+
 ```bash
 /etc/crontab                  # System-wide cron table
 /etc/cron.d/                  # System cron job directory
@@ -1950,6 +2054,7 @@ flatpak override --user --reset org.example.App   # Reset to defaults
 ```
 
 ### Essential Commands
+
 ```bash
 # Crontab management
 crontab -e                            # Edit user's crontab
@@ -1980,6 +2085,7 @@ systemctl disable timer_name          # Disable timer
 ```
 
 ### Cron Syntax
+
 ```bash
 # Crontab format: minute hour day month weekday command
 # * * * * * command
@@ -2015,6 +2121,7 @@ systemctl disable timer_name          # Disable timer
 ```
 
 ### Systemd Timers
+
 ```bash
 # Create timer unit file (/etc/systemd/system/backup.timer)
 [Unit]
@@ -2050,6 +2157,7 @@ OnCalendar=*:0/15              # Every 15 minutes
 ```
 
 ### Common Tasks
+
 ```bash
 # Daily log rotation at 3:00 AM
 echo "0 3 * * * /usr/sbin/logrotate /etc/logrotate.conf" | crontab -
@@ -2093,6 +2201,7 @@ systemctl enable --now daily-backup.timer
 ```
 
 ### Environment and Output Handling
+
 ```bash
 # Cron environment variables (in crontab)
 SHELL=/bin/bash
@@ -2113,6 +2222,7 @@ cd /home/user
 ```
 
 ### Access Control
+
 ```bash
 # Allow specific users to use cron
 echo "alice" >> /etc/cron.allow
@@ -2127,6 +2237,7 @@ echo "bob" >> /etc/at.allow
 ```
 
 ### Troubleshooting
+
 ```bash
 # Check cron service status
 systemctl status crond
@@ -2161,6 +2272,7 @@ chmod +x /path/to/script.sh
 ```
 
 ### Monitoring Scheduled Tasks
+
 ```bash
 # List all active cron jobs
 for user in $(cut -f1 -d: /etc/passwd); do
@@ -2178,6 +2290,7 @@ systemctl status timer_name          # Detailed timer status
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Using relative paths in cron jobs → **RIGHT**: Use absolute paths always
 - **WRONG**: Not setting proper environment → **RIGHT**: Set PATH and other variables in crontab
 - **WRONG**: Forgetting output redirection → **RIGHT**: Redirect stdout/stderr appropriately
@@ -2189,6 +2302,7 @@ systemctl status timer_name          # Detailed timer status
 ## Emergency Recovery Procedures
 
 ### Key Terms & Acronyms
+
 - **rd.break** - Kernel parameter for root password reset
 - **rescue** - Systemd target for system recovery
 - **emergency** - Minimal systemd target
@@ -2199,6 +2313,7 @@ systemctl status timer_name          # Detailed timer status
 - **grubby** - GRUB configuration tool
 
 ### Boot Issues and Recovery
+
 ```bash
 # GRUB rescue (password reset)
 # At GRUB menu: e -> linux line -> add rd.break
@@ -2219,6 +2334,7 @@ systemctl status timer_name          # Detailed timer status
 ```
 
 ### Critical File Recovery
+
 ```bash
 # Corrupted fstab
 # Boot to rescue mode
@@ -2237,6 +2353,7 @@ systemctl status timer_name          # Detailed timer status
 ## SSH & Remote Access
 
 ### Key Terms & Acronyms
+
 - **SSH** - Secure Shell (encrypted remote access protocol)
 - **sshd** - SSH daemon (server process)
 - **RSA** - Rivest-Shamir-Adleman (key algorithm)
@@ -2251,6 +2368,7 @@ systemctl status timer_name          # Detailed timer status
 - **Wayland forwarding** - Remote GUI application display (RHEL 10 uses Wayland, not X11)
 
 ### Key File Paths
+
 ```bash
 /etc/ssh/sshd_config          # SSH daemon configuration
 /etc/ssh/ssh_config           # System-wide client configuration
@@ -2265,6 +2383,7 @@ systemctl status timer_name          # Detailed timer status
 ```
 
 ### Essential Commands
+
 ```bash
 # SSH connection basics
 ssh user@hostname                     # Connect to remote host
@@ -2300,6 +2419,7 @@ ssh -N -f -L 8080:localhost:80 user@hostname  # Background tunnel
 ```
 
 ### SSH Configuration
+
 ```bash
 # Server configuration (/etc/ssh/sshd_config)
 Port 22                          # Default SSH port
@@ -2336,6 +2456,7 @@ Host bastion
 ```
 
 ### Key-Based Authentication Setup
+
 ```bash
 # Complete key-based authentication setup
 # 1. Generate key pair on client
@@ -2359,6 +2480,7 @@ sudo systemctl reload sshd
 ```
 
 ### SSH Security Hardening
+
 ```bash
 # Change default port
 sed -i 's/^#Port 22/Port 2222/' /etc/ssh/sshd_config
@@ -2384,6 +2506,7 @@ sshd -t && systemctl reload sshd
 ```
 
 ### Common Tasks
+
 ```bash
 # Set up passwordless SSH between servers
 ssh-keygen -t ed25519 -N "" -f ~/.ssh/server_key
@@ -2409,6 +2532,7 @@ journalctl -u sshd -f           # Follow SSH logs in real-time
 ```
 
 ### Troubleshooting SSH
+
 ```bash
 # Connection troubleshooting
 ssh -v user@hostname             # Verbose output (debug)
@@ -2439,6 +2563,7 @@ semanage port -l | grep ssh     # Check SELinux port contexts
 ```
 
 ### SSH Agent and Key Management
+
 ```bash
 # Start SSH agent
 eval $(ssh-agent)               # Start agent and set environment
@@ -2462,6 +2587,7 @@ ssh -i ~/.ssh/specific_key user@hostname  # Use specific key
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: Using weak RSA 1024-bit keys → **RIGHT**: Use RSA 4096-bit or Ed25519 keys
 - **WRONG**: Leaving default SSH port 22 → **RIGHT**: Change to non-standard port for security
 - **WRONG**: Wrong file permissions on SSH keys → **RIGHT**: Use 600 for private keys, 644 for public keys
@@ -2473,6 +2599,7 @@ ssh -i ~/.ssh/specific_key user@hostname  # Use specific key
 ## Shell Environment & Scripting Basics
 
 ### Key Terms & Acronyms
+
 - **bash** - Bourne Again Shell (default RHEL shell)
 - **env** - Environment (shell variables and settings)
 - **PATH** - Executable search path
@@ -2487,6 +2614,7 @@ ssh -i ~/.ssh/specific_key user@hostname  # Use specific key
 - **source/dot** - Execute script in current shell
 
 ### Key File Paths
+
 ```bash
 /etc/profile                  # System-wide shell initialization
 /etc/profile.d/              # System-wide shell scripts
@@ -2499,6 +2627,7 @@ ssh -i ~/.ssh/specific_key user@hostname  # Use specific key
 ```
 
 ### Essential Commands
+
 ```bash
 # Environment variables
 export VAR=value                      # Set and export variable
@@ -2537,6 +2666,7 @@ command1; command2                   # Run commands sequentially
 ```
 
 ### Basic Scripting Constructs
+
 ```bash
 #!/bin/bash
 # Shebang - interpreter specification
@@ -2596,6 +2726,7 @@ esac
 ```
 
 ### Positional Parameters and Special Variables
+
 ```bash
 $0                              # Script name
 $1, $2, $3...                   # Positional parameters (arguments)
@@ -2608,6 +2739,7 @@ shift                           # Shift positional parameters left ($2→$1)
 ```
 
 ### Common Scripting Patterns
+
 ```bash
 # Check if script has arguments
 if [ $# -eq 0 ]; then
@@ -2651,6 +2783,7 @@ log() {
 ```
 
 ### Environment Configuration
+
 ```bash
 # System-wide environment (/etc/profile)
 export PATH="/usr/local/bin:$PATH"
@@ -2677,6 +2810,7 @@ source ~/.bashrc                     # Reload configuration
 ```
 
 ### Common Tasks
+
 ```bash
 # Create a backup script
 #!/bin/bash
@@ -2719,6 +2853,7 @@ done
 ```
 
 ### Advanced Shell Features
+
 ```bash
 # Parameter expansion
 ${var}                              # Variable value
@@ -2751,6 +2886,7 @@ nohup command &                   # Run command immune to hangups
 ```
 
 ### Debugging and Troubleshooting
+
 ```bash
 # Script debugging
 bash -x script.sh                 # Execute with debug output
@@ -2775,6 +2911,7 @@ fi
 ```
 
 ### Common Pitfalls
+
 - **WRONG**: `VAR = value` → **RIGHT**: `VAR=value` (no spaces around =)
 - **WRONG**: Not quoting variables → **RIGHT**: Use `"$var"` to prevent word splitting
 - **WRONG**: Using `[ $var = value ]` with empty var → **RIGHT**: Use `[ "$var" = "value" ]`
@@ -2804,6 +2941,7 @@ ausearch -m AVC -ts recent | wc -l    # Count SELinux denials
 ## Last-Minute Exam Reminders
 
 ### Must-Verify Checklist
+
 - [ ] Services enabled AND started: `systemctl is-enabled service && systemctl is-active service`
 - [ ] Firewall rules applied: `firewall-cmd --list-all`
 - [ ] SELinux not blocking: `ausearch -m AVC -ts recent`
@@ -2812,6 +2950,7 @@ ausearch -m AVC -ts recent | wc -l    # Count SELinux denials
 - [ ] Network connectivity: `ping 8.8.8.8`
 
 ### Emergency Commands
+
 ```bash
 # If something breaks during exam:
 systemctl status service_name        # Check service status
@@ -2823,6 +2962,7 @@ ss -tuln | grep :port               # Is service listening?
 ```
 
 ### Final Strategy
+
 **Accuracy over speed. Verify everything. Use man pages when uncertain.**
 
 Time allocation: 40% basic tasks (users, basic services), 40% intermediate (storage, network), 20% advanced (containers, troubleshooting).

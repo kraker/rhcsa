@@ -303,7 +303,7 @@ semodule -i mypolicy.pp
 
 ### Decision Tree: SELinux Problem Resolution
 
-```
+```text
 SELinux Access Denied
 ├── File access denied?
 │   ├── Wrong file context? → Use semanage fcontext + restorecon
@@ -792,34 +792,34 @@ Custom web application experiencing SELinux access denials
 
 ## Investigation Steps
 1. **Initial Analysis**
-    - Checked for AVC denials: \`ausearch -m AVC -ts recent\`
-    - Analyzed denials: \`sealert -a /var/log/audit/audit.log\`
-    - Reviewed current file contexts
+     - Checked for AVC denials: \`ausearch -m AVC -ts recent\`
+     - Analyzed denials: \`sealert -a /var/log/audit/audit.log\`
+     - Reviewed current file contexts
 
 2. **Root Cause**
-    - Custom application files had incorrect SELinux contexts
-    - Files in /opt/customapp/ had default contexts instead of web server contexts
-    - Custom port 9090 not in HTTP port context
+     - Custom application files had incorrect SELinux contexts
+     - Files in /opt/customapp/ had default contexts instead of web server contexts
+     - Custom port 9090 not in HTTP port context
 
 ## Resolution Applied
 1. **File Context Policies**:
-    \`\`\`bash
-    semanage fcontext -a -t httpd_exec_t "/opt/customapp/bin(/.*)?"
-    semanage fcontext -a -t httpd_config_t "/opt/customapp/config(/.*)?"
-    semanage fcontext -a -t httpd_log_t "/opt/customapp/data(/.*)?"
-    restorecon -Rv /opt/customapp/
-    \`\`\`
+     \`\`\`bash
+     semanage fcontext -a -t httpd_exec_t "/opt/customapp/bin(/.*)?"
+     semanage fcontext -a -t httpd_config_t "/opt/customapp/config(/.*)?"
+     semanage fcontext -a -t httpd_log_t "/opt/customapp/data(/.*)?"
+     restorecon -Rv /opt/customapp/
+     \`\`\`
 
 2. **Port Context**:
-    \`\`\`bash
-    semanage port -a -t http_port_t -p tcp 9090
-    \`\`\`
+     \`\`\`bash
+     semanage port -a -t http_port_t -p tcp 9090
+     \`\`\`
 
 3. **Boolean Configuration**:
-    \`\`\`bash
-    setsebool -P httpd_can_network_connect on
-    setsebool -P httpd_builtin_scripting on
-    \`\`\`
+     \`\`\`bash
+     setsebool -P httpd_can_network_connect on
+     setsebool -P httpd_builtin_scripting on
+     \`\`\`
 
 ## Verification
 - No new AVC denials after fixes
@@ -1044,29 +1044,30 @@ semanage port -d -t http_port_t -p tcp 8080  # Remove port context
 ### Conceptual Questions
 
 1. **Question**: What's the difference between discretionary access control and mandatory access control in SELinux?
-   <details> <summary>Answer</summary> Discretionary access control (traditional permissions) allows users to control access to their own files. Mandatory access control (SELinux) enforces system-wide security policies that users cannot override, providing an additional security layer based on security contexts and policies.</details>
+    <details> <summary>Answer</summary> Discretionary access control (traditional permissions) allows users to control access to their own files. Mandatory access control (SELinux) enforces system-wide security policies that users cannot override, providing an additional security layer based on security contexts and policies.</details>
 
 2. **Question**: Why is it better to use semanage fcontext instead of chcon for permanent changes?  
-    <details> <summary>Answer</summary>`chcon` only changes the context temporarily - it's lost if the file is moved, copied, or if `restorecon` is run. `semanage fcontext` creates a permanent policy rule, so the context is automatically applied to matching files and persists through system operations.</details>
+     <details> <summary>Answer</summary>`chcon` only changes the context temporarily - it's lost if the file is moved, copied, or if `restorecon` is run. `semanage fcontext` creates a permanent policy rule, so the context is automatically applied to matching files and persists through system operations.</details>
 
 3. **Question**: When would you create a custom SELinux policy module instead of using existing tools?  
-    <details> <summary>Answer</summary>Custom policy modules are a last resort when legitimate application behavior triggers denials that can't be resolved with existing booleans, file contexts, or port contexts. They're typically needed for applications with unusual security requirements or behaviors not covered by standard policies.</details>
+     <details> <summary>Answer</summary>Custom policy modules are a last resort when legitimate application behavior triggers denials that can't be resolved with existing booleans, file contexts, or port contexts. They're typically needed for applications with unusual security requirements or behaviors not covered by standard policies.</details>
 
 ### Practical Scenarios
 
 1. **Scenario**: Web server needs to connect to a database on a non-standard port.
-    <details> <summary>Solution</summary>Enable the `httpd_can_network_connect` boolean with `setsebool -P httpd_can_network_connect on` and possibly add the database port to appropriate context with `semanage port`.</details>
+     <details> <summary>Solution</summary>Enable the `httpd_can_network_connect` boolean with `setsebool -P httpd_can_network_connect on` and possibly add the database port to appropriate context with `semanage port`.</details>
 
 2. **Scenario**: Custom application installed in /opt needs to be accessed by Apache.
-    <details> <summary>Solution</summary>Set appropriate contexts with `semanage fcontext -a -t httpd_config_t "/opt/myapp(/.*)?"` and apply with `restorecon -Rv /opt/myapp/`.</details>
+     <details> <summary>Solution</summary>Set appropriate contexts with `semanage fcontext -a -t httpd_config_t "/opt/myapp(/.*)?"` and apply with `restorecon -Rv /opt/myapp/`.</details>
 
 ### Command Challenges
 
 1. **Challenge**: Find all files in /var/www that have the wrong SELinux context.
-    <details> <summary>Answer</summary>`find /var/www -exec ls -lZ {} \; | grep -v httpd_config_t | grep -v httpd_exec_t`</details>
+     <details> <summary>Answer</summary>`find /var/www -exec ls -lZ {} \; | grep -v httpd_config_t | grep -v httpd_exec_t`</details>
 
 2. **Challenge**: Create a policy to allow Apache to write to a custom log directory.  
-    **Answer**:
+     **Answer**:
+
 ```bash
 semanage fcontext -a -t httpd_log_t "/custom/logs(/.*)?"
 restorecon -Rv /custom/logs/
@@ -1087,13 +1088,13 @@ setsebool -P httpd_can_network_connect on  # if network logging
 ### Common Exam Scenarios
 
 1. **Scenario**: Configure web server to serve content from custom directory  
-   **Approach**: Use `semanage fcontext` to set appropriate httpd contexts, then `restorecon`
+    **Approach**: Use `semanage fcontext` to set appropriate httpd contexts, then `restorecon`
 
 2. **Scenario**: Web application needs network access  
-   **Approach**: Enable `httpd_can_network_connect` boolean with `-P` flag
+    **Approach**: Enable `httpd_can_network_connect` boolean with `-P` flag
 
 3. **Scenario**: Service won't start, works in permissive mode  
-   **Approach**: Check `ausearch -m AVC`, analyze with `sealert`, apply appropriate fix
+    **Approach**: Check `ausearch -m AVC`, analyze with `sealert`, apply appropriate fix
 
 ### Time Management
 

@@ -1,6 +1,7 @@
 # Module 11: Boot Process & GRUB Configuration
 
 ## 1. Learning Objectives
+
 - Understand the RHEL 10 boot process from UEFI/BIOS to systemd
 - Configure and customize GRUB2 bootloader settings
 - Manage kernel parameters and boot options
@@ -11,19 +12,23 @@
 ## 2. Key Concepts
 
 ### Boot Process Overview
+
 The RHEL 10 boot sequence follows these stages:
+
 1. **UEFI/BIOS**: Hardware initialization and bootloader location
 2. **GRUB2**: Boot menu, kernel selection, and parameter passing
 3. **Kernel**: Hardware detection, driver loading, initramfs mounting
 4. **systemd**: Service initialization and target reaching
 
 ### GRUB2 Configuration Structure
+
 - **Main config**: `/boot/grub2/grub.cfg` (auto-generated)
 - **Default settings**: `/etc/default/grub`
 - **Custom entries**: `/etc/grub.d/` directory
 - **EFI systems**: `/boot/efi/EFI/redhat/grub.cfg`
 
 ### Systemd Targets
+
 - **graphical.target**: Full multi-user with GUI
 - **multi-user.target**: Multi-user without GUI
 - **rescue.target**: Single-user maintenance mode
@@ -32,6 +37,7 @@ The RHEL 10 boot sequence follows these stages:
 ## 3. Essential Commands
 
 ### GRUB Management
+
 ```bash
 # Regenerate GRUB configuration
 grub2-mkconfig -o /boot/grub2/grub.cfg                # BIOS systems
@@ -47,6 +53,7 @@ grub2-editenv list                                    # Show current default
 ```
 
 ### Kernel Parameter Management
+
 ```bash
 # Temporary kernel parameters (current boot only)
 # Edit in GRUB menu: press 'e', modify linux line, press Ctrl+x
@@ -61,6 +68,7 @@ cat /proc/cmdline
 ```
 
 ### Boot Target Management
+
 ```bash
 # Get current target
 systemctl get-default
@@ -78,6 +86,7 @@ systemctl isolate emergency.target
 ```
 
 ### Recovery Procedures
+
 ```bash
 # Reset root password (from rescue mode)
 mount -o remount,rw /sysroot
@@ -98,7 +107,9 @@ reboot
 ## 4. Asghar Ghori's Approach
 
 ### Boot Process Analysis
+
 Ghori emphasizes understanding each boot stage through observation:
+
 ```bash
 # Analyze boot messages
 dmesg | less
@@ -108,6 +119,7 @@ journalctl -b -1                                      # Previous boot messages
 ```
 
 ### GRUB Customization Method
+
 ```bash
 # Modify /etc/default/grub
 GRUB_TIMEOUT=10
@@ -122,7 +134,9 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
 ### Rescue Mode Procedure
+
 Ghori's systematic approach to rescue scenarios:
+
 1. Boot from installation media
 2. Select "Troubleshooting" → "Rescue a Red Hat Enterprise Linux system"
 3. Choose shell option for full system access
@@ -132,7 +146,9 @@ Ghori's systematic approach to rescue scenarios:
 ## 5. Sander van Vugt's Approach
 
 ### Bootloader Troubleshooting Methodology
+
 Van Vugt focuses on systematic GRUB repair procedures:
+
 ```bash
 # Complete GRUB reinstallation procedure
 # Boot from live/rescue media
@@ -148,6 +164,7 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
 ### Advanced Kernel Parameter Management
+
 ```bash
 # Comprehensive grubby usage
 grubby --default-kernel                               # Show default kernel
@@ -157,7 +174,9 @@ grubby --remove-kernel=/boot/vmlinuz-old
 ```
 
 ### Systemd Boot Analysis
+
 Van Vugt's approach to boot performance analysis:
+
 ```bash
 # Boot time analysis
 systemd-analyze                                       # Overall boot time
@@ -169,6 +188,7 @@ systemd-analyze plot > bootchart.svg                 # Visual boot chart
 ## 6. Command Examples and Scenarios
 
 ### Scenario 1: Kernel Parameter Configuration
+
 ```bash
 # Add kernel parameter for debugging
 grubby --update-kernel=ALL --args="debug"
@@ -182,6 +202,7 @@ grubby --update-kernel=ALL --args="mem=2G"
 ```
 
 ### Scenario 2: GRUB Menu Customization
+
 ```bash
 # Extend GRUB timeout
 sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=15/' /etc/default/grub
@@ -204,6 +225,7 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
 ### Scenario 3: Boot Target Management
+
 ```bash
 # Switch to text mode permanently
 systemctl set-default multi-user.target
@@ -223,14 +245,17 @@ systemd.unit=runlevel3.target                        # Equivalent to multi-user
 ## 7. Lab Exercises
 
 ### Lab 11A: GRUB Configuration and Kernel Parameters (Ghori-focused)
+
 **Time Limit**: 20 minutes
 **Objective**: Configure GRUB bootloader and manage kernel parameters
 
 **Prerequisites**:
+
 - RHEL 10 system with multiple kernel versions
 - Root access for bootloader modifications
 
 **Tasks**:
+
 1. Modify GRUB timeout to 15 seconds and disable submenu
 2. Add kernel parameter `console=ttyS0,115200` to all kernels
 3. Create custom GRUB menu entry for memory test
@@ -238,6 +263,7 @@ systemd.unit=runlevel3.target                        # Equivalent to multi-user
 5. Set the second kernel as default boot option
 
 **Verification Commands**:
+
 ```bash
 grep GRUB_TIMEOUT /etc/default/grub                   # Check timeout setting
 grubby --info=ALL | grep console                      # Verify console parameter
@@ -246,14 +272,17 @@ cat /proc/cmdline                                     # Verify current parameter
 ```
 
 ### Lab 11B: Boot Troubleshooting and Recovery (van Vugt-focused)
+
 **Time Limit**: 25 minutes
 **Objective**: Practice boot failure recovery procedures
 
 **Prerequisites**:
+
 - RHEL 10 system with intentionally broken boot configuration
 - Installation media or rescue disk available
 
 **Tasks**:
+
 1. Simulate GRUB corruption by removing `/boot/grub2/grub.cfg`
 2. Boot into rescue mode and reinstall GRUB
 3. Change root password using emergency boot mode
@@ -261,6 +290,7 @@ cat /proc/cmdline                                     # Verify current parameter
 5. Analyze boot performance and identify slowest service
 
 **Verification Commands**:
+
 ```bash
 ls -la /boot/grub2/grub.cfg                          # Verify GRUB config exists
 systemctl get-default                                 # Check default target
@@ -269,15 +299,18 @@ journalctl -b | grep -i error                        # Check for boot errors
 ```
 
 ### Lab 11C: Synthesis Challenge - Complete Boot Environment Setup
+
 **Time Limit**: 30 minutes
 **Objective**: Integrate both methodologies for comprehensive boot management
 
 **Prerequisites**:
+
 - Fresh RHEL 10 installation
 - Multiple kernel versions installed
 - Access to rescue media
 
 **Tasks**:
+
 1. Configure GRUB with custom splash image and 20-second timeout
 2. Add persistent kernel parameters for debugging and console redirection
 3. Create custom rescue menu entry that boots directly to single-user mode
@@ -286,11 +319,13 @@ journalctl -b | grep -i error                        # Check for boot errors
 6. Document complete recovery procedure for boot failure scenarios
 
 **Advanced Requirements**:
+
 - Use both grubby and manual GRUB configuration methods
 - Combine Ghori's systematic approach with van Vugt's advanced troubleshooting
 - Create comprehensive boot analysis report using systemd tools
 
 **Verification Commands**:
+
 ```bash
 grub2-editenv list                                    # Verify default settings
 grubby --info=ALL                                     # Check all kernel parameters
@@ -301,6 +336,7 @@ journalctl -b --no-pager | grep -E "(Started|Failed)" # Boot service status
 ## 8. Troubleshooting Common Issues
 
 ### GRUB Not Loading
+
 ```bash
 # Symptoms: System boots directly to BIOS/UEFI
 # Solution: Reinstall GRUB to MBR/ESP
@@ -315,6 +351,7 @@ grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
 ```
 
 ### Kernel Panic on Boot
+
 ```bash
 # Symptoms: Kernel panic, unable to mount root filesystem
 # Solution: Boot with different kernel or rescue mode
@@ -326,6 +363,7 @@ grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
 ```
 
 ### Wrong systemd Target
+
 ```bash
 # Symptoms: System boots to wrong runlevel/target
 # Solution: Check and correct default target
@@ -336,6 +374,7 @@ systemctl list-units --type=target --state=active    # Show active targets
 ```
 
 ### GRUB Configuration Corruption
+
 ```bash
 # Symptoms: Syntax errors, missing menu entries
 # Solution: Regenerate configuration
@@ -351,6 +390,7 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
 ### Forgotten Root Password Recovery
+
 ```bash
 # Method 1: rd.break method
 # Add to kernel line: rd.break
@@ -371,6 +411,7 @@ exec /sbin/init
 ## 9. Best Practices
 
 ### GRUB Configuration Management
+
 - Always backup `/boot/grub2/grub.cfg` before changes
 - Use `/etc/default/grub` for global settings
 - Place custom entries in `/etc/grub.d/40_custom`
@@ -378,6 +419,7 @@ exec /sbin/init
 - Keep rescue media available for emergency recovery
 
 ### Kernel Parameter Management
+
 - Use `grubby` for persistent kernel parameter changes
 - Document all custom parameters and their purposes
 - Test parameter changes before making them permanent
@@ -385,6 +427,7 @@ exec /sbin/init
 - Maintain list of working parameter combinations
 
 ### Boot Security
+
 - Implement GRUB password protection for menu editing
 - Secure physical access to prevent boot parameter tampering
 - Use encrypted boot partitions for sensitive environments
@@ -392,6 +435,7 @@ exec /sbin/init
 - Monitor boot logs for unauthorized access attempts
 
 ### Recovery Preparedness
+
 - Create and test rescue media regularly
 - Document complete recovery procedures
 - Practice password recovery methods
@@ -401,24 +445,28 @@ exec /sbin/init
 ## 10. Integration with Other RHCSA Topics
 
 ### Storage Integration
+
 - Boot partition requirements for LVM root filesystems
 - GRUB configuration for encrypted root partitions
 - Rescue procedures for storage failures
 - Boot from different storage devices
 
 ### Security Integration
+
 - SELinux autorelabel during password recovery
 - Boot security with GRUB passwords
 - Secure boot configuration in UEFI environments
 - Audit trail for boot-time security events
 
 ### Network Integration
+
 - Network boot with PXE and GRUB
 - Console redirection for remote management
 - Boot parameter configuration for network interfaces
 - Remote boot troubleshooting procedures
 
 ### Service Integration
+
 - systemd target dependencies and boot order
 - Service startup optimization for faster boot
 - Boot-time service failure troubleshooting

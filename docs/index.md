@@ -5,6 +5,7 @@ Welcome to the comprehensive Red Hat Certified System Administrator (RHCSA) stud
 ## 📚 Study Materials
 
 ### [RHCSA Synthesis Modules](rhcsa_synthesis/)
+
 Complete knowledge base with 15 detailed modules covering all RHCSA exam objectives:
 
 - **Module 00**: [Exam Overview](rhcsa_synthesis/00_exam_overview.md) - Strategy and format guide
@@ -40,6 +41,7 @@ Import the comprehensive flashcard deck for spaced repetition learning:
 - **Topics**: All RHCSA exam objectives with practical examples
 
 ### Flashcard Categories
+
 - User & Group Management
 - File Operations & Permissions  
 - System Services (systemd)
@@ -76,7 +78,7 @@ Set up hands-on practice environment using Vagrant:
 
 ## 📁 Repository Structure
 
-```
+```text
 rhcsa/
 ├── docs/                    # Study materials (this site)
 ├── anki/                    # Flashcard deck

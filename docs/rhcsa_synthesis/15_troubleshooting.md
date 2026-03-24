@@ -1,6 +1,7 @@
 # Module 15: System Troubleshooting & Recovery
 
 ## 1. Learning Objectives
+
 - Master systematic troubleshooting methodologies
 - Diagnose and resolve boot, network, and service failures
 - Analyze system performance issues and resource constraints
@@ -12,6 +13,7 @@
 ## 2. Key Concepts
 
 ### Troubleshooting Methodology
+
 - **Problem identification**: Define symptoms and scope
 - **Information gathering**: Collect system state and logs
 - **Analysis**: Correlate data and identify root causes
@@ -20,6 +22,7 @@
 - **Documentation**: Record solutions for future reference
 
 ### System State Analysis
+
 - **Boot process**: GRUB, kernel, systemd initialization
 - **Service status**: systemd unit states and dependencies
 - **Resource utilization**: CPU, memory, disk, network usage
@@ -27,6 +30,7 @@
 - **Configuration validation**: Syntax and logical correctness
 
 ### Recovery Techniques
+
 - **Boot recovery**: Rescue mode, emergency mode, single-user mode
 - **Filesystem repair**: fsck, xfs_repair, data recovery
 - **Service restoration**: Dependency resolution, configuration fixes
@@ -34,6 +38,7 @@
 - **Security recovery**: SELinux troubleshooting, permission fixes
 
 ### Diagnostic Tools
+
 - **System information**: lscpu, lsmem, lsblk, lspci, lsusb
 - **Performance monitoring**: top, htop, iotop, vmstat, iostat
 - **Network diagnostics**: ping, traceroute, netstat, ss, tcpdump
@@ -42,6 +47,7 @@
 ## 3. Essential Commands
 
 ### System Information Gathering
+
 ```bash
 # Hardware information
 lscpu                                               # CPU information
@@ -60,6 +66,7 @@ systemctl status                                    # Overall system status
 ```
 
 ### Process and Resource Analysis
+
 ```bash
 # Process monitoring
 ps aux                                              # Process snapshot
@@ -77,6 +84,7 @@ fuser -v /path/file                                # Processes using file
 ```
 
 ### Network Diagnostics
+
 ```bash
 # Network connectivity
 ping -c 4 target                                    # Test connectivity
@@ -96,6 +104,7 @@ host hostname                                       # Simple DNS lookup
 ```
 
 ### Service Troubleshooting
+
 ```bash
 # Service analysis
 systemctl status service_name                       # Service status
@@ -111,6 +120,7 @@ postfix check                                       # Postfix config test
 ```
 
 ### Log Analysis
+
 ```bash
 # System logs
 journalctl -b                                       # Current boot logs
@@ -128,7 +138,9 @@ awk '/ERROR/ {print $1, $2, $3, $NF}' /var/log/secure  # Extract error info
 ## 4. Asghar Ghori's Approach
 
 ### Systematic Problem Analysis
+
 Ghori emphasizes structured troubleshooting workflow:
+
 ```bash
 # Step 1: Problem definition and scope
 echo "Problem: Service X not responding"
@@ -148,7 +160,9 @@ httpd -t                                           # Config validation
 ```
 
 ### Boot Troubleshooting Methodology
+
 Ghori's systematic boot problem resolution:
+
 ```bash
 # Boot analysis workflow
 # 1. Identify boot stage failure
@@ -169,6 +183,7 @@ systemctl list-jobs                               # Pending jobs
 ```
 
 ### Network Troubleshooting Steps
+
 ```bash
 # Ghori's network diagnosis process
 # 1. Physical/Link layer
@@ -189,7 +204,9 @@ nmap -p 80 target_server                          # Remote service test
 ## 5. Sander van Vugt's Approach
 
 ### Advanced Diagnostic Techniques
+
 Van Vugt focuses on deep system analysis:
+
 ```bash
 # Comprehensive system performance analysis
 # 1. CPU analysis
@@ -209,7 +226,9 @@ lsof +D /path                                      # Files open in directory
 ```
 
 ### Root Cause Analysis Framework
+
 Van Vugt's systematic root cause identification:
+
 ```bash
 # Multi-layer analysis approach
 # 1. Hardware layer
@@ -229,6 +248,7 @@ gdb --pid PID                                      # Debug running process
 ```
 
 ### Advanced Log Correlation
+
 ```bash
 # Van Vugt's log correlation methodology
 # 1. Timeline reconstruction
@@ -247,6 +267,7 @@ grep -E "ERROR|CRITICAL|FATAL" /var/log/application.log | sort | uniq -c
 ## 6. Command Examples and Scenarios
 
 ### Scenario 1: Service Startup Failure
+
 ```bash
 # Problem: Web server won't start after system reboot
 # Systematic diagnosis:
@@ -273,6 +294,7 @@ firewall-cmd --list-services
 ```
 
 ### Scenario 2: System Performance Degradation
+
 ```bash
 # Problem: System running slowly, high load average
 # Performance analysis:
@@ -296,6 +318,7 @@ netstat -i                                         # Interface statistics
 ```
 
 ### Scenario 3: Boot Failure Recovery
+
 ```bash
 # Problem: System won't boot, dropped to emergency shell
 # Recovery procedure:
@@ -319,20 +342,24 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 ## 7. Lab Exercises
 
 ### Lab 15A: Service and Configuration Troubleshooting (Ghori-focused)
+
 **Time Limit**: 30 minutes
 **Objective**: Diagnose and resolve common service configuration issues
 
 **Prerequisites**:
+
 - RHEL 10 system with intentionally misconfigured services
 - Apache httpd and SSH services installed
 
 **Setup** (Instructor creates these issues):
+
 1. Apache httpd service fails to start due to configuration syntax error
 2. SSH service running but refusing connections due to permission issue
 3. Network service configured with conflicting IP addresses
 4. Cron service not executing jobs due to permission problems
 
 **Tasks**:
+
 1. Identify and fix Apache configuration syntax error
 2. Resolve SSH connection issues and verify remote access
 3. Correct network configuration conflicts
@@ -340,6 +367,7 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 5. Document all findings and solutions
 
 **Verification Commands**:
+
 ```bash
 systemctl status httpd sshd                        # Service status
 curl http://localhost                               # Test web service
@@ -349,20 +377,24 @@ crontab -l && grep CRON /var/log/cron             # Cron verification
 ```
 
 ### Lab 15B: Performance and Resource Troubleshooting (van Vugt-focused)
+
 **Time Limit**: 35 minutes
 **Objective**: Analyze and resolve system performance issues using advanced diagnostic techniques
 
 **Prerequisites**:
+
 - RHEL 10 system with performance monitoring tools installed
 - Simulated high load conditions
 
 **Setup** (Instructor creates these conditions):
+
 1. Memory leak causing system slowdown
 2. High I/O wait times due to disk issues
 3. Network connectivity problems affecting services
 4. CPU-intensive process consuming resources
 
 **Tasks**:
+
 1. Identify memory leak source and implement solution
 2. Diagnose and resolve I/O performance bottleneck
 3. Troubleshoot network connectivity issues
@@ -370,6 +402,7 @@ crontab -l && grep CRON /var/log/cron             # Cron verification
 5. Create monitoring strategy to prevent recurrence
 
 **Verification Commands**:
+
 ```bash
 free -h && vmstat 1 3                              # Memory status
 iostat -x 1 3                                      # I/O performance
@@ -378,14 +411,17 @@ top -b -n1 | head -15                             # Process overview
 ```
 
 ### Lab 15C: Synthesis Challenge - Complete System Recovery
+
 **Time Limit**: 45 minutes
 **Objective**: Perform comprehensive system recovery using integrated troubleshooting methodologies
 
 **Prerequisites**:
+
 - RHEL 10 system with multiple simulated failures
 - Access to rescue media and documentation
 
 **Setup** (Multiple interconnected issues):
+
 1. Boot failure due to corrupted filesystem
 2. Network services not starting due to SELinux denials
 3. Storage issues affecting application data
@@ -393,6 +429,7 @@ top -b -n1 | head -15                             # Process overview
 5. Logging system failures hiding other issues
 
 **Tasks**:
+
 1. Recover system from boot failure using rescue mode
 2. Resolve SELinux issues preventing service startup
 3. Repair storage problems and recover application data
@@ -402,11 +439,13 @@ top -b -n1 | head -15                             # Process overview
 7. Create comprehensive incident report
 
 **Advanced Requirements**:
+
 - Combine both Ghori's systematic approach and van Vugt's deep analysis
 - Use multiple diagnostic tools and correlation techniques
 - Document complete recovery timeline and lessons learned
 
 **Verification Commands**:
+
 ```bash
 systemctl status && systemctl --failed             # Overall system health
 mount && df -h                                     # Storage status
@@ -418,6 +457,7 @@ ss -tulnp | grep -E ":22|:80|:443"                # Critical services
 ## 8. Troubleshooting Common Issues
 
 ### Boot Failure Scenarios
+
 ```bash
 # GRUB not loading
 # Symptoms: System boots directly to BIOS/UEFI
@@ -439,6 +479,7 @@ mount -o remount,rw /
 ```
 
 ### Network Connectivity Issues
+
 ```bash
 # No network connectivity
 # Symptoms: Cannot reach external hosts
@@ -464,6 +505,7 @@ nmcli connection up connection_name                # Bring up connection
 ```
 
 ### High Load and Performance Issues
+
 ```bash
 # System running slowly
 # Symptoms: High load average, slow response
@@ -490,6 +532,7 @@ journalctl --vacuum-time=1week                    # Clean journal logs
 ```
 
 ### Service Dependencies and Failures
+
 ```bash
 # Service won't start due to dependencies
 # Symptoms: Service fails with dependency errors
@@ -515,6 +558,7 @@ service_name -t                                    # If applicable
 ## 9. Best Practices
 
 ### Troubleshooting Methodology
+
 - Document all symptoms before making changes
 - Follow systematic approach from general to specific
 - Make one change at a time and test results
@@ -523,6 +567,7 @@ service_name -t                                    # If applicable
 - Have rollback plan for all changes
 
 ### Information Gathering
+
 - Collect system information immediately when issue occurs
 - Preserve log files and system state for analysis
 - Use multiple information sources for correlation
@@ -530,6 +575,7 @@ service_name -t                                    # If applicable
 - Interview users about what they were doing when issue occurred
 
 ### Solution Implementation
+
 - Test solutions in non-production environment first
 - Implement least disruptive solution first
 - Monitor system closely after implementing fixes
@@ -537,6 +583,7 @@ service_name -t                                    # If applicable
 - Verify that solution doesn't create new problems
 
 ### Preventive Measures
+
 - Implement comprehensive monitoring and alerting
 - Perform regular system health checks
 - Keep system and applications updated
@@ -547,24 +594,28 @@ service_name -t                                    # If applicable
 ## 10. Integration with Other RHCSA Topics
 
 ### Service Management Integration
+
 - Understand systemd service dependencies and failures
 - Troubleshoot service startup and runtime issues
 - Analyze service logs and performance metrics
 - Implement service monitoring and alerting
 
 ### Storage Integration
+
 - Diagnose filesystem corruption and recovery procedures
 - Troubleshoot LVM and storage performance issues
 - Implement storage monitoring and capacity planning
 - Recover from storage hardware failures
 
 ### Security Integration
+
 - Troubleshoot SELinux denials and policy issues
 - Diagnose firewall rule conflicts and connectivity problems
 - Investigate security incidents and unauthorized access
 - Implement security monitoring and incident response
 
 ### Network Integration
+
 - Diagnose network connectivity and performance issues
 - Troubleshoot DNS resolution and service discovery
 - Analyze network traffic and security events

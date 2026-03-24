@@ -21,6 +21,7 @@
 ## 2. Conceptual Foundation
 
 ### Core Theory
+
 RHEL 10 uses DNF (Dandified YUM) as the primary package manager, which provides:
 
 - **Dependency resolution**: Automatic handling of package dependencies
@@ -30,6 +31,7 @@ RHEL 10 uses DNF (Dandified YUM) as the primary package manager, which provides:
 - **Modular content**: Support for application streams and modules
 
 ### Real-World Applications
+
 - **System maintenance**: Installing security updates and patches
 - **Software deployment**: Installing applications and development tools
 - **Environment setup**: Configuring development or production environments
@@ -37,6 +39,7 @@ RHEL 10 uses DNF (Dandified YUM) as the primary package manager, which provides:
 - **Custom repositories**: Managing internal software distributions
 
 ### Common Misconceptions
+
 - **DNF vs YUM**: DNF is the successor to YUM with better dependency resolution
 - **Package vs RPM**: Packages are distributed as RPMs, but package managers handle dependencies
 - **Repository priority**: Higher numbers mean lower priority (opposite of what you might expect)
@@ -44,6 +47,7 @@ RHEL 10 uses DNF (Dandified YUM) as the primary package manager, which provides:
 - **Modules vs packages**: Modules provide different versions/streams of software
 
 ### Key Terminology
+
 - **Package**: Software bundle with metadata, dependencies, and installation scripts
 - **Repository**: Collection of packages available for installation
 - **Metadata**: Information about packages, dependencies, and repositories
@@ -58,6 +62,7 @@ RHEL 10 uses DNF (Dandified YUM) as the primary package manager, which provides:
 ## 3. Command Mastery
 
 ### Basic DNF Operations
+
 ```bash
 # Package installation and removal
 dnf install packagename              # Install package
@@ -82,6 +87,7 @@ dnf provides */filename              # Find package providing file
 ```
 
 ### Advanced DNF Operations
+
 ```bash
 # Package groups
 dnf grouplist                        # List available groups
@@ -105,6 +111,7 @@ dnf download --resolve packagename   # Download with dependencies
 ```
 
 ### Repository Management
+
 ```bash
 # Repository operations
 dnf repolist                         # List enabled repositories
@@ -123,6 +130,7 @@ dnf clean expire-cache               # Clean expired cache
 ```
 
 ### Module Management
+
 ```bash
 # Module operations
 dnf module list                      # List available modules
@@ -135,6 +143,7 @@ dnf module reset modulename          # Reset module state
 ```
 
 ### RPM Commands
+
 ```bash
 # Package information
 rpm -qa                              # List all installed packages
@@ -155,6 +164,7 @@ rpm -e packagename                  # Erase package
 ```
 
 ### Command Reference Table
+
 | Command | Purpose | Key Options | Example |
 |---------|---------|-------------|---------|
 | `dnf install` | Install packages | `-y`, `--nogpgcheck` | `dnf install -y httpd` |
@@ -169,63 +179,74 @@ rpm -e packagename                  # Erase package
 ## 4. Procedural Workflows
 
 ### Standard Procedure: Software Installation
+
 1. **Search for package**
-   ```bash
-   dnf search keyword
-   dnf info packagename
-   ```
+
+    ```bash
+    dnf search keyword
+    dnf info packagename
+    ```
 
 2. **Install package**
-   ```bash
-   dnf install -y packagename
-   ```
+
+    ```bash
+    dnf install -y packagename
+    ```
 
 3. **Verify installation**
-   ```bash
-   dnf list installed | grep packagename
-   rpm -qi packagename
-   ```
+
+    ```bash
+    dnf list installed | grep packagename
+    rpm -qi packagename
+    ```
 
 4. **Configure and start if it's a service**
-   ```bash
-   systemctl enable --now servicename
-   systemctl status servicename
-   ```
+
+    ```bash
+    systemctl enable --now servicename
+    systemctl status servicename
+    ```
 
 ### Standard Procedure: System Updates
+
 1. **Check for updates**
-   ```bash
-   dnf check-update
-   dnf list updates
-   ```
+
+    ```bash
+    dnf check-update
+    dnf list updates
+    ```
 
 2. **Review security updates**
-   ```bash
-   dnf updateinfo list security
-   dnf updateinfo info security
-   ```
+
+    ```bash
+    dnf updateinfo list security
+    dnf updateinfo info security
+    ```
 
 3. **Apply updates**
-   ```bash
-   # Test updates first
-   dnf update --downloadonly
+
+    ```bash
+    # Test updates first
+    dnf update --downloadonly
    
-   # Apply all updates
-   dnf update -y
+    # Apply all updates
+    dnf update -y
    
-   # Or security only
-   dnf update --security -y
-   ```
+    # Or security only
+    dnf update --security -y
+    ```
 
 4. **Verify and reboot if needed**
-   ```bash
-   dnf history info last
-   # Reboot if kernel updated
-   needs-restarting -r
-   ```
+
+    ```bash
+    dnf history info last
+    # Reboot if kernel updated
+    needs-restarting -r
+    ```
 
 ### Decision Tree: Package Management Strategy
-```
+
+```text
 Package Task
 ├── Installing new software?
 │   ├── Available in repositories? → dnf install
@@ -243,39 +264,45 @@ Package Task
 ```
 
 ### Standard Procedure: Repository Management
+
 1. **Add new repository**
-   ```bash
-   # Method 1: Using config-manager
-   dnf config-manager --add-repo https://example.com/repo
+
+    ```bash
+    # Method 1: Using config-manager
+    dnf config-manager --add-repo https://example.com/repo
    
-   # Method 2: Manual file creation
-   cat > /etc/yum.repos.d/custom.repo << 'EOF'
-   [custom-repo]
-   name=Custom Repository
-   baseurl=https://example.com/repo
-   enabled=1
-   gpgcheck=1
-   gpgkey=https://example.com/repo/RPM-GPG-KEY
-   EOF
-   ```
+    # Method 2: Manual file creation
+    cat > /etc/yum.repos.d/custom.repo << 'EOF'
+    [custom-repo]
+    name=Custom Repository
+    baseurl=https://example.com/repo
+    enabled=1
+    gpgcheck=1
+    gpgkey=https://example.com/repo/RPM-GPG-KEY
+    EOF
+    ```
 
 2. **Update repository metadata**
-   ```bash
-   dnf makecache
-   ```
+
+    ```bash
+    dnf makecache
+    ```
 
 3. **Verify repository**
-   ```bash
-   dnf repolist
-   dnf repoinfo custom-repo
-   ```
+
+    ```bash
+    dnf repolist
+    dnf repoinfo custom-repo
+    ```
 
 ---
 
 ## 5. Configuration Deep Dive
 
 ### DNF Configuration Files
+
 #### Main Configuration
+
 ```bash
 # /etc/dnf/dnf.conf
 [main]
@@ -287,6 +314,7 @@ skip_if_unavailable=False     # Fail if repository unavailable
 ```
 
 #### Repository Configuration
+
 ```bash
 # /etc/yum.repos.d/example.repo
 [repository-id]
@@ -306,7 +334,9 @@ excludepkgs=package3,package4 # Exclude these packages
 ```
 
 ### Package Groups Configuration
+
 #### Common Package Groups
+
 ```bash
 # Development tools
 dnf groupinstall "Development Tools"
@@ -324,7 +354,9 @@ dnf groupinstall "KDE Plasma Workspaces"
 ```
 
 ### Module Configuration
+
 #### Module Stream Management
+
 ```bash
 # List available streams for a module
 dnf module list nodejs
@@ -346,64 +378,71 @@ dnf module install nodejs:16/minimal
 ## 6. Hands-On Labs
 
 ### Lab 6.1: Basic Package Operations (Asghar Ghori Style)
+
 **Objective**: Master fundamental DNF package management operations
 
 **Steps**:
+
 1. **Explore package information**
-   ```bash
-   # Search for web server packages
-   dnf search "web server"
-   dnf search apache
+
+    ```bash
+    # Search for web server packages
+    dnf search "web server"
+    dnf search apache
    
-   # Get detailed information
-   dnf info httpd
-   dnf info nginx
+    # Get detailed information
+    dnf info httpd
+    dnf info nginx
    
-   # Check what's installed
-   dnf list installed | grep -i web
-   ```
+    # Check what's installed
+    dnf list installed | grep -i web
+    ```
 
 2. **Install and configure packages**
-   ```bash
-   # Install web server
-   dnf install -y httpd
+
+    ```bash
+    # Install web server
+    dnf install -y httpd
    
-   # Install additional packages
-   dnf install -y wget curl
+    # Install additional packages
+    dnf install -y wget curl
    
-   # Verify installations
-   dnf list installed | grep -E "(httpd|wget|curl)"
-   rpm -qi httpd
-   ```
+    # Verify installations
+    dnf list installed | grep -E "(httpd|wget|curl)"
+    rpm -qi httpd
+    ```
 
 3. **Manage package groups**
-   ```bash
-   # List available groups
-   dnf grouplist | head -20
+
+    ```bash
+    # List available groups
+    dnf grouplist | head -20
    
-   # Get information about development tools
-   dnf groupinfo "Development Tools"
+    # Get information about development tools
+    dnf groupinfo "Development Tools"
    
-   # Install development group (if not already installed)
-   dnf groupinstall -y "Development Tools"
+    # Install development group (if not already installed)
+    dnf groupinstall -y "Development Tools"
    
-   # List installed groups
-   dnf grouplist --installed
-   ```
+    # List installed groups
+    dnf grouplist --installed
+    ```
 
 4. **Practice package removal**
-   ```bash
-   # Remove a package
-   dnf remove -y wget
+
+    ```bash
+    # Remove a package
+    dnf remove -y wget
    
-   # Check for orphaned dependencies
-   dnf autoremove
+    # Check for orphaned dependencies
+    dnf autoremove
    
-   # Reinstall package
-   dnf install -y wget
-   ```
+    # Reinstall package
+    dnf install -y wget
+    ```
 
 **Verification**:
+
 ```bash
 # Verify package operations
 dnf history | head -10
@@ -412,66 +451,73 @@ systemctl status httpd
 ```
 
 ### Lab 6.2: Repository Management (Sander van Vugt Style)
+
 **Objective**: Configure and manage software repositories
 
 **Steps**:
+
 1. **Explore existing repositories**
-   ```bash
-   # List current repositories
-   dnf repolist
-   dnf repolist --all
+
+    ```bash
+    # List current repositories
+    dnf repolist
+    dnf repolist --all
    
-   # Get detailed repository information
-   dnf repoinfo baseos
-   dnf repoinfo appstream
+    # Get detailed repository information
+    dnf repoinfo baseos
+    dnf repoinfo appstream
    
-   # Check repository configuration files
-   ls /etc/yum.repos.d/
-   cat /etc/yum.repos.d/redhat.repo
-   ```
+    # Check repository configuration files
+    ls /etc/yum.repos.d/
+    cat /etc/yum.repos.d/redhat.repo
+    ```
 
 2. **Add EPEL repository (Extra Packages for Enterprise Linux)**
-   ```bash
-   # Install EPEL release package
-   dnf install -y epel-release
+
+    ```bash
+    # Install EPEL release package
+    dnf install -y epel-release
    
-   # Verify EPEL repository is added
-   dnf repolist | grep epel
+    # Verify EPEL repository is added
+    dnf repolist | grep epel
    
-   # Search for packages in EPEL
-   dnf search --enablerepo=epel htop
-   dnf info --enablerepo=epel htop
-   ```
+    # Search for packages in EPEL
+    dnf search --enablerepo=epel htop
+    dnf info --enablerepo=epel htop
+    ```
 
 3. **Practice repository management**
-   ```bash
-   # Disable a repository temporarily
-   dnf config-manager --disable epel
-   dnf repolist | grep epel
+
+    ```bash
+    # Disable a repository temporarily
+    dnf config-manager --disable epel
+    dnf repolist | grep epel
    
-   # Enable repository
-   dnf config-manager --enable epel
-   dnf repolist | grep epel
+    # Enable repository
+    dnf config-manager --enable epel
+    dnf repolist | grep epel
    
-   # Update repository metadata
-   dnf makecache
-   dnf clean expire-cache
-   ```
+    # Update repository metadata
+    dnf makecache
+    dnf clean expire-cache
+    ```
 
 4. **Work with repository priorities**
-   ```bash
-   # View repository configuration
-   cat /etc/yum.repos.d/epel.repo
+
+    ```bash
+    # View repository configuration
+    cat /etc/yum.repos.d/epel.repo
    
-   # Install package from specific repository
-   dnf install --enablerepo=epel -y htop
+    # Install package from specific repository
+    dnf install --enablerepo=epel -y htop
    
-   # Verify installation
-   which htop
-   htop --version
-   ```
+    # Verify installation
+    which htop
+    htop --version
+    ```
 
 **Verification**:
+
 ```bash
 # Verify repository configuration
 dnf repolist
@@ -480,11 +526,13 @@ ls -la /etc/yum.repos.d/
 ```
 
 ### Lab 6.3: Advanced Package Management (Synthesis Challenge)
+
 **Objective**: Handle complex package scenarios including modules, local packages, and troubleshooting
 
 **Scenario**: Set up a development environment with specific software versions and handle package conflicts
 
 **Requirements**:
+
 - Install development tools
 - Configure specific module streams
 - Install local packages
@@ -492,100 +540,107 @@ ls -la /etc/yum.repos.d/
 - Document the configuration
 
 **Solution Steps**:
+
 1. **Set up development environment**
-   ```bash
-   # Install base development tools
-   dnf groupinstall -y "Development Tools"
+
+    ```bash
+    # Install base development tools
+    dnf groupinstall -y "Development Tools"
    
-   # Install additional development packages
-   dnf install -y git vim-enhanced tree
+    # Install additional development packages
+    dnf install -y git vim-enhanced tree
    
-   # List installed development packages
-   dnf groupinfo "Development Tools" | grep "Installed Packages"
-   ```
+    # List installed development packages
+    dnf groupinfo "Development Tools" | grep "Installed Packages"
+    ```
 
 2. **Work with modules for specific versions**
-   ```bash
-   # List available modules
-   dnf module list | head -20
+
+    ```bash
+    # List available modules
+    dnf module list | head -20
    
-   # Work with Node.js module (example)
-   dnf module list nodejs
+    # Work with Node.js module (example)
+    dnf module list nodejs
    
-   # Enable specific stream and install
-   dnf module enable -y nodejs:16
-   dnf module install -y nodejs:16/development
+    # Enable specific stream and install
+    dnf module enable -y nodejs:16
+    dnf module install -y nodejs:16/development
    
-   # Verify module installation
-   node --version
-   npm --version
-   ```
+    # Verify module installation
+    node --version
+    npm --version
+    ```
 
 3. **Handle local package installation**
-   ```bash
-   # Create a directory for downloaded packages
-   mkdir ~/packages
-   cd ~/packages
+
+    ```bash
+    # Create a directory for downloaded packages
+    mkdir ~/packages
+    cd ~/packages
    
-   # Download a package without installing
-   dnf download --resolve tree
+    # Download a package without installing
+    dnf download --resolve tree
    
-   # List downloaded packages
-   ls -la *.rpm
+    # List downloaded packages
+    ls -la *.rpm
    
-   # Reinstall from local file
-   dnf remove -y tree
-   dnf localinstall -y tree-*.rpm
-   ```
+    # Reinstall from local file
+    dnf remove -y tree
+    dnf localinstall -y tree-*.rpm
+    ```
 
 4. **Troubleshoot package issues**
-   ```bash
-   # Check for package problems
-   dnf check
+
+    ```bash
+    # Check for package problems
+    dnf check
    
-   # Verify package integrity
-   rpm -Va | head -10
+    # Verify package integrity
+    rpm -Va | head -10
    
-   # Check transaction history
-   dnf history | head -10
-   dnf history info last
+    # Check transaction history
+    dnf history | head -10
+    dnf history info last
    
-   # Clean up if needed
-   dnf autoremove -y
-   dnf clean all
-   ```
+    # Clean up if needed
+    dnf autoremove -y
+    dnf clean all
+    ```
 
 5. **Document the environment**
-   ```bash
-   # Create environment documentation
-   cat > ~/development-environment.md << 'EOF'
-   # Development Environment Setup
-   
-   ## Installed Components
-   - Development Tools group
-   - Node.js version 16.x with development profile
-   - Git, Vim, Tree utilities
-   
-   ## Repository Configuration
-   - BaseOS and AppStream (default RHEL repositories)
-   - EPEL repository for additional packages
-   
-   ## Module Configuration
-   - nodejs:16 stream enabled with development profile
-   
-   ## Package Verification Commands
-   ```bash
-   dnf grouplist --installed
-   dnf module list --installed
-   node --version && npm --version
-   ```
-   EOF
-   
-   # Create package list backup
-   dnf list installed > ~/installed-packages-$(date +%Y%m%d).txt
-   ```
+
+    ````bash
+    # Create environment documentation
+    cat > ~/development-environment.md << 'EOF'
+    # Development Environment Setup
+
+    ## Installed Components
+    - Development Tools group
+    - Node.js version 16.x with development profile
+    - Git, Vim, Tree utilities
+
+    ## Repository Configuration
+    - BaseOS and AppStream (default RHEL repositories)
+    - EPEL repository for additional packages
+
+    ## Module Configuration
+    - nodejs:16 stream enabled with development profile
+
+    ## Package Verification Commands
+    ```bash
+    dnf grouplist --installed
+    dnf module list --installed
+    node --version && npm --version
+    ```
+    EOF
+
+    # Create package list backup
+    dnf list installed > ~/installed-packages-$(date +%Y%m%d).txt
+    ````
 
 **Verification**:
+
 ```bash
 # Complete environment verification
 dnf grouplist --installed | grep -i development
@@ -604,12 +659,15 @@ cat ~/development-environment.md
 ### Common Issues
 
 #### Issue 1: Package Installation Failures
+
 **Symptoms**:
+
 - "Nothing to do" message when installing
 - Dependency conflicts
 - Repository errors
 
 **Diagnosis**:
+
 ```bash
 # Check if package exists
 dnf search packagename
@@ -624,6 +682,7 @@ dnf check
 ```
 
 **Resolution**:
+
 ```bash
 # Update repository metadata
 dnf clean expire-cache
@@ -642,12 +701,15 @@ dnf reinstall packagename
 **Prevention**: Regular repository metadata updates and system maintenance
 
 #### Issue 2: Dependency Hell
+
 **Symptoms**:
+
 - Circular dependency errors
 - "Package does not exist" for dependencies
 - Transaction test failures
 
 **Diagnosis**:
+
 ```bash
 # Check package dependencies
 dnf deplist packagename
@@ -658,6 +720,7 @@ dnf history info problematic-transaction
 ```
 
 **Resolution**:
+
 ```bash
 # Reset transaction
 dnf history undo problematic-transaction
@@ -673,12 +736,15 @@ dnf install packagename --exclude=problematic-package
 ```
 
 #### Issue 3: Repository Problems
+
 **Symptoms**:
+
 - "Repository not found" errors
 - GPG signature failures
 - Slow or failed downloads
 
 **Diagnosis**:
+
 ```bash
 # Check repository configuration
 cat /etc/yum.repos.d/problematic.repo
@@ -691,6 +757,7 @@ rpm -qa gpg-pubkey*
 ```
 
 **Resolution**:
+
 ```bash
 # Fix repository URL
 vim /etc/yum.repos.d/problematic.repo
@@ -707,6 +774,7 @@ dnf makecache
 ```
 
 ### Diagnostic Command Sequence
+
 ```bash
 # Package troubleshooting workflow
 dnf check                    # Check for problems
@@ -717,6 +785,7 @@ df -h                       # Check disk space
 ```
 
 ### Log File Analysis
+
 - **`/var/log/dnf.log`**: DNF transaction logs
 - **`/var/log/dnf.librepo.log`**: Repository access logs
 - **`/var/log/dnf.rpm.log`**: RPM transaction logs
@@ -727,6 +796,7 @@ df -h                       # Check disk space
 ## 8. Quick Reference Card
 
 ### Essential Commands At-a-Glance
+
 ```bash
 # Basic operations
 dnf install packagename      # Install package
@@ -746,12 +816,14 @@ dnf clean all              # Clean cache
 ```
 
 ### Common Package Groups
+
 - **"Development Tools"**: Compilers, build tools
 - **"Web Server"**: Apache HTTP server and related
 - **"Virtualization Host"**: KVM and virtualization tools
 - **"Security Tools"**: Security-related packages
 
 ### RPM Query Options
+
 - **`-qa`**: List all installed packages
 - **`-qi`**: Package information
 - **`-ql`**: List package files  
@@ -760,6 +832,7 @@ dnf clean all              # Clean cache
 - **`-qc`**: List configuration files
 
 ### DNF History Operations
+
 - **`dnf history`**: Show transaction history
 - **`dnf history info ID`**: Transaction details
 - **`dnf history undo ID`**: Undo transaction
@@ -770,58 +843,65 @@ dnf clean all              # Clean cache
 ## 9. Knowledge Check
 
 ### Conceptual Questions
+
 1. **Question**: What's the difference between `dnf remove` and `dnf autoremove`?
-   **Answer**: `dnf remove` removes specified packages and their dependencies that are no longer needed by other packages. `dnf autoremove` removes packages that were installed as dependencies but are no longer required by any installed packages. Use `autoremove` to clean up orphaned dependencies.
+    **Answer**: `dnf remove` removes specified packages and their dependencies that are no longer needed by other packages. `dnf autoremove` removes packages that were installed as dependencies but are no longer required by any installed packages. Use `autoremove` to clean up orphaned dependencies.
 
 2. **Question**: Why would you use modules instead of regular packages?
-   **Answer**: Modules provide different versions (streams) of software that aren't available as separate packages. For example, you can choose Node.js 14, 16, or 18 streams. Modules also offer different profiles (minimal, development, etc.) with different sets of packages for specific use cases.
+    **Answer**: Modules provide different versions (streams) of software that aren't available as separate packages. For example, you can choose Node.js 14, 16, or 18 streams. Modules also offer different profiles (minimal, development, etc.) with different sets of packages for specific use cases.
 
 3. **Question**: When should you use `rpm` commands instead of `dnf`?
-   **Answer**: Use `rpm` for querying information about installed packages, verifying package integrity, and installing local packages when you don't need dependency resolution. Use `dnf` for installation, updates, and dependency management. Never use `rpm -e` to remove packages - use `dnf remove` instead.
+    **Answer**: Use `rpm` for querying information about installed packages, verifying package integrity, and installing local packages when you don't need dependency resolution. Use `dnf` for installation, updates, and dependency management. Never use `rpm -e` to remove packages - use `dnf remove` instead.
 
 ### Practical Scenarios
+
 1. **Scenario**: You need to install a specific version of Python that's not available in the default repositories.
-   **Solution**: Check for Python modules with `dnf module list python*`, enable the desired stream with `dnf module enable python39:3.9`, then install with `dnf module install python39:3.9`.
+    **Solution**: Check for Python modules with `dnf module list python*`, enable the desired stream with `dnf module enable python39:3.9`, then install with `dnf module install python39:3.9`.
 
 2. **Scenario**: A package installation failed halfway through and the system is in an inconsistent state.
-   **Solution**: Use `dnf history` to find the failed transaction, then `dnf history undo transaction-id` to roll back the changes.
+    **Solution**: Use `dnf history` to find the failed transaction, then `dnf history undo transaction-id` to roll back the changes.
 
 ### Command Challenges
+
 1. **Challenge**: Find which package provides the `netstat` command.
-   **Answer**: `dnf provides */netstat` or `dnf whatprovides netstat`
-   **Explanation**: The `provides` subcommand searches for packages that provide a specific file or command
+    **Answer**: `dnf provides */netstat` or `dnf whatprovides netstat`
+    **Explanation**: The `provides` subcommand searches for packages that provide a specific file or command
 
 2. **Challenge**: Install all available security updates without installing other updates.
-   **Answer**: `dnf update --security`
-   **Explanation**: The `--security` flag limits updates to only security-related packages
+    **Answer**: `dnf update --security`
+    **Explanation**: The `--security` flag limits updates to only security-related packages
 
 ---
 
 ## 10. Exam Strategy
 
 ### Topic-Specific Tips
+
 - Master the difference between `dnf` and `rpm` - use the right tool for each task
 - Practice repository management - know how to add, enable, and disable repos
 - Understand package groups - they're often used in exam scenarios
 - Remember that modules provide version flexibility
 
 ### Common Exam Scenarios
+
 1. **Scenario**: Install software development tools
-   **Approach**: Use `dnf groupinstall "Development Tools"` for comprehensive setup
+    **Approach**: Use `dnf groupinstall "Development Tools"` for comprehensive setup
 
 2. **Scenario**: Configure custom repository
-   **Approach**: Create repository file in `/etc/yum.repos.d/` or use `dnf config-manager --add-repo`
+    **Approach**: Create repository file in `/etc/yum.repos.d/` or use `dnf config-manager --add-repo`
 
 3. **Scenario**: Troubleshoot failed package installation
-   **Approach**: Check `dnf history`, use `dnf check`, verify repository configuration
+    **Approach**: Check `dnf history`, use `dnf check`, verify repository configuration
 
 ### Time Management
+
 - **Package installation**: 2-3 minutes including verification
 - **Repository configuration**: 4-5 minutes for complete setup
 - **Package troubleshooting**: 5-7 minutes depending on issue complexity
 - **Always verify**: Check installation with `dnf list installed` or `rpm -q`
 
 ### Pitfalls to Avoid
+
 - Don't mix `rpm` and `dnf` operations (use `dnf` for dependency management)
 - Remember to enable repositories after adding them
 - Always update metadata (`dnf makecache`) after adding repositories
@@ -833,12 +913,14 @@ dnf clean all              # Clean cache
 ## Summary
 
 ### Key Takeaways
+
 - **DNF is the modern package manager** - it replaces YUM with better dependency resolution
 - **Repository management is crucial** - proper repository configuration enables software installation
 - **Modules provide version flexibility** - use them for software requiring specific versions
 - **Package groups simplify installation** - use them for installing related software collections
 
 ### Critical Commands to Remember
+
 ```bash
 dnf install packagename                      # Install software
 dnf update                                   # Update system
@@ -849,6 +931,7 @@ dnf history                                 # View transaction history
 ```
 
 ### Next Steps
+
 - Continue to [Module 07: Storage & LVM](07_storage_lvm.md)
 - Practice package management in the Vagrant environment  
 - Review related topics: [System Installation](01_system_installation.md), [Service Management](05_process_service_management.md)
