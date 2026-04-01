@@ -2,6 +2,8 @@
 
 Welcome to the comprehensive Red Hat Certified System Administrator (RHCSA) study repository. This resource provides everything you need to prepare for the RHCSA exam, including practical lab scenarios, comprehensive study materials, and memorization aids.
 
+> **PDF Download**: [Download the complete study guide as PDF](pdf/rhcsa-study-guide.pdf)
+
 ## 📚 Study Materials
 
 ### [RHCSA Synthesis Modules](rhcsa_synthesis/)

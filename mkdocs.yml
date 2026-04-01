@@ -45,6 +45,19 @@ nav:
     - 'Acronyms & Glossary': rhcsa_acronyms_glossary.md
     - 'Ebook Summary': ebook_summary.md
 
+# Plugins
+plugins:
+  - search
+  - to-pdf:
+      cover: true
+      cover_title: "RHCSA Certification Study Guide"
+      cover_subtitle: "Comprehensive Study Materials for Red Hat Certified System Administrator Exam"
+      toc_title: "Table of Contents"
+      toc_level: 3
+      ordered_chapter_level: 2
+      output_path: pdf/rhcsa-study-guide.pdf
+      enabled_if_env: ENABLE_PDF_EXPORT
+
 # Markdown extensions
 markdown_extensions:
   - toc:

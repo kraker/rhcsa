@@ -8,4 +8,5 @@ dependencies = [
     "mkdocs-material>=9.0.0",
     "mkdocs-awesome-pages-plugin>=2.8.0",
     "mkdocs-redirects>=1.2.0",
+    "mkdocs-to-pdf",
 ]
