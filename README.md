@@ -82,9 +82,18 @@ uv run mkdocs serve
 
 # Build static site
 uv run mkdocs build
+
+# Build static site with PDF (requires WeasyPrint system deps)
+ENABLE_PDF_EXPORT=1 uv run mkdocs build
 ```
 
 The site will be available at `http://127.0.0.1:8000`
+
+PDF generation is gated behind the `ENABLE_PDF_EXPORT` environment variable to keep
+`mkdocs serve` fast. The generated PDF is output to `site/pdf/rhcsa-study-guide.pdf`.
+WeasyPrint requires system libraries (Pango, HarfBuzz) — on Fedora:
+`sudo dnf install pango harfbuzz`, on Ubuntu/Debian:
+`sudo apt-get install libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0`.
 
 ## Key RHCSA Command Categories
 

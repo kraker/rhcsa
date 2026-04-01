@@ -199,6 +199,7 @@ prek run --all-files      # Run all hooks
 - Use Vagrant VMs for hands-on practice with Asghar Ghori book lab exercises
 - Commands in the Anki flashcards represent real RHCSA exam tasks and should be executed carefully in lab environments
 - **MkDocs Development**: Use `mkdocs serve` for local development, `mkdocs build` for static generation
+- **PDF Generation**: Use `ENABLE_PDF_EXPORT=1 uv run mkdocs build` to build the site with PDF. Output: `site/pdf/rhcsa-study-guide.pdf`. Requires WeasyPrint system deps (Pango, HarfBuzz)
 - **Always read CLAUDE.md, README.md, and COPYRIGHT_NOTICE.md before making changes**
 
 ## Git Commit Style Guide
