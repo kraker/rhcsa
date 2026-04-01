@@ -1,0 +1,20 @@
+/* Custom PDF styles for mkdocs-to-pdf */
+
+pre, code {
+  white-space: pre !important;
+}
+
+pre {
+  overflow-x: auto;
+  font-size: 9pt;
+  line-height: 1.4;
+  padding: 0.5em;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+div.highlight pre {
+  white-space: pre-wrap !important;
+  word-wrap: break-word;
+}
