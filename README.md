@@ -1,5 +1,9 @@
 # RHCSA Certification Study Repository
 
+> [!NOTE]
+> This repository has moved to Codeberg and is archived on GitHub.
+> The current project lives at <https://codeberg.org/kraker/rhcsa>.
+
 A comprehensive study repository for Red Hat Certified System Administrator (RHCSA) exam preparation, containing practical lab scenarios, skills assessments, and memorization aids.
 
 ## Repository Contents
